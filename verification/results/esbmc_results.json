@@ -1,0 +1,152 @@
+{
+  "ferramenta": "ESBMC version 8.5.0 64-bit x86_64 linux",
+  "camada": "codigo",
+  "mutante": false,
+  "data": "2026-10-06 22:04:30",
+  "resultados": [
+    {
+      "id": "step-P2",
+      "propriedade": "P2",
+      "descricao": "transicao definida p/ toda entrada; dominio preservado (1 passo, contexto arbitrario)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.64,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 -DPROP_P2 --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "step-P3",
+      "propriedade": "P3",
+      "descricao": "exclusao mutua dos verdes; verde de pedestre so em VP (1 passo)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.27,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 -DPROP_P3 --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "step-P3b",
+      "propriedade": "P3",
+      "descricao": "verde veicular so termina apos T_VERDE_MIN (1 passo)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.3,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 -DPROP_P3B --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "step-P4",
+      "propriedade": "P4",
+      "descricao": "entrada com falha leva a FALHA (1 passo)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.25,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 -DPROP_P4 --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "step-P6",
+      "propriedade": "P6",
+      "descricao": "de FALHA so se sai para RECOVERY (1 passo)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.26,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 -DPROP_P6 --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "step-mem",
+      "propriedade": "P2",
+      "descricao": "seguranca de memoria e aritmetica do nucleo (todas as assercoes + overflow)",
+      "status": "PROVADO",
+      "detalhe": "todos os contextos validos (1 passo)",
+      "tempo_s": 0.75,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_step.c core/fsm_core.c -I core -I verification/esbmc --z3 --overflow-check --unsigned-overflow-check --memory-leak-check"
+    },
+    {
+      "id": "bmc-k10",
+      "propriedade": "P5",
+      "descricao": "BMC desde INIT, k=10: P3, falha->FALHA no passo seguinte e mantida, P6",
+      "status": "VALIDO_NO_LIMITE",
+      "detalhe": "k=10 passos",
+      "tempo_s": 18.26,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_bmc.c core/fsm_core.c -I core -I verification/esbmc --z3 -DK=10 --unwind 11 --overflow-check --unsigned-overflow-check"
+    },
+    {
+      "id": "kind-P5",
+      "propriedade": "P5",
+      "descricao": "k-inducao desde INIT (laco infinito): P3, P4/P5, P6 sem limite de passos",
+      "status": "PROVADO",
+      "detalhe": "k-inducao (inductive step, k=2)",
+      "tempo_s": 0.57,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_bmc.c core/fsm_core.c -I core -I verification/esbmc --z3 -DUNBOUNDED --k-induction --max-k-step 10"
+    },
+    {
+      "id": "reach-seg1",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho INIT -> VERDE_VEICULO",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 1.6,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=1 --unwind 12 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg2",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho VERDE_VEICULO -> PEDIDO_PEDESTRE",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 0.24,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=2 --unwind 3 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg3",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho PEDIDO_PEDESTRE -> ATENCAO_VEICULO",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 42.62,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=3 --unwind 42 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg4",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 4.69,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=4 --unwind 17 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg5",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho VERMELHO_VEICULO_VERDE_PEDESTRE -> ATENCAO_PEDESTRE",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 2.81,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=5 --unwind 32 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg6",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho ATENCAO_PEDESTRE -> VERDE_VEICULO",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 2.71,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=6 --unwind 17 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg7",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho INIT -> FALHA",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 0.23,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=7 --unwind 3 --no-unwinding-assertions"
+    },
+    {
+      "id": "reach-seg8",
+      "propriedade": "P1",
+      "descricao": "alcancabilidade do trecho FALHA -> RECOVERY",
+      "status": "ALCANCADO",
+      "detalhe": "contraexemplo = caminho testemunha",
+      "tempo_s": 0.23,
+      "comando": "../../../tmp/esbmc/release/bin/esbmc verification/esbmc/harness_reach.c core/fsm_core.c -I core -I verification/esbmc --z3 -DSEG=8 --unwind 3 --no-unwinding-assertions"
+    }
+  ]
+}

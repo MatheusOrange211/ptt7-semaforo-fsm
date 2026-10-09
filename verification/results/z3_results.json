@@ -1,0 +1,33 @@
+{
+  "ferramenta": "Z3 5.1.0 (API C++)",
+  "camada": "modelo",
+  "mutante": false,
+  "data": "2026-10-06 22:03:14",
+  "horizonte_bmc": 10,
+  "horizonte_ciclo": 133,
+  "resultados": [
+    {"propriedade": "P2a", "descricao": "guardas da tabela mutuamente exclusivas por estado (determinismo)", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.00355069},
+    {"propriedade": "P2b", "descricao": "proximo estado definido para toda entrada e contexto permanece no dominio valido", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.143507},
+    {"propriedade": "P3", "descricao": "nunca verde/amarelo veicular com verde de pedestre; verde de pedestre so em VP", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.0347245},
+    {"propriedade": "P3b", "descricao": "verde veicular so termina (sem falha) apos T_VERDE_MIN", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.00272094},
+    {"propriedade": "P4", "descricao": "entrada com falha (sinal perdido ou dt > DT_MAX) leva a FALHA no proximo passo", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.00247682},
+    {"propriedade": "P6", "descricao": "de FALHA so se sai para RECOVERY (nunca direto para VP)", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.00142266},
+    {"propriedade": "P5i", "descricao": "passo indutivo: em FALHA com falha persistente o proximo estado e FALHA (com P4 => convergencia em 1 passo para todo k)", "status": "PROVADO", "detalhe": "(todos os contextos validos, 1 passo)", "tempo_s": 0.0013052},
+    {"propriedade": "P5", "descricao": "falha no passo j => FALHA em j+1 (<= 1 periodo de controle) e mantido enquanto persistir", "status": "VALIDO_NO_LIMITE", "detalhe": "(BMC k=10; complemento indutivo: P4 e P6 provados)", "tempo_s": 0.288671, "horizonte_k": 10},
+    {"propriedade": "P1.0", "descricao": "INIT alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 0 passos: INIT", "tempo_s": 1.67339, "horizonte_k": 133},
+    {"propriedade": "P1.1", "descricao": "VERDE_VEICULO alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 13 passos: INIT -> VERDE_VEICULO", "tempo_s": 4.11944, "horizonte_k": 133},
+    {"propriedade": "P1.2", "descricao": "PEDIDO_PEDESTRE alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 116 passos: INIT -> VERDE_VEICULO -> PEDIDO_PEDESTRE", "tempo_s": 3.30841, "horizonte_k": 133},
+    {"propriedade": "P1.3", "descricao": "ATENCAO_VEICULO alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 76 passos: INIT -> VERDE_VEICULO -> PEDIDO_PEDESTRE -> ATENCAO_VEICULO", "tempo_s": 3.78173, "horizonte_k": 133},
+    {"propriedade": "P1.4", "descricao": "VERMELHO_VEICULO_VERDE_PEDESTRE alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 123 passos: INIT -> VERDE_VEICULO -> PEDIDO_PEDESTRE -> ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE", "tempo_s": 3.53339, "horizonte_k": 133},
+    {"propriedade": "P1.5", "descricao": "ATENCAO_PEDESTRE alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 130 passos: INIT -> VERDE_VEICULO -> PEDIDO_PEDESTRE -> ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE -> ATENCAO_PEDESTRE", "tempo_s": 2.63457, "horizonte_k": 133},
+    {"propriedade": "P1.6", "descricao": "FALHA alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 133 passos: INIT -> FALHA", "tempo_s": 1.43597, "horizonte_k": 133},
+    {"propriedade": "P1.7", "descricao": "RECOVERY alcancavel a partir de INIT", "status": "ALCANCADO", "detalhe": "caminho de 55 passos: INIT -> VERDE_VEICULO -> FALHA -> RECOVERY", "tempo_s": 2.45287, "horizonte_k": 133},
+    {"propriedade": "P2c.0", "descricao": "de INIT (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 8.53928, "horizonte_k": 133},
+    {"propriedade": "P2c.2", "descricao": "de PEDIDO_PEDESTRE (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 16.351, "horizonte_k": 133},
+    {"propriedade": "P2c.3", "descricao": "de ATENCAO_VEICULO (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 12.0714, "horizonte_k": 133},
+    {"propriedade": "P2c.4", "descricao": "de VERMELHO_VEICULO_VERDE_PEDESTRE (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 53.9684, "horizonte_k": 133},
+    {"propriedade": "P2c.5", "descricao": "de ATENCAO_PEDESTRE (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 9.19124, "horizonte_k": 133},
+    {"propriedade": "P2c.6", "descricao": "de FALHA (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 0.0838282, "horizonte_k": 133},
+    {"propriedade": "P2c.7", "descricao": "de RECOVERY (contexto arbitrario) retorna a VERDE_VEICULO", "status": "PROVADO", "detalhe": "(para todo contexto valido do estado, em <= 133 passos)", "tempo_s": 6.55212, "horizonte_k": 133}
+  ]
+}

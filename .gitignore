@@ -1,0 +1,9 @@
+build/
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/dependencies.lock
+analysis/out/
+__pycache__/
+*.pyc
+verification/results/esbmc_logs/*_mutante.txt

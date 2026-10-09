@@ -1,0 +1,17 @@
+id,origem,destino,guarda,efeito_na_entrada
+T1,INIT,VERDE_VEICULO,!falha && elapsed >= T_INIT,elapsed=0; green=0
+T2,INIT,FALHA,falha,elapsed=0; green=0; pending=0
+T3,VERDE_VEICULO,PEDIDO_PEDESTRE,!falha && demanda && green < T_VERDE_MIN,elapsed=0 (green continua)
+T4,VERDE_VEICULO,ATENCAO_VEICULO,!falha && demanda && green >= T_VERDE_MIN,elapsed=0
+T5,VERDE_VEICULO,FALHA,falha,elapsed=0; green=0; pending=0
+T6,PEDIDO_PEDESTRE,ATENCAO_VEICULO,!falha && green >= T_VERDE_MIN,elapsed=0
+T7,PEDIDO_PEDESTRE,FALHA,falha,elapsed=0; green=0; pending=0
+T8,ATENCAO_VEICULO,VERMELHO_VEICULO_VERDE_PEDESTRE,!falha && elapsed >= T_AMARELO,elapsed=0; pending=0
+T9,ATENCAO_VEICULO,FALHA,falha,elapsed=0; green=0; pending=0
+T10,VERMELHO_VEICULO_VERDE_PEDESTRE,ATENCAO_PEDESTRE,!falha && elapsed >= T_VERDE_PED,elapsed=0
+T11,VERMELHO_VEICULO_VERDE_PEDESTRE,FALHA,falha,elapsed=0; green=0; pending=0
+T12,ATENCAO_PEDESTRE,VERDE_VEICULO,!falha && elapsed >= T_ATENCAO_PED,elapsed=0; green=0
+T13,ATENCAO_PEDESTRE,FALHA,falha,elapsed=0; green=0; pending=0
+T14,FALHA,RECOVERY,reset && !falha,elapsed=0
+T15,RECOVERY,VERDE_VEICULO,!falha && elapsed >= T_RECOVERY,elapsed=0; green=0
+T16,RECOVERY,FALHA,falha,elapsed=0; green=0; pending=0

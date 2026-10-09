@@ -1,0 +1,7 @@
+# Pedido antes do verde minimo => PEDIDO_PEDESTRE ate completar T_VERDE_MIN (P3b)
+2010  espera VERDE_VEICULO
+3000  req2
+3010  espera PEDIDO_PEDESTRE
+9990  espera PEDIDO_PEDESTRE        # green = 7990 ms < 8000
+10010 espera ATENCAO_VEICULO        # green = 8000 ms => T6
+10020 fim

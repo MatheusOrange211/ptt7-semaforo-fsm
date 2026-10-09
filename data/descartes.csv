@@ -1,0 +1,4 @@
+arquivo,tipo,sessao,seq,motivo
+# Registre aqui SOMENTE erro comprovado de instrumentacao ou ensaio fora da configuracao.
+# tipo = LAT ou FAULT. Exemplo:
+# s2_lat.log,LAT,2,7,cabo USB desconectado durante o ensaio (registro bruto mantido)

@@ -1,0 +1,11 @@
+# Ciclo completo sem falhas; pedido apos o verde minimo => T4 direto para ATENCAO_VEICULO
+0     espera INIT
+1990  espera INIT
+2010  espera VERDE_VEICULO
+11990 espera VERDE_VEICULO          # sem demanda, permanece em verde
+12000 req1
+12010 espera ATENCAO_VEICULO
+15010 espera VERMELHO_VEICULO_VERDE_PEDESTRE
+21010 espera ATENCAO_PEDESTRE
+24010 espera VERDE_VEICULO
+24020 fim

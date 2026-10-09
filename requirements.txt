@@ -1,0 +1,4 @@
+# Ferramentas Python do host (verificacao e analise)
+z3-solver>=4.12      # traz tambem include/z3++.h e a biblioteca para a API C++
+pyserial>=3.5        # captura serial do ESP32
+matplotlib>=3.5      # opcional: graficos da analise

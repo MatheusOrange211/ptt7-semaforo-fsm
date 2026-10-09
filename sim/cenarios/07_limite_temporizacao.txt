@@ -1,0 +1,4 @@
+# Limite: atraso exatamente igual a DT_MAX (200 ms) NAO e falha
+5000  atraso 200
+5200  espera VERDE_VEICULO
+5210  fim

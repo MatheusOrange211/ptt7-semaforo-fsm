@@ -1,0 +1,187 @@
+$ /tmp/esbmc/release/bin/esbmc /home/claude/ptt7/verification/esbmc/harness_bmc.c /home/claude/ptt7/core/fsm_core.c -I /home/claude/ptt7/core -I /home/claude/ptt7/verification/esbmc --z3 -DUNBOUNDED --k-induction --max-k-step 10
+
+ESBMC version 8.5.0 64-bit x86_64 linux
+Target: 64-bit little-endian x86_64-unknown-linux with esbmclibc
+Parsing /home/claude/ptt7/verification/esbmc/harness_bmc.c
+Parsing /home/claude/ptt7/core/fsm_core.c
+Converting
+Generating GOTO Program
+GOTO program creation time: 0.157s
+GOTO program processing time: 0.002s
+Checking base case, k = 1
+Starting Bounded Model Checking
+Not unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.014s (330 assignments)
+Slicing time: 0.002s (removed 75 assignments)
+Generated 292 VCC(s), 7 remaining after simplification (255 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.002s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.018s
+BMC program time: 0.041s
+No bug has been found in the base case
+Checking forward condition, k = 1
+Starting Bounded Model Checking
+Not unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.013s (323 assignments)
+Slicing time: 0.000s (removed 306 assignments)
+Generated 280 VCC(s), 1 remaining after simplification (17 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.000s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.000s
+The forward condition is unable to prove the property
+Checking base case, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.033s (594 assignments)
+Slicing time: 0.002s (removed 135 assignments)
+Generated 483 VCC(s), 12 remaining after simplification (459 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.003s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.086s
+BMC program time: 0.129s
+No bug has been found in the base case
+Checking forward condition, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.034s (582 assignments)
+Slicing time: 0.000s (removed 550 assignments)
+Generated 463 VCC(s), 1 remaining after simplification (32 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.002s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.002s
+The forward condition is unable to prove the property
+Checking inductive step, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file /home/claude/ptt7/verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.038s (612 assignments)
+Slicing time: 0.002s (removed 149 assignments)
+Generated 483 VCC(s), 12 remaining after simplification (463 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.004s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.096s
+BMC program time: 0.145s
+
+** Results:
+/home/claude/ptt7/core/fsm_core.c, function fsm_ctx_valid
+  PASSED       [fsm_ctx_valid.object-out-of-bounds.1]    line  33  dereference failure: Access to object out of bounds
+  PASSED       [fsm_ctx_valid.assertion.1]               line  33  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_init
+  PASSED       [fsm_init.object-out-of-bounds.1]         line  41  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.1]                    line  41  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.2]         line  42  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.2]                    line  42  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.3]         line  43  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.3]                    line  43  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.4]         line  44  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.4]                    line  44  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.5]         line  45  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.5]                    line  45  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.6]         line  46  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.6]                    line  46  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_input_fault
+  PASSED       [fsm_input_fault.object-out-of-bounds.1]  line  28  dereference failure: Access to object out of bounds
+  PASSED       [fsm_input_fault.assertion.1]             line  28  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_outputs
+  PASSED       [fsm_outputs.object-out-of-bounds.1]      line 146  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.1]                 line 146  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.2]      line 148  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.2]                 line 148  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.3]      line 148  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.3]                 line 148  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.4]      line 148  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.4]                 line 148  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.5]      line 149  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.5]                 line 149  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.6]      line 149  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.6]                 line 149  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.7]      line 151  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.7]                 line 151  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.8]      line 154  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.8]                 line 154  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.9]      line 154  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.9]                 line 154  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.10]     line 158  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.10]                line 158  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.11]     line 158  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.11]                line 158  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.12]     line 161  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.12]                line 161  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.13]     line 161  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.13]                line 161  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.14]     line 164  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.14]                line 164  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.15]     line 164  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.15]                line 164  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.16]     line 167  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.16]                line 167  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.17]     line 167  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.17]                line 167  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.18]     line 170  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.18]                line 170  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_outputs.object-out-of-bounds.19]     line 173  dereference failure: Access to object out of bounds
+  PASSED       [fsm_outputs.assertion.19]                line 173  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_step
+  PASSED       [fsm_step.object-out-of-bounds.1]         line  52  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.1]                    line  52  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.2]         line  53  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.2]                    line  53  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.3]         line  58  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.3]                    line  58  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.4]         line  60  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.4]                    line  60  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.5]         line  65  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.5]                    line  65  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.6]         line  67  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.6]                    line  67  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.7]         line  73  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.7]                    line  73  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.8]         line  78  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.8]                    line  78  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.9]         line  85  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.9]                    line  85  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.10]        line  90  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.10]                   line  90  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.11]        line  95  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.11]                   line  95  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.12]        line 101  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.12]                   line 101  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.13]        line 109  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.13]                   line 109  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.14]        line 115  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.14]                   line 115  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.15]        line 128  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.15]                   line 128  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.16]        line 129  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.16]                   line 129  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.17]        line 131  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.17]                   line 131  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.18]        line 134  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.18]                   line 134  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.19]        line 137  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.19]                   line 137  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.20]        line 140  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.20]                   line 140  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/verification/esbmc/harness_bmc.c, function main
+  PASSED       [main.assertion.1]                        line  25  unwinding assertion loop 3
+  PASSED       [main.assertion.2]                        line  34  assertion fsm_ctx_valid(&c)
+  PASSED       [main.assertion.3]                        line  36  assertion c.state == ST_FALHA
+  PASSED       [main.assertion.4]                        line  38  assertion c.state == ST_FALHA || c.state == ST_RECOVERY
+/home/claude/ptt7/verification/esbmc/harness_common.h, function check_p3
+  PASSED       [check_p3.assertion.1]                    line  49  assertion !(o.ped_g && (o.car_g || o.car_y))
+  PASSED       [check_p3.assertion.2]                    line  50  assertion !o.ped_g || c->state == ST_VERMELHO_VEICULO_VERDE_PEDESTRE
+  PASSED       [check_p3.object-out-of-bounds.1]         line  50  dereference failure: Access to object out of bounds
+  PASSED       [check_p3.assertion.3]                    line  50  dereference failure: Incorrect alignment when accessing data object
+
+** 0 of 102 properties failed, 102 passed
+
+VERIFICATION SUCCESSFUL
+
+Solution found by the inductive step (k = 2)

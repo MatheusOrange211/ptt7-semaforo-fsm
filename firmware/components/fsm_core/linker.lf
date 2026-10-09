@@ -1,0 +1,8 @@
+# Posiciona o nucleo da FSM em IRAM quando CONFIG_PTT7_CORE_IN_IRAM=y (item "Memoria" da fundamentacao)
+[mapping:fsm_core]
+archive: libfsm_core.a
+entries:
+    if PTT7_CORE_IN_IRAM = y:
+        * (noflash)
+    else:
+        * (default)

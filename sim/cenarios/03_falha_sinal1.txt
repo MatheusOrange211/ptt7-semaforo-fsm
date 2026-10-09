@@ -1,0 +1,12 @@
+# Perda de sinal do botao 1 => FALHA; reset so funciona depois de restaurar o sinal (P4, P5, P6)
+5000  perda1
+5000  verde_off
+5010  espera FALHA
+6000  reset                         # falha ainda presente: reset ignorado
+6010  espera FALHA
+7000  restaura1
+7010  espera FALHA                  # sem reset permanece em FALHA
+8000  reset
+8010  espera RECOVERY               # T14: FALHA -> RECOVERY (nunca direto para verde)
+11010 espera VERDE_VEICULO          # T15
+11020 fim

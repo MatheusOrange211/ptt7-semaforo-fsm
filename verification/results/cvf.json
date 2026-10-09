@@ -1,0 +1,34 @@
+{
+  "por_propriedade": {
+    "Modelo (Z3)": {
+      "P1": "comprovado",
+      "P2": "comprovado",
+      "P3": "comprovado",
+      "P4": "comprovado",
+      "P5": "comprovado",
+      "P6": "comprovado"
+    },
+    "Codigo (ESBMC)": {
+      "P1": "comprovado",
+      "P2": "comprovado",
+      "P3": "comprovado",
+      "P4": "comprovado",
+      "P5": "comprovado",
+      "P6": "comprovado"
+    }
+  },
+  "contagem": {
+    "Modelo (Z3)": {
+      "comprovado": 6,
+      "valido_no_limite": 0,
+      "refutado": 0,
+      "inconclusivo": 0
+    },
+    "Codigo (ESBMC)": {
+      "comprovado": 6,
+      "valido_no_limite": 0,
+      "refutado": 0,
+      "inconclusivo": 0
+    }
+  }
+}

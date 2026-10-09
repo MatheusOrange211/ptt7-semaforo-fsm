@@ -1,0 +1,1431 @@
+$ /tmp/esbmc/release/bin/esbmc /home/claude/ptt7/verification/esbmc/harness_reach.c /home/claude/ptt7/core/fsm_core.c -I /home/claude/ptt7/core -I /home/claude/ptt7/verification/esbmc --z3 -DSEG=4 --unwind 17 --no-unwinding-assertions
+
+ESBMC version 8.5.0 64-bit x86_64 linux
+Target: 64-bit little-endian x86_64-unknown-linux with esbmclibc
+Parsing /home/claude/ptt7/verification/esbmc/harness_reach.c
+Parsing /home/claude/ptt7/core/fsm_core.c
+Converting
+Generating GOTO Program
+GOTO program creation time: 0.155s
+GOTO program processing time: 0.002s
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 2   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 3   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 4   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 5   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 6   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 7   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 8   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 9   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 10   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 11   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 12   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 13   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 14   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 15   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 16   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Symex completed in: 0.354s (3283 assignments)
+Caching time: 0.000s (removed 0 assertions)
+Slicing time: 0.009s (removed 1039 assignments)
+Generated 1348 VCC(s), 16 remaining after simplification (2244 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.012s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 4.105s
+Building error trace
+
+[Counterexample]
+
+
+State 1 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 90 column 5 function main thread 0
+----------------------------------------------------
+  c = { .state = 0 }
+
+State 2 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 3 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 5 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 6 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 8 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 9 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 11 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 12 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 14 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 15 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 17 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 18 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 19 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 22 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 23 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 0 (00000000 00000000 00000000 00000000)
+
+State 24 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=200,
+    .green_ms=8000 }
+
+State 25 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=200,
+    .green_ms=8000 }
+
+State 27 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 28 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 30 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 31 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 33 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 34 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 36 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 37 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 39 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 40 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 42 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 43 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 44 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 47 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 48 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 49 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 50 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 51 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=400,
+    .green_ms=8000 }
+
+State 52 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 53 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=400,
+    .green_ms=8000 }
+
+State 55 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 56 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 58 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 59 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 61 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 62 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 64 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 65 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 67 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 68 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 70 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 71 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 72 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 75 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 76 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 77 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 78 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 79 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=600,
+    .green_ms=8000 }
+
+State 80 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 81 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=600,
+    .green_ms=8000 }
+
+State 83 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 84 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 86 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 87 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 89 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 90 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 92 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 93 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 95 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 96 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 98 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 99 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 100 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 103 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 104 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 0 (00000000 00000000 00000000 00000000)
+
+State 105 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 106 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 107 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=800,
+    .green_ms=8000 }
+
+State 108 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 109 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=800,
+    .green_ms=8000 }
+
+State 111 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 112 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 114 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 115 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 117 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=0, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 118 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 120 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 121 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 123 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 124 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 126 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 127 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 128 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 131 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 132 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 133 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 134 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 135 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1000,
+    .green_ms=8000 }
+
+State 136 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 137 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1000,
+    .green_ms=8000 }
+
+State 139 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 140 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 142 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 143 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 145 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 146 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 148 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 149 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 151 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 152 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 154 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 155 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 156 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 159 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 160 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 161 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 162 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 163 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1200,
+    .green_ms=8000 }
+
+State 164 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 165 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1200,
+    .green_ms=8000 }
+
+State 167 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 168 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 170 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 171 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 173 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=0, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 174 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 176 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 177 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 179 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 180 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 182 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 183 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 184 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 187 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 188 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 189 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 190 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 191 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1400,
+    .green_ms=8000 }
+
+State 192 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 193 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1400,
+    .green_ms=8000 }
+
+State 195 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 196 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 198 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 199 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 201 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 202 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 204 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 205 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 207 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 208 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 210 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 211 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 212 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 215 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 216 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 217 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 218 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 219 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1600,
+    .green_ms=8000 }
+
+State 220 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 221 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1600,
+    .green_ms=8000 }
+
+State 223 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 224 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 226 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 227 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 229 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 230 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 232 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 233 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 235 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 236 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 238 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 239 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 240 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 243 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 244 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 245 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 246 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 247 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1800,
+    .green_ms=8000 }
+
+State 248 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 249 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=1800,
+    .green_ms=8000 }
+
+State 251 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 252 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 254 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 255 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 257 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=0, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 258 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 260 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 261 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 263 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 264 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 266 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 267 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 268 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 271 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 272 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 273 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 274 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 275 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2000,
+    .green_ms=8000 }
+
+State 276 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 277 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2000,
+    .green_ms=8000 }
+
+State 279 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 280 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 282 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 283 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 285 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 286 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 288 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 289 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 291 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 292 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 294 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 295 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 296 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 299 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 300 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 0 (00000000 00000000 00000000 00000000)
+
+State 301 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 302 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 303 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2200,
+    .green_ms=8000 }
+
+State 304 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 305 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2200,
+    .green_ms=8000 }
+
+State 307 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 308 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 310 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 311 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 313 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 314 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 316 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 317 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 319 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 320 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 322 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 323 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 324 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 327 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 328 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 0 (00000000 00000000 00000000 00000000)
+
+State 329 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 330 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 331 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2400,
+    .green_ms=8000 }
+
+State 332 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 333 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2400,
+    .green_ms=8000 }
+
+State 335 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 336 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 338 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 339 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 341 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 342 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 344 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 345 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 347 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 348 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 350 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 351 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 352 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 355 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 356 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 0 (00000000 00000000 00000000 00000000)
+
+State 357 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 358 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 359 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2600,
+    .green_ms=8000 }
+
+State 360 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 361 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2600,
+    .green_ms=8000 }
+
+State 363 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 364 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 366 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 367 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 369 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 370 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 372 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 373 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 375 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 376 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 378 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 379 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad=0, .dt_ms=200 }
+
+State 380 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 383 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 384 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 385 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 386 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 387 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2800,
+    .green_ms=8000 }
+
+State 388 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 389 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=2800,
+    .green_ms=8000 }
+
+State 391 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 392 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 394 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1=1, .req2=0, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 395 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 397 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1=1, .req2=1, .sig1_ok=0, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 398 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 400 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 401 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 403 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 404 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 406 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 407 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 408 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=1, .req2=1, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 411 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 412 file /home/claude/ptt7/core/fsm_core.c line 52 column 5 function fsm_step thread 0
+----------------------------------------------------
+  req = 1 (00000000 00000000 00000000 00000001)
+
+State 413 file /home/claude/ptt7/core/fsm_core.c line 53 column 5 function fsm_step thread 0
+----------------------------------------------------
+  cur = 3 (00000011)
+
+State 414 file /home/claude/ptt7/core/fsm_core.c line 54 column 5 function fsm_step thread 0
+----------------------------------------------------
+  next = 3 (00000011)
+
+State 415 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=3, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=3000,
+    .green_ms=8000 }
+
+State 416 file /home/claude/ptt7/core/fsm_core.c line 67 column 5 function fsm_step thread 0
+----------------------------------------------------
+  demand = 1 (00000000 00000000 00000000 00000001)
+
+State 417 file /home/claude/ptt7/core/fsm_core.c line 128 column 9 function fsm_step thread 0
+----------------------------------------------------
+  ctx->state = { .state=4, .pending=1, .last_tr=0, ._pad=0, .elapsed_ms=3000,
+    .green_ms=8000 }
+
+State 418 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=4, .pending=0, .last_tr=8, ._pad=0, .elapsed_ms=0,
+    .green_ms=8000 }
+
+State 419 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 107 column 9 function main thread 0
+----------------------------------------------------
+Violated property:
+  file /home/claude/ptt7/verification/esbmc/harness_reach.c line 107 column 9 function main
+  assertion c.state != TO
+  (signed int)c.state != 4
+
+
+** Results:
+/home/claude/ptt7/core/fsm_core.c, function fsm_init
+  PASSED       [fsm_init.object-out-of-bounds.1]         line  41  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.1]                    line  41  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.2]         line  42  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.2]                    line  42  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.3]         line  43  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.3]                    line  43  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.4]         line  44  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.4]                    line  44  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.5]         line  45  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.5]                    line  45  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.6]         line  46  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.6]                    line  46  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_input_fault
+  PASSED       [fsm_input_fault.object-out-of-bounds.1]  line  28  dereference failure: Access to object out of bounds
+  PASSED       [fsm_input_fault.assertion.1]             line  28  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_step
+  PASSED       [fsm_step.object-out-of-bounds.1]         line  52  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.1]                    line  52  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.2]         line  53  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.2]                    line  53  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.3]         line  58  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.3]                    line  58  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.4]         line  60  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.4]                    line  60  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.5]         line  65  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.5]                    line  65  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.6]         line  67  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.6]                    line  67  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.7]         line  73  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.7]                    line  73  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.8]         line  78  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.8]                    line  78  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.9]         line  85  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.9]                    line  85  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.10]        line  90  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.10]                   line  90  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.11]        line  95  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.11]                   line  95  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.12]        line 101  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.12]                   line 101  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.13]        line 109  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.13]                   line 109  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.14]        line 115  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.14]                   line 115  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.15]        line 128  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.15]                   line 128  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.16]        line 129  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.16]                   line 129  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.17]        line 131  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.17]                   line 131  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.18]        line 134  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.18]                   line 134  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.19]        line 137  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.19]                   line 137  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.20]        line 140  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.20]                   line 140  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/verification/esbmc/harness_reach.c, function main
+  FAILED       [main.assertion.1]                        line 107  assertion c.state != TO
+
+** 1 of 55 properties failed, 54 passed
+
+VERIFICATION FAILED

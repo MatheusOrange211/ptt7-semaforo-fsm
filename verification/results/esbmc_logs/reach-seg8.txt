@@ -1,0 +1,178 @@
+$ /tmp/esbmc/release/bin/esbmc /home/claude/ptt7/verification/esbmc/harness_reach.c /home/claude/ptt7/core/fsm_core.c -I /home/claude/ptt7/core -I /home/claude/ptt7/verification/esbmc --z3 -DSEG=8 --unwind 3 --no-unwinding-assertions
+
+ESBMC version 8.5.0 64-bit x86_64 linux
+Target: 64-bit little-endian x86_64-unknown-linux with esbmclibc
+Parsing /home/claude/ptt7/verification/esbmc/harness_reach.c
+Parsing /home/claude/ptt7/core/fsm_core.c
+Converting
+Generating GOTO Program
+GOTO program creation time: 0.169s
+GOTO program processing time: 0.000s
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Unwinding loop 3 iteration 2   file /home/claude/ptt7/verification/esbmc/harness_reach.c line 98 column 5 function main
+Symex completed in: 0.012s (305 assignments)
+Caching time: 0.000s (removed 0 assertions)
+Slicing time: 0.002s (removed 111 assignments)
+Generated 155 VCC(s), 2 remaining after simplification (194 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.002s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.017s
+Building error trace
+
+[Counterexample]
+
+
+State 1 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 90 column 5 function main thread 0
+----------------------------------------------------
+  c = { .state = 0 }
+
+State 2 file /home/claude/ptt7/verification/esbmc/harness_common.h line 21 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in = { .req1 = 0 }
+
+State 3 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 5 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.req1 = { .req1 = 0 }
+
+State 6 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 0 (00000000)
+
+State 8 file /home/claude/ptt7/verification/esbmc/harness_common.h line 22 column 26 function nd_inputs thread 0
+----------------------------------------------------
+  in.req2 = { .req1 = 0 }
+
+State 9 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 11 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig1_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=0, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 12 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 14 file /home/claude/ptt7/verification/esbmc/harness_common.h line 23 column 29 function nd_inputs thread 0
+----------------------------------------------------
+  in.sig2_ok = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=0,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 15 file /home/claude/ptt7/verification/esbmc/harness_common.h line 16 column 32 function nd_bool thread 0
+----------------------------------------------------
+  b = 1 (00000001)
+
+State 17 file /home/claude/ptt7/verification/esbmc/harness_common.h line 24 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.reset = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=0 }
+
+State 18 file /home/claude/ptt7/verification/esbmc/harness_common.h line 26 column 5 function nd_inputs thread 0
+----------------------------------------------------
+  in.dt_ms = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad=0, .dt_ms=200 }
+
+State 19 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 99 column 9 function main thread 0
+----------------------------------------------------
+  in = { .req1=0, .req2=0, .sig1_ok=1, .sig2_ok=1, .reset=1,
+    ._pad={ 0, 0, 0 }, .dt_ms=200 }
+
+State 22 file /home/claude/ptt7/core/fsm_core.c line 51 column 5 function fsm_step thread 0
+----------------------------------------------------
+  fault = 0 (00000000 00000000 00000000 00000000)
+
+State 23 file /home/claude/ptt7/core/fsm_core.c line 58 column 5 function fsm_step thread 0
+----------------------------------------------------
+  c.elapsed_ms = { .state=6, .pending=0, .last_tr=0, ._pad=0, .elapsed_ms=200,
+    .green_ms=0 }
+
+State 24 file /home/claude/ptt7/core/fsm_core.c line 128 column 9 function fsm_step thread 0
+----------------------------------------------------
+  ctx->state = { .state=7, .pending=0, .last_tr=0, ._pad=0, .elapsed_ms=200,
+    .green_ms=0 }
+
+State 25 file /home/claude/ptt7/core/fsm_core.c line 140 column 5 function fsm_step thread 0
+----------------------------------------------------
+  ctx->last_tr = { .state=7, .pending=0, .last_tr=14, ._pad=0, .elapsed_ms=0,
+    .green_ms=0 }
+
+State 26 file /home/claude/ptt7/verification/esbmc/harness_reach.c line 107 column 9 function main thread 0
+----------------------------------------------------
+Violated property:
+  file /home/claude/ptt7/verification/esbmc/harness_reach.c line 107 column 9 function main
+  assertion c.state != TO
+  (signed int)c.state != 7
+
+
+** Results:
+/home/claude/ptt7/core/fsm_core.c, function fsm_init
+  PASSED       [fsm_init.object-out-of-bounds.1]         line  41  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.1]                    line  41  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.2]         line  42  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.2]                    line  42  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.3]         line  43  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.3]                    line  43  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.4]         line  44  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.4]                    line  44  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.5]         line  45  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.5]                    line  45  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_init.object-out-of-bounds.6]         line  46  dereference failure: Access to object out of bounds
+  PASSED       [fsm_init.assertion.6]                    line  46  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_input_fault
+  PASSED       [fsm_input_fault.object-out-of-bounds.1]  line  28  dereference failure: Access to object out of bounds
+  PASSED       [fsm_input_fault.assertion.1]             line  28  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_step
+  PASSED       [fsm_step.object-out-of-bounds.1]         line  52  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.1]                    line  52  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.2]         line  53  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.2]                    line  53  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.3]         line  58  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.3]                    line  58  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.4]         line  60  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.4]                    line  60  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.5]         line  65  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.5]                    line  65  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.6]         line  67  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.6]                    line  67  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.7]         line  73  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.7]                    line  73  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.8]         line  78  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.8]                    line  78  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.9]         line  85  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.9]                    line  85  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.10]        line  90  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.10]                   line  90  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.11]        line  95  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.11]                   line  95  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.12]        line 101  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.12]                   line 101  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.13]        line 109  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.13]                   line 109  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.14]        line 115  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.14]                   line 115  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.15]        line 128  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.15]                   line 128  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.16]        line 129  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.16]                   line 129  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.17]        line 131  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.17]                   line 131  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.18]        line 134  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.18]                   line 134  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.19]        line 137  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.19]                   line 137  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.20]        line 140  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.20]                   line 140  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/verification/esbmc/harness_reach.c, function main
+  FAILED       [main.assertion.1]                        line 107  assertion c.state != TO
+
+** 1 of 55 properties failed, 54 passed
+
+VERIFICATION FAILED

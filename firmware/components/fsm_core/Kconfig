@@ -1,0 +1,8 @@
+menu "PTT7 - nucleo da FSM"
+    config PTT7_CORE_IN_IRAM
+        bool "Executar o nucleo da FSM (fsm_core.c) a partir da IRAM"
+        default y
+        help
+            Coloca fsm_step()/fsm_outputs() em IRAM (secao noflash), evitando
+            latencias de cache da flash no caminho ISR -> FSM -> GPIO.
+endmenu

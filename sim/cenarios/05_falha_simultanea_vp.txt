@@ -1,0 +1,11 @@
+# Perda simultanea dos dois sinais DURANTE VERMELHO_VEICULO_VERDE_PEDESTRE
+12000 req1
+15010 espera VERMELHO_VEICULO_VERDE_PEDESTRE
+17000 perda12
+17000 verde_off                     # verde de pedestre apagado imediatamente
+17010 espera FALHA
+18000 restaura12
+18500 reset
+18510 espera RECOVERY
+21510 espera VERDE_VEICULO
+21520 fim

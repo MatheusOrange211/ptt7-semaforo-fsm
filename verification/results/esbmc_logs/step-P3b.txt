@@ -1,0 +1,82 @@
+$ /tmp/esbmc/release/bin/esbmc /home/claude/ptt7/verification/esbmc/harness_step.c /home/claude/ptt7/core/fsm_core.c -I /home/claude/ptt7/core -I /home/claude/ptt7/verification/esbmc --z3 -DPROP_P3B --overflow-check --unsigned-overflow-check
+
+ESBMC version 8.5.0 64-bit x86_64 linux
+Target: 64-bit little-endian x86_64-unknown-linux with esbmclibc
+Parsing /home/claude/ptt7/verification/esbmc/harness_step.c
+Parsing /home/claude/ptt7/core/fsm_core.c
+Converting
+Generating GOTO Program
+GOTO program creation time: 0.178s
+GOTO program processing time: 0.000s
+Starting Bounded Model Checking
+Symex completed in: 0.008s (254 assignments)
+Caching time: 0.000s (removed 1 assertions)
+Slicing time: 0.002s (removed 84 assignments)
+Generated 113 VCC(s), 7 remaining after simplification (169 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.002s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.088s
+BMC program time: 0.105s
+
+** Results:
+/home/claude/ptt7/core/fsm_core.c, function fsm_ctx_valid
+  PASSED       [fsm_ctx_valid.object-out-of-bounds.1]                   line  33  dereference failure: Access to object out of bounds
+  PASSED       [fsm_ctx_valid.assertion.1]                              line  33  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_input_fault
+  PASSED       [fsm_input_fault.object-out-of-bounds.1]                 line  28  dereference failure: Access to object out of bounds
+  PASSED       [fsm_input_fault.assertion.1]                            line  28  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function fsm_step
+  PASSED       [fsm_step.object-out-of-bounds.1]                        line  52  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.1]                                   line  52  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.2]                        line  53  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.2]                                   line  53  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.3]                        line  58  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.3]                                   line  58  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.4]                        line  60  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.4]                                   line  60  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.5]                        line  65  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.5]                                   line  65  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.6]                        line  67  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.6]                                   line  67  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.7]                        line  73  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.7]                                   line  73  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.8]                        line  78  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.8]                                   line  78  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.9]                        line  85  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.9]                                   line  85  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.10]                       line  90  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.10]                                  line  90  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.11]                       line  95  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.11]                                  line  95  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.12]                       line 101  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.12]                                  line 101  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.13]                       line 109  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.13]                                  line 109  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.14]                       line 115  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.14]                                  line 115  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.15]                       line 128  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.15]                                  line 128  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.16]                       line 129  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.16]                                  line 129  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.17]                       line 131  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.17]                                  line 131  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.18]                       line 134  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.18]                                  line 134  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.19]                       line 137  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.19]                                  line 137  dereference failure: Incorrect alignment when accessing data object
+  PASSED       [fsm_step.object-out-of-bounds.20]                       line 140  dereference failure: Access to object out of bounds
+  PASSED       [fsm_step.assertion.20]                                  line 140  dereference failure: Incorrect alignment when accessing data object
+/home/claude/ptt7/core/fsm_core.c, function sat_add
+  PASSED       [sat_add.arithmetic-overflow.1]                          line  20  arithmetic overflow on sub
+  PASSED       [sat_add.arithmetic-overflow.2]                          line  23  arithmetic overflow on add
+/home/claude/ptt7/verification/esbmc/harness_step.c, function main
+  PASSED       [main.arithmetic-overflow.1]                             line  44  arithmetic overflow on add
+  PASSED       [main.assertion.1]                                       line  46  assertion g >= FSM_T_VERDE_MIN_MS
+/esbmc-vfs/libc/library/pthread_lib.c, function __ESBMC_pthread_start_main_hook
+  PASSED       [__ESBMC_pthread_start_main_hook.arithmetic-overflow.1]  line 178  arithmetic overflow on add
+  PASSED       [__ESBMC_pthread_start_main_hook.arithmetic-overflow.2]  line 179  arithmetic overflow on add
+
+** 0 of 50 properties failed, 50 passed
+
+VERIFICATION SUCCESSFUL

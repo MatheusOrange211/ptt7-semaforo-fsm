@@ -1,0 +1,8 @@
+# Falha de temporizacao: passo atrasado 300 ms (> DT_MAX = 200 ms) => FALHA
+5000  atraso 300
+5300  verde_off
+5310  espera FALHA
+6000  reset
+6010  espera RECOVERY
+9010  espera VERDE_VEICULO
+9020  fim
