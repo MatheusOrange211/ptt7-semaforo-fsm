@@ -1,0 +1,212 @@
+BATERIA AUTOMATICA DO SEMAFORO
+Duracao aproximada: 100 segundos simulados.
+Entradas artificiais: botoes fisicos e comandos do monitor serial nao sao usados neste modo.
+Legenda dos LEDs: R=vermelho, A=amarelo, V=verde; 1=ligado, 0=desligado.
+
+========== TESTE 1/7: Pedido 1 antecipado: respeitar verde minimo ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1000 ms] INIT -> VERDE_VEICULO
+  ACAO: PEDIDO 1 antecipado. Pedido gerado uma vez.
+  [1500 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6000 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5000 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8001 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  [13002 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> ATENCAO_PEDESTRE
+  Verificacao: verde fixo dos pedestres durou 5001 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [15003 ms] ATENCAO_PEDESTRE -> VERDE_VEICULO
+  Verificacao: aviso dos pedestres durou 2001 ms.
+RESULTADO TESTE 1: APROVADO
+
+========== TESTE 2/7: Pedido 2 tardio: ciclo normal ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1000 ms] INIT -> VERDE_VEICULO
+  ACAO: PEDIDO 2 tardio. Pedido gerado uma vez.
+  [6500 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6510 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5510 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8511 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  [13512 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> ATENCAO_PEDESTRE
+  Verificacao: verde fixo dos pedestres durou 5001 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [15513 ms] ATENCAO_PEDESTRE -> VERDE_VEICULO
+  Verificacao: aviso dos pedestres durou 2001 ms.
+RESULTADO TESTE 2: APROVADO
+
+========== TESTE 3/7: Pedidos simultaneos: uma unica travessia ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1000 ms] INIT -> VERDE_VEICULO
+  ACAO: PEDIDOS 1 e 2 simultaneos, agrupados. Pedido gerado uma vez.
+  [1500 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6000 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5000 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8001 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  [13002 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> ATENCAO_PEDESTRE
+  Verificacao: verde fixo dos pedestres durou 5001 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [15003 ms] ATENCAO_PEDESTRE -> VERDE_VEICULO
+  Verificacao: aviso dos pedestres durou 2001 ms.
+RESULTADO TESTE 3: APROVADO
+
+========== TESTE 4/7: Falha canal 1 durante travessia ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1000 ms] INIT -> VERDE_VEICULO
+  ACAO: solicitar travessia para preparar a injecao.
+  [1500 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6000 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5000 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8001 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  INJECAO: falha artificial durante travessia. Canal 1=1; canal 2=0.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [9012 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> FALHA
+  Verificacao: FALHA alcancada 0 ms apos injecao; limite = 1000 ms.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  ACAO: pedido durante FALHA. Deve continuar bloqueado.
+  ACAO: reset com falha ativa. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: retirar falhas SEM reset. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: reset apos retirada da falha. Esperado: RECOVERY -> INIT -> VERDE.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  [12013 ms] FALHA -> RECOVERY
+  [13014 ms] RECOVERY -> INIT
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [14014 ms] INIT -> VERDE_VEICULO
+RESULTADO TESTE 4: APROVADO
+
+========== TESTE 5/7: Falha canal 2 durante travessia ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1001 ms] INIT -> VERDE_VEICULO
+  ACAO: solicitar travessia para preparar a injecao.
+  [1501 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6001 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5000 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8002 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  INJECAO: falha artificial durante travessia. Canal 1=0; canal 2=1.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [9013 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> FALHA
+  Verificacao: FALHA alcancada 0 ms apos injecao; limite = 1000 ms.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  ACAO: pedido durante FALHA. Deve continuar bloqueado.
+  ACAO: reset com falha ativa. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: retirar falhas SEM reset. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: reset apos retirada da falha. Esperado: RECOVERY -> INIT -> VERDE.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  [12014 ms] FALHA -> RECOVERY
+  [13015 ms] RECOVERY -> INIT
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [14015 ms] INIT -> VERDE_VEICULO
+RESULTADO TESTE 5: APROVADO
+
+========== TESTE 6/7: Falha simultanea durante travessia ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1001 ms] INIT -> VERDE_VEICULO
+  ACAO: solicitar travessia para preparar a injecao.
+  [1501 ms] VERDE_VEICULO -> PEDIDO_PEDESTRE
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [6001 ms] PEDIDO_PEDESTRE -> ATENCAO_VEICULO
+  Verificacao: verde dos veiculos durou 5000 ms; minimo = 5000 ms.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=0 V=1
+  [8002 ms] ATENCAO_VEICULO -> VERMELHO_VEICULO_VERDE_PEDESTRE
+  Verificacao: amarelo durou 2001 ms.
+  INJECAO: falha artificial durante travessia. Canal 1=1; canal 2=1.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [9013 ms] VERMELHO_VEICULO_VERDE_PEDESTRE -> FALHA
+  Verificacao: FALHA alcancada 0 ms apos injecao; limite = 1000 ms.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  ACAO: pedido durante FALHA. Deve continuar bloqueado.
+  ACAO: reset com falha ativa. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: retirar falhas SEM reset. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: reset apos retirada da falha. Esperado: RECOVERY -> INIT -> VERDE.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  [12014 ms] FALHA -> RECOVERY
+  [13015 ms] RECOVERY -> INIT
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [14015 ms] INIT -> VERDE_VEICULO
+RESULTADO TESTE 6: APROVADO
+
+========== TESTE 7/7: Atraso de 400 ms ==========
+  Preparacao: reinicializacao da FSM; ambos os sinais vermelhos.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [1001 ms] INIT -> VERDE_VEICULO
+  INJECAO: pausa de 400 ms. A falha sera detectada quando o controle voltar.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  [2901 ms] VERDE_VEICULO -> FALHA
+  Verificacao: FALHA alcancada 400 ms apos injecao; limite = 1000 ms.
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: pedido durante FALHA. Deve continuar bloqueado.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: retirar falhas SEM reset. Deve permanecer em FALHA.
+  LEDs | veiculos R=0 A=1 V=0 | pedestres R=1 V=0
+  LEDs | veiculos R=0 A=0 V=0 | pedestres R=1 V=0
+  ACAO: reset apos retirada da falha. Esperado: RECOVERY -> INIT -> VERDE.
+  LEDs | veiculos R=1 A=0 V=0 | pedestres R=1 V=0
+  [5502 ms] FALHA -> RECOVERY
+  [6503 ms] RECOVERY -> INIT
+  LEDs | veiculos R=0 A=0 V=1 | pedestres R=1 V=0
+  [7503 ms] INIT -> VERDE_VEICULO
+RESULTADO TESTE 7: APROVADO
+
+========== FINAL: 7/7 APROVADOS ==========
+Resultados funcionais da simulacao. Nao equivalem a prova formal ou medicao fisica.
+Reinicie a simulacao para repetir a bateria.

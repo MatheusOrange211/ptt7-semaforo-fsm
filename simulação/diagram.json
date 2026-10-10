@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "author": "Projeto PTT7 - Pedro e Matheus",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": -235.3, "left": 129.4, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "vr",
+      "top": 15.6,
+      "left": 167.4,
+      "attrs": { "color": "red", "label": "VEICULO VERMELHO", "flip": "1" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rvr",
+      "top": 71.15,
+      "left": 105.6,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "vy",
+      "top": 92.4,
+      "left": 167.4,
+      "attrs": { "color": "yellow", "label": "VEICULO AMARELO", "flip": "1" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rvy",
+      "top": 167.15,
+      "left": 105.6,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "vg",
+      "top": 178.8,
+      "left": 167.4,
+      "attrs": { "color": "green", "label": "VEICULO VERDE", "flip": "1" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rvg",
+      "top": 243.95,
+      "left": 105.6,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "pr",
+      "top": -32.4,
+      "left": 368.6,
+      "attrs": { "color": "red", "label": "PEDESTRE VERMELHO" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rpr",
+      "top": 4.25,
+      "left": 440.2,
+      "rotate": 180,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "pg",
+      "top": 44.4,
+      "left": 378.2,
+      "attrs": { "color": "green", "label": "PEDESTRE VERDE" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rpg",
+      "top": 81.05,
+      "left": 449.8,
+      "rotate": 180,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "b1",
+      "top": 399.8,
+      "left": 48,
+      "attrs": { "color": "blue", "label": "PEDIDO 1", "key": "A" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "b2",
+      "top": 399.8,
+      "left": 336,
+      "attrs": { "color": "blue", "label": "PEDIDO 2", "key": "B" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "reset",
+      "top": 387.5,
+      "left": 170.3,
+      "rotate": 90,
+      "attrs": { "color": "red", "label": "RESET", "key": "R" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "esp:D25", "rvr:1", "red", [ "h-105.6", "v220.8" ] ],
+    [ "rvr:2", "vr:A", "red", [] ],
+    [ "vr:C", "esp:GND.1", "black", [ "h86", "v-134.4", "h-38.4", "v-9.5" ] ],
+    [ "esp:D26", "rvy:1", "yellow", [ "h-96", "v307.1" ] ],
+    [ "rvy:2", "vy:A", "yellow", [] ],
+    [ "vy:C", "esp:GND.1", "black", [ "h95.6", "v-230.4", "h-48", "v9.7" ] ],
+    [ "esp:D27", "rvg:1", "green", [ "h-86.4", "v374.1" ] ],
+    [ "rvg:2", "vg:A", "green", [] ],
+    [ "vg:C", "esp:GND.1", "black", [ "h105.2", "v-288", "h-57.6", "v-19.1" ] ],
+    [ "esp:D18", "rpr:1", "red", [] ],
+    [ "rpr:2", "pr:A", "red", [ "h-107" ] ],
+    [ "pr:C", "esp:GND.1", "black", [ "h-38", "v-95.9" ] ],
+    [ "esp:D19", "rpg:1", "green", [ "h278.1", "v249.5" ] ],
+    [ "rpg:2", "pg:A", "green", [] ],
+    [ "pg:C", "esp:GND.1", "black", [ "h-66.8", "v-192", "h-76.8", "v19.3" ] ],
+    [ "b1:1.l", "esp:D32", "blue", [ "h-28.8", "v-575.9" ] ],
+    [ "b1:2.l", "esp:GND.2", "black", [ "h-48", "v-508.6", "h115.2", "v-9.5" ] ],
+    [ "b2:1.l", "esp:D33", "blue", [ "h-19.2", "v48", "h-307.2", "v-614.4" ] ],
+    [ "b2:2.l", "esp:GND.2", "black", [ "v38.6", "h-345.6", "v-556.8", "h115.2", "v0.1" ] ],
+    [ "reset:1.l", "esp:D23", "blue", [ "h297.6", "v-595.3" ] ],
+    [ "reset:2.l", "esp:GND.2", "black", [ "h-221", "v-480", "h134.4", "v9.7" ] ]
+  ],
+  "dependencies": {}
+}
