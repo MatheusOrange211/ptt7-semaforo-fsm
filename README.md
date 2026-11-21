@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/img/banner.svg" alt="PTT7 — Semáforo FSM no ESP32 com verificação em duas camadas" width="100%"></p>
+
 # PTT7 — Semáforo com travessia de pedestres baseado em FSM no ESP32, com verificação em duas camadas
 
 Produto técnico-tecnológico da trilha **PTT7 (Controle baseado em FSM)**, disciplina Arquitetura e
@@ -24,6 +26,32 @@ Discentes: Pedro Vinicius da Silva Ribeiro e Matheus Naranjo Corrêa. Orientador
 - **Camada 2** (`verification/esbmc/`): ESBMC (backend Z3) sobre o mesmo `fsm_core.c` do firmware.
 - **Firmware** (`firmware/`): ESP-IDF v5.1, ISR em IRAM, notificação de tarefa, núcleo em IRAM,
   instrumentação `esp_timer_get_time()` e console de experimentos (latência e injeção de falhas).
+
+## Máquina de estados
+
+Diagrama gerado a partir de [`spec/transition_table.csv`](spec/transition_table.csv), a especificação comum
+usada pelo núcleo, pelo modelo Z3 e pelo firmware.
+
+```mermaid
+stateDiagram-v2
+    [*] --> INIT
+    INIT --> VERDE_VEICULO: T1 fim da inicialização
+    INIT --> FALHA: T2 falha
+    VERDE_VEICULO --> PEDIDO_PEDESTRE: T3 demanda, verde mínimo pendente
+    VERDE_VEICULO --> ATENCAO_VEICULO: T4 demanda, verde mínimo cumprido
+    VERDE_VEICULO --> FALHA: T5 falha
+    PEDIDO_PEDESTRE --> ATENCAO_VEICULO: T6 verde mínimo cumprido
+    PEDIDO_PEDESTRE --> FALHA: T7 falha
+    ATENCAO_VEICULO --> VERMELHO_VEICULO_VERDE_PEDESTRE: T8 fim do amarelo
+    ATENCAO_VEICULO --> FALHA: T9 falha
+    VERMELHO_VEICULO_VERDE_PEDESTRE --> ATENCAO_PEDESTRE: T10 fim do verde de pedestre
+    VERMELHO_VEICULO_VERDE_PEDESTRE --> FALHA: T11 falha
+    ATENCAO_PEDESTRE --> VERDE_VEICULO: T12 fim da atenção de pedestre
+    ATENCAO_PEDESTRE --> FALHA: T13 falha
+    FALHA --> RECOVERY: T14 reset sem falha ativa
+    RECOVERY --> VERDE_VEICULO: T15 fim da recuperação
+    RECOVERY --> FALHA: T16 falha
+```
 
 ## Reprodução rápida (host, sem placa)
 
@@ -53,7 +81,7 @@ Registre as versões do seu ambiente com `python3 tools/ptt7.py versions` (gera 
 - Horizontes: BMC k=10 para P5 (protocolo); k_ciclo=133 para alcançabilidade no Z3; alcançabilidade
   composicional em 8 segmentos (≤ 41 passos) no ESBMC; provas de 1 passo e k-indução para resultados ilimitados.
 
-## Resultados atuais da verificação (06/10/2026)
+## Resultados atuais da verificação (06/10/2026, reconfirmados em 21/11/2026 com ESBMC 8.5.0)
 
 | Propriedade | Modelo (Z3) | Código (ESBMC) |
 |---|---|---|
@@ -67,6 +95,11 @@ Registre as versões do seu ambiente com `python3 tools/ptt7.py versions` (gera 
 Testes negativos com o mutante `-DFSM_INJECT_BUG` refutam P6 nas duas camadas. Um *overflow*
 aritmético encontrado pelo ESBMC foi corrigido (achado ESBMC-01). Os resultados de bancada (Q2 latência,
 Q3 fallback) **ainda não foram coletados**: ver seção 8 do manual.
+
+Validação e alinhamento: [`docs/validacao/`](docs/validacao/) (matriz de rastreabilidade T1–T16 e P1–P6,
+divergências entre o núcleo verificado e a simulação Wokwi). Materiais de entrega: [`docs/entrega/`](docs/entrega/).
+
+> Use o **ESBMC 8.5.0**. Com o 8.7.0 a consulta `kind-P5` fica inconclusiva (ver `docs/registro_verificacao.md`).
 
 ## Estrutura
 

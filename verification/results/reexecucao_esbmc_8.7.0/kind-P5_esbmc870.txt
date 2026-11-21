@@ -1,0 +1,476 @@
+$ /opt/esbmc/release/bin/esbmc verification/esbmc/harness_bmc.c core/fsm_core.c -I core -I verification/esbmc --z3 -DUNBOUNDED --k-induction --max-k-step 10
+
+ESBMC version 8.7.0 64-bit x86_64 linux
+Target: 64-bit little-endian x86_64-unknown-linux with esbmclibc
+Parsing verification/esbmc/harness_bmc.c
+Parsing core/fsm_core.c
+Converting
+Generating GOTO Program
+GOTO program creation time: 0.177s
+GOTO program processing time: 0.003s
+Checking base case, k = 1
+Starting Bounded Model Checking
+Not unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.012s (332 assignments)
+Slicing time: 0.001s (removed 77 assignments)
+Generated 292 VCC(s), 7 remaining after simplification (255 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.003s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.031s
+BMC program time: 0.059s
+No bug has been found in the base case
+Checking forward condition, k = 1
+Starting Bounded Model Checking
+Not unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.012s (325 assignments)
+Slicing time: 0.000s (removed 308 assignments)
+Generated 280 VCC(s), 1 remaining after simplification (17 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.000s
+The forward condition is unable to prove the property
+Checking base case, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.021s (596 assignments)
+Slicing time: 0.002s (removed 137 assignments)
+Generated 483 VCC(s), 12 remaining after simplification (459 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.005s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.152s
+BMC program time: 0.184s
+No bug has been found in the base case
+Checking forward condition, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.022s (584 assignments)
+Slicing time: 0.000s (removed 552 assignments)
+Generated 463 VCC(s), 1 remaining after simplification (32 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.001s
+The forward condition is unable to prove the property
+Checking inductive step, k = 2
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.021s (615 assignments)
+Slicing time: 0.001s (removed 151 assignments)
+Generated 483 VCC(s), 12 remaining after simplification (464 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.004s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.096s
+The inductive step is unable to prove the property
+Checking base case, k = 3
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.018s (860 assignments)
+Slicing time: 0.002s (removed 197 assignments)
+Generated 674 VCC(s), 17 remaining after simplification (663 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.005s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.240s
+BMC program time: 0.267s
+No bug has been found in the base case
+Checking forward condition, k = 3
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.022s (843 assignments)
+Slicing time: 0.001s (removed 796 assignments)
+Generated 646 VCC(s), 1 remaining after simplification (47 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.001s
+The forward condition is unable to prove the property
+Checking inductive step, k = 3
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.026s (884 assignments)
+Slicing time: 0.002s (removed 211 assignments)
+Generated 674 VCC(s), 17 remaining after simplification (673 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.006s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.181s
+The inductive step is unable to prove the property
+Checking base case, k = 4
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.032s (1124 assignments)
+Slicing time: 0.002s (removed 257 assignments)
+Generated 865 VCC(s), 22 remaining after simplification (867 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.010s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 1.714s
+BMC program time: 1.762s
+No bug has been found in the base case
+Checking forward condition, k = 4
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.027s (1102 assignments)
+Slicing time: 0.001s (removed 1040 assignments)
+Generated 829 VCC(s), 1 remaining after simplification (62 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.001s
+The forward condition is unable to prove the property
+Checking inductive step, k = 4
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.030s (1153 assignments)
+Slicing time: 0.002s (removed 271 assignments)
+Generated 865 VCC(s), 22 remaining after simplification (882 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.007s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.162s
+The inductive step is unable to prove the property
+Checking base case, k = 5
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.032s (1388 assignments)
+Slicing time: 0.003s (removed 317 assignments)
+Generated 1056 VCC(s), 27 remaining after simplification (1071 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.007s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 1.829s
+BMC program time: 1.874s
+No bug has been found in the base case
+Checking forward condition, k = 5
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.031s (1361 assignments)
+Slicing time: 0.000s (removed 1284 assignments)
+Generated 1012 VCC(s), 1 remaining after simplification (77 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.001s
+The forward condition is unable to prove the property
+Checking inductive step, k = 5
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.032s (1422 assignments)
+Slicing time: 0.003s (removed 331 assignments)
+Generated 1056 VCC(s), 27 remaining after simplification (1091 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.008s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.666s
+The inductive step is unable to prove the property
+Checking base case, k = 6
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.054s (1652 assignments)
+Slicing time: 0.004s (removed 377 assignments)
+Generated 1247 VCC(s), 32 remaining after simplification (1275 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.012s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 3.837s
+BMC program time: 3.911s
+No bug has been found in the base case
+Checking forward condition, k = 6
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.043s (1620 assignments)
+Slicing time: 0.001s (removed 1528 assignments)
+Generated 1195 VCC(s), 1 remaining after simplification (92 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.001s
+The forward condition is unable to prove the property
+Checking inductive step, k = 6
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.044s (1691 assignments)
+Slicing time: 0.005s (removed 391 assignments)
+Generated 1247 VCC(s), 32 remaining after simplification (1300 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.010s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.312s
+The inductive step is unable to prove the property
+Checking base case, k = 7
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.061s (1916 assignments)
+Slicing time: 0.005s (removed 437 assignments)
+Generated 1438 VCC(s), 37 remaining after simplification (1479 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.011s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 4.683s
+BMC program time: 4.763s
+No bug has been found in the base case
+Checking forward condition, k = 7
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.042s (1879 assignments)
+Slicing time: 0.001s (removed 1772 assignments)
+Generated 1378 VCC(s), 1 remaining after simplification (107 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.002s
+The forward condition is unable to prove the property
+Checking inductive step, k = 7
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.047s (1960 assignments)
+Slicing time: 0.005s (removed 451 assignments)
+Generated 1438 VCC(s), 37 remaining after simplification (1509 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.012s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.400s
+The inductive step is unable to prove the property
+Checking base case, k = 8
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.076s (2180 assignments)
+Slicing time: 0.005s (removed 497 assignments)
+Generated 1629 VCC(s), 42 remaining after simplification (1683 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.012s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 8.409s
+BMC program time: 8.506s
+No bug has been found in the base case
+Checking forward condition, k = 8
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.047s (2138 assignments)
+Slicing time: 0.001s (removed 2016 assignments)
+Generated 1561 VCC(s), 1 remaining after simplification (122 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.002s
+The forward condition is unable to prove the property
+Checking inductive step, k = 8
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.045s (2229 assignments)
+Slicing time: 0.004s (removed 511 assignments)
+Generated 1629 VCC(s), 42 remaining after simplification (1718 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.011s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.878s
+The inductive step is unable to prove the property
+Checking base case, k = 9
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.057s (2444 assignments)
+Slicing time: 0.005s (removed 557 assignments)
+Generated 1820 VCC(s), 47 remaining after simplification (1887 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.014s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 9.886s
+BMC program time: 9.966s
+No bug has been found in the base case
+Checking forward condition, k = 9
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.059s (2397 assignments)
+Slicing time: 0.002s (removed 2260 assignments)
+Generated 1744 VCC(s), 1 remaining after simplification (137 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.002s
+The forward condition is unable to prove the property
+Checking inductive step, k = 9
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.063s (2498 assignments)
+Slicing time: 0.006s (removed 571 assignments)
+Generated 1820 VCC(s), 47 remaining after simplification (1927 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.012s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.947s
+The inductive step is unable to prove the property
+Checking base case, k = 10
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 10   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.058s (2708 assignments)
+Slicing time: 0.006s (removed 617 assignments)
+Generated 2011 VCC(s), 52 remaining after simplification (2091 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.014s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 14.321s
+BMC program time: 14.403s
+No bug has been found in the base case
+Checking forward condition, k = 10
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 10   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.061s (2656 assignments)
+Slicing time: 0.002s (removed 2504 assignments)
+Generated 1927 VCC(s), 1 remaining after simplification (152 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.001s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 0.002s
+The forward condition is unable to prove the property
+Checking inductive step, k = 10
+Starting Bounded Model Checking
+Unwinding loop 3 iteration 1   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 2   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 3   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 4   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 5   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 6   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 7   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 8   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Unwinding loop 3 iteration 9   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Not unwinding loop 3 iteration 10   file verification/esbmc/harness_bmc.c line 25 column 5 function main
+Symex completed in: 0.059s (2767 assignments)
+Slicing time: 0.006s (removed 631 assignments)
+Generated 2011 VCC(s), 52 remaining after simplification (2136 assignments)
+Encoding remaining VCC(s) using bit-vector/floating-point arithmetic
+Encoding to solver time: 0.017s
+Solving with solver Z3 v4.13.3
+Runtime decision procedure: 1.406s
+The inductive step is unable to prove the property
+Unable to prove or falsify the program, giving up.
+VERIFICATION UNKNOWN

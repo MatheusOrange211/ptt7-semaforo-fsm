@@ -1,7 +1,7 @@
 # CVF - resultados da verificacao em duas camadas
 
-- Modelo: Z3 5.1.0 (API C++) - 2026-10-06 22:03:14 - horizonte BMC k=10
-- Codigo: ESBMC version 8.5.0 64-bit x86_64 linux - 2026-10-06 22:04:30
+- Modelo: Z3 5.4.1 (API C++) - 2026-11-21 11:34:23 - horizonte BMC k=10
+- Codigo: ESBMC version 8.5.0 64-bit x86_64 linux - 2026-11-21 11:36:00
 
 | Propriedade | Descricao | Modelo (Z3) | Codigo (ESBMC) | Concordancia |
 |---|---|---|---|---|
