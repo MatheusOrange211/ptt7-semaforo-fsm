@@ -1,0 +1,15 @@
+# Nova falha durante RECOVERY => T16 (RECOVERY -> FALHA); exige novo reset (P4, P5, P6)
+5000  perda1
+5000  verde_off
+5010  espera FALHA                  # T5
+6000  restaura1
+6500  reset
+6510  espera RECOVERY               # T14
+7500  perda1
+7510  espera FALHA                  # T16: recuperacao abortada
+8000  restaura1
+8010  espera FALHA                  # sem reset permanece em FALHA
+8500  reset
+8510  espera RECOVERY               # T14
+11510 espera VERDE_VEICULO          # T15
+11520 fim

@@ -1,0 +1,9 @@
+# Falha durante INIT => T2 (INIT -> FALHA); recuperacao so por RECOVERY (P4, P6)
+1000  perda1
+1000  verde_off
+1010  espera FALHA                  # T2
+2000  restaura1
+2500  reset
+2510  espera RECOVERY               # T14
+5510  espera VERDE_VEICULO          # T15
+5520  fim

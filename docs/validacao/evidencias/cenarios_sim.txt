@@ -1,0 +1,189 @@
+===== 01_ciclo_normal.txt
+== Cenario sim/cenarios/01_ciclo_normal.txt ==
+  [PASSOU] t=0 ms espera INIT (atual INIT)
+  [PASSOU] t=1990 ms espera INIT (atual INIT)
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  [PASSOU] t=2010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+  [PASSOU] t=11990 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+  > t=12000 ms req1 
+[  12.000 s] ATENCAO_VEICULO                    VEIC[-- AM --]  PED[VM --]  <- T4
+  [PASSOU] t=12010 ms espera ATENCAO_VEICULO (atual ATENCAO_VEICULO)
+[  15.000 s] VERMELHO_VEICULO_VERDE_PEDESTRE    VEIC[VM -- --]  PED[-- VD]  <- T8
+  [PASSOU] t=15010 ms espera VERMELHO_VEICULO_VERDE_PEDESTRE (atual VERMELHO_VEICULO_VERDE_PEDESTRE)
+[  21.000 s] ATENCAO_PEDESTRE                   VEIC[VM -- --]  PED[VM --]  <- T10
+  [PASSOU] t=21010 ms espera ATENCAO_PEDESTRE (atual ATENCAO_PEDESTRE)
+[  24.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T12
+  [PASSOU] t=24010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 8 verificacoes passaram, 0 falharam -> OK
+===== 02_verde_minimo.txt
+== Cenario sim/cenarios/02_verde_minimo.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  [PASSOU] t=2010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+  > t=3000 ms req2 
+[   3.000 s] PEDIDO_PEDESTRE                    VEIC[-- -- VD]  PED[VM --]  <- T3
+  [PASSOU] t=3010 ms espera PEDIDO_PEDESTRE (atual PEDIDO_PEDESTRE)
+  [PASSOU] t=9990 ms espera PEDIDO_PEDESTRE (atual PEDIDO_PEDESTRE)
+[  10.000 s] ATENCAO_VEICULO                    VEIC[-- AM --]  PED[VM --]  <- T6
+  [PASSOU] t=10010 ms espera ATENCAO_VEICULO (atual ATENCAO_VEICULO)
+Cenario: 4 verificacoes passaram, 0 falharam -> OK
+===== 03_falha_sinal1.txt
+== Cenario sim/cenarios/03_falha_sinal1.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=5000 ms perda1 
+[   5.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T5
+  [PASSOU] t=5000 ms todos os verdes apagados
+  [PASSOU] t=5010 ms espera FALHA (atual FALHA)
+  > t=6000 ms reset 
+  [PASSOU] t=6010 ms espera FALHA (atual FALHA)
+  > t=7000 ms restaura1 
+  [PASSOU] t=7010 ms espera FALHA (atual FALHA)
+  > t=8000 ms reset 
+[   8.000 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=8010 ms espera RECOVERY (atual RECOVERY)
+[  11.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=11010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 6 verificacoes passaram, 0 falharam -> OK
+===== 04_falha_sinal2.txt
+== Cenario sim/cenarios/04_falha_sinal2.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=5000 ms perda2 
+[   5.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T5
+  [PASSOU] t=5000 ms todos os verdes apagados
+  [PASSOU] t=5010 ms espera FALHA (atual FALHA)
+  > t=6000 ms reset 
+  [PASSOU] t=6010 ms espera FALHA (atual FALHA)
+  > t=7000 ms restaura2 
+  [PASSOU] t=7010 ms espera FALHA (atual FALHA)
+  > t=8000 ms reset 
+[   8.000 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=8010 ms espera RECOVERY (atual RECOVERY)
+[  11.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=11010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 6 verificacoes passaram, 0 falharam -> OK
+===== 05_falha_simultanea_vp.txt
+== Cenario sim/cenarios/05_falha_simultanea_vp.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=12000 ms req1 
+[  12.000 s] ATENCAO_VEICULO                    VEIC[-- AM --]  PED[VM --]  <- T4
+[  15.000 s] VERMELHO_VEICULO_VERDE_PEDESTRE    VEIC[VM -- --]  PED[-- VD]  <- T8
+  [PASSOU] t=15010 ms espera VERMELHO_VEICULO_VERDE_PEDESTRE (atual VERMELHO_VEICULO_VERDE_PEDESTRE)
+  > t=17000 ms perda12 
+[  17.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T11
+  [PASSOU] t=17000 ms todos os verdes apagados
+  [PASSOU] t=17010 ms espera FALHA (atual FALHA)
+  > t=18000 ms restaura12 
+  > t=18500 ms reset 
+[  18.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=18510 ms espera RECOVERY (atual RECOVERY)
+[  21.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=21510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 5 verificacoes passaram, 0 falharam -> OK
+===== 06_falha_temporizacao.txt
+== Cenario sim/cenarios/06_falha_temporizacao.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=5000 ms atraso 300
+[   5.300 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T5
+  [PASSOU] t=5300 ms todos os verdes apagados
+  [PASSOU] t=5310 ms espera FALHA (atual FALHA)
+  > t=6000 ms reset 
+[   6.000 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=6010 ms espera RECOVERY (atual RECOVERY)
+[   9.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=9010 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 4 verificacoes passaram, 0 falharam -> OK
+===== 07_limite_temporizacao.txt
+== Cenario sim/cenarios/07_limite_temporizacao.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=5000 ms atraso 200
+  [PASSOU] t=5200 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 1 verificacoes passaram, 0 falharam -> OK
+===== 08_falha_em_init.txt
+== Cenario sim/cenarios/08_falha_em_init.txt ==
+  > t=1000 ms perda1 
+[   1.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T2
+  [PASSOU] t=1000 ms todos os verdes apagados
+  [PASSOU] t=1010 ms espera FALHA (atual FALHA)
+  > t=2000 ms restaura1 
+  > t=2500 ms reset 
+[   2.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=2510 ms espera RECOVERY (atual RECOVERY)
+[   5.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=5510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 4 verificacoes passaram, 0 falharam -> OK
+===== 09_falha_em_pedido.txt
+== Cenario sim/cenarios/09_falha_em_pedido.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=3000 ms req1 
+[   3.000 s] PEDIDO_PEDESTRE                    VEIC[-- -- VD]  PED[VM --]  <- T3
+  [PASSOU] t=3010 ms espera PEDIDO_PEDESTRE (atual PEDIDO_PEDESTRE)
+  > t=5000 ms perda2 
+[   5.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T7
+  [PASSOU] t=5000 ms todos os verdes apagados
+  [PASSOU] t=5010 ms espera FALHA (atual FALHA)
+  > t=6000 ms restaura2 
+  > t=6500 ms reset 
+[   6.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=6510 ms espera RECOVERY (atual RECOVERY)
+[   9.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=9510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 5 verificacoes passaram, 0 falharam -> OK
+===== 10_falha_em_atencao_veiculo.txt
+== Cenario sim/cenarios/10_falha_em_atencao_veiculo.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=12000 ms req1 
+[  12.000 s] ATENCAO_VEICULO                    VEIC[-- AM --]  PED[VM --]  <- T4
+  [PASSOU] t=12010 ms espera ATENCAO_VEICULO (atual ATENCAO_VEICULO)
+  > t=13000 ms perda1 
+[  13.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T9
+  [PASSOU] t=13000 ms todos os verdes apagados
+  [PASSOU] t=13010 ms espera FALHA (atual FALHA)
+  > t=14000 ms restaura1 
+  > t=14500 ms reset 
+[  14.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=14510 ms espera RECOVERY (atual RECOVERY)
+[  17.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=17510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 5 verificacoes passaram, 0 falharam -> OK
+===== 11_falha_em_atencao_pedestre.txt
+== Cenario sim/cenarios/11_falha_em_atencao_pedestre.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=12000 ms req1 
+[  12.000 s] ATENCAO_VEICULO                    VEIC[-- AM --]  PED[VM --]  <- T4
+  [PASSOU] t=12010 ms espera ATENCAO_VEICULO (atual ATENCAO_VEICULO)
+[  15.000 s] VERMELHO_VEICULO_VERDE_PEDESTRE    VEIC[VM -- --]  PED[-- VD]  <- T8
+  [PASSOU] t=15010 ms espera VERMELHO_VEICULO_VERDE_PEDESTRE (atual VERMELHO_VEICULO_VERDE_PEDESTRE)
+[  21.000 s] ATENCAO_PEDESTRE                   VEIC[VM -- --]  PED[VM --]  <- T10
+  [PASSOU] t=21010 ms espera ATENCAO_PEDESTRE (atual ATENCAO_PEDESTRE)
+  > t=22000 ms perda12 
+[  22.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T13
+  [PASSOU] t=22000 ms todos os verdes apagados
+  [PASSOU] t=22010 ms espera FALHA (atual FALHA)
+  > t=23000 ms restaura12 
+  > t=23500 ms reset 
+[  23.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=23510 ms espera RECOVERY (atual RECOVERY)
+[  26.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=26510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 7 verificacoes passaram, 0 falharam -> OK
+===== 12_falha_em_recovery.txt
+== Cenario sim/cenarios/12_falha_em_recovery.txt ==
+[   2.000 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T1
+  > t=5000 ms perda1 
+[   5.000 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T5
+  [PASSOU] t=5000 ms todos os verdes apagados
+  [PASSOU] t=5010 ms espera FALHA (atual FALHA)
+  > t=6000 ms restaura1 
+  > t=6500 ms reset 
+[   6.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=6510 ms espera RECOVERY (atual RECOVERY)
+  > t=7500 ms perda1 
+[   7.500 s] FALHA                              VEIC[-- AM --]  PED[-- --]  <- T16
+  [PASSOU] t=7510 ms espera FALHA (atual FALHA)
+  > t=8000 ms restaura1 
+  [PASSOU] t=8010 ms espera FALHA (atual FALHA)
+  > t=8500 ms reset 
+[   8.500 s] RECOVERY                           VEIC[VM -- --]  PED[VM --]  <- T14
+  [PASSOU] t=8510 ms espera RECOVERY (atual RECOVERY)
+[  11.500 s] VERDE_VEICULO                      VEIC[-- -- VD]  PED[VM --]  <- T15
+  [PASSOU] t=11510 ms espera VERDE_VEICULO (atual VERDE_VEICULO)
+Cenario: 7 verificacoes passaram, 0 falharam -> OK

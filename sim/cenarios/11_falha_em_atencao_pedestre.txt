@@ -1,0 +1,13 @@
+# Perda simultanea durante ATENCAO_PEDESTRE => T13 (ATENCAO_PEDESTRE -> FALHA) (P4, P6)
+12000 req1
+12010 espera ATENCAO_VEICULO        # T4
+15010 espera VERMELHO_VEICULO_VERDE_PEDESTRE  # T8
+21010 espera ATENCAO_PEDESTRE       # T10
+22000 perda12
+22000 verde_off
+22010 espera FALHA                  # T13
+23000 restaura12
+23500 reset
+23510 espera RECOVERY               # T14
+26510 espera VERDE_VEICULO          # T15
+26520 fim

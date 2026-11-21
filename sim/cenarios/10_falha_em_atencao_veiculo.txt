@@ -1,0 +1,11 @@
+# Falha durante ATENCAO_VEICULO (amarelo) => T9 (ATENCAO_VEICULO -> FALHA) (P4, P6)
+12000 req1
+12010 espera ATENCAO_VEICULO        # T4
+13000 perda1
+13000 verde_off
+13010 espera FALHA                  # T9
+14000 restaura1
+14500 reset
+14510 espera RECOVERY               # T14
+17510 espera VERDE_VEICULO          # T15
+17520 fim

@@ -1,0 +1,11 @@
+# Falha durante PEDIDO_PEDESTRE => T7 (PEDIDO_PEDESTRE -> FALHA) (P4, P6)
+3000  req1                          # verde ainda abaixo do minimo => T3
+3010  espera PEDIDO_PEDESTRE
+5000  perda2
+5000  verde_off
+5010  espera FALHA                  # T7
+6000  restaura2
+6500  reset
+6510  espera RECOVERY               # T14
+9510  espera VERDE_VEICULO          # T15
+9520  fim
