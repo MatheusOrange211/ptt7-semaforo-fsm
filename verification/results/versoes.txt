@@ -12,4 +12,4 @@ SHA-256 core/fsm_core.c: 80439f7cc4c186abc90ec44dee87c2f0122c2b2cf150f5a1341eec3
 SHA-256 core/fsm_core.h: 2fec1344a98e9cb74810e39c38882b60638e76beacfba0df3936f1968f7406a2
 SHA-256 core/fsm_config.h: d3e944eac912301c7b9a714808f1f0268328d136fa57170bebd158554957c32e
 SHA-256 spec/transition_table.csv: 091bbd0d35ef79adda3ea1580247d6ed81c79bdfe7862766e51e062b943ad3aa
-Execucao: 21/11/2026, ambiente Linux na nuvem (Claude), a partir da copia local do repositorio
+Execucao: 21/11/2026, ambiente Linux na nuvem, a partir da copia local do repositorio

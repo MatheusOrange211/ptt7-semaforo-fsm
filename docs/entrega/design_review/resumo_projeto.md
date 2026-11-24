@@ -71,6 +71,8 @@ Tempos: verde mínimo de 8 s, amarelo de 3 s, verde de pedestre de 6 s.
 | Simulação Wokwi | usa um núcleo próprio, divergente do verificado; alinhamento proposto |
 | Relatório e vídeo | estrutura pronta, aguardando dados de bancada |
 
+> **Atualização 24/11/2026:** a bancada foi executada com a nova pinagem (supervisão por software, `PTT7_SUPERVISAO_HW=0`): Q3 completa, Q2 não atendida (exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`.
+
 **Plano B (contrato, item 9):** se a placa não ficar pronta, os experimentos rodam no simulador
 de host, declarando a ausência de validação física e sem atribuir tempos ao ESP32.
 

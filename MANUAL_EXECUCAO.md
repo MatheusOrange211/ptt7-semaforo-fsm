@@ -36,7 +36,7 @@ sem placa). As seções 7 a 9 exigem a bancada com o ESP32.
 | `verification/esbmc/` | Harnesses ESBMC sobre `fsm_core.c` e executor `run_esbmc.py` | OE3 |
 | `verification/results/` | Saídas das verificações (JSON, logs, CVF, vetores) | OE3, OE5 |
 | `tests/test_fsm_core.c` | 336 verificações unitárias do núcleo | OE2 |
-| `sim/` | Simulador de host (Plano B) e 7 cenários de aceitação | Plano B |
+| `sim/` | Simulador de host (Plano B) e 12 cenários de aceitação (`sim/cenarios/01`–`12`) | Plano B |
 | `tools/ptt7.py` | Orquestrador: `check`, `build`, `test`, `z3`, `esbmc`, `verify`, `sim`, `all` | — |
 | `tools/capture_serial.py` | Captura do log serial e disparo dos experimentos | OE4 |
 | `analysis/analyze.py`, `analysis/cvf.py` | Estatísticas (média, mediana, DP, IIQ, mín., máx.) e tabela CVF | OE4, OE5 |
@@ -45,11 +45,11 @@ sem placa). As seções 7 a 9 exigem a bancada com o ESP32.
 
 **Resultados já obtidos no desenvolvimento** (06/10/2026, Z3 5.1.0 e ESBMC 8.5.0):
 
-- Testes unitários: 336/336. Cenários de aceitação: 7/7. Conformidade: 100 000 passos, 16/16 transições, 0 divergências.
+- Testes unitários: 336/336. Cenários de aceitação: 12/12 (reexecutado em 24/11/2026; o registro de 06/10/2026 tinha 7/7). Conformidade: 100 000 passos, 16/16 transições, 0 divergências.
 - CVF-Modelo e CVF-Código: P1–P6 **comprovadas** nas duas camadas (ver `verification/results/cvf.md`).
 - O ESBMC encontrou e ajudou a corrigir um *overflow* aritmético em `sat_add` (achado ESBMC-01, em `docs/registro_verificacao.md`).
 - O firmware compila no ESP-IDF v5.1.4 sem avisos. `fsm_step` e `fsm_outputs` ficam em IRAM.
-- **Ainda não executado:** nada em placa física. Latências e taxas de fallback reais saem da seção 8.
+- **Bancada executada em 24/11/2026:** Q3 completa (protocolo atendido); Q2 **não atendida** (0 medições válidas, 1 sessão; apenas evidência exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`.
 
 ---
 
@@ -290,8 +290,10 @@ python3 analysis/analyze.py data/raw/sim_falhas.log --plataforma sim
 
 ### 7.1 Montar a bancada
 
-Siga **`docs/bancada.md`**: 5 LEDs com resistores, 3 botões, 2 jumpers de supervisão
-(GPIO22 e GPIO23 ao GND) e o jumper de estímulo GPIO16 → GPIO18.
+Siga **`docs/bancada.md`**: 5 LEDs com resistores, 3 botões e o jumper de estímulo
+GPIO16 → GPIO33 (opcional: GPIO17 → GPIO32). Com `PTT7_SUPERVISAO_HW=0` (padrão, usado em 24/11/2026)
+**não há jumpers em GPIO22/23**; a perda de sinal é injetada por software. Só com
+`-DPTT7_SUPERVISAO_HW=1` os jumpers de GPIO22 e GPIO23 ao GND passam a ser necessários.
 
 ### 7.2 Compilar, gravar e monitorar
 
@@ -310,7 +312,7 @@ Saída esperada ao ligar:
 
 ```
 # PTT7 semaforo FSM | firmware ... | ESP-IDF v5.1.4 | compilado ...
-# cpu_mhz=240 freertos_hz=1000 periodo_ms=10 debounce_us=50000 supervisao_hw=1 core_iram=sim
+# cpu_mhz=240 freertos_hz=1000 periodo_ms=10 debounce_us=50000 supervisao_hw=0 core_iram=sim
 # T_INIT=2000 T_VERDE_MIN=8000 T_AMARELO=3000 T_VERDE_PED=6000 T_ATENCAO_PED=3000 T_RECOVERY=3000 DT_MAX=200
 TR,2001234,INIT,VERDE_VEICULO,T1
 ```
@@ -324,13 +326,13 @@ Com o monitor aberto, faça e confira:
 | F1 | Ligar / reset da placa | veículo VM + pedestre VM por 2 s, depois veículo VD | `TR,...,INIT,VERDE_VEICULO,T1` |
 | F2 | Esperar mais de 8 s e apertar PED1 | VD → AM (3 s) → veículo VM + pedestre VD (6 s) → pedestre VM piscando (3 s) → veículo VD | `LAT,...,VERDE_VEICULO,T4,...` e TR T4, T8, T10, T12 |
 | F3 | Apertar PED2 logo depois de voltar ao verde | verde continua até completar 8 s, depois AM | `TR ... T3`, depois `T6` |
-| F4 | Retirar o jumper do GPIO22 | **amarelo piscante**, todos os verdes apagados | `TR,...,VERDE_VEICULO,FALHA,T5` (ou T7/T9/... conforme o estado) |
-| F5 | Apertar RESET com o jumper ainda fora | continua piscando (reset ignorado) | nada |
-| F6 | Recolocar o jumper e apertar RESET | veículo VM + pedestre VM por 3 s, depois veículo VD | `T14`, depois `T15` |
-| F7 | Repetir F4–F6 com o GPIO23 | idem | idem |
+| F4 | Digitar `perda 1` (com HW=1: retirar o jumper do GPIO22) | **amarelo piscante**, todos os verdes apagados | `TR,...,VERDE_VEICULO,FALHA,T5` (ou T7/T9/... conforme o estado) |
+| F5 | Apertar RESET com a perda ainda ativa | continua piscando (reset ignorado) | nada |
+| F6 | Digitar `restaura` (com HW=1: recolocar o jumper) e apertar RESET | veículo VM + pedestre VM por 3 s, depois veículo VD | `T14`, depois `T15` |
+| F7 | Repetir F4–F6 com `perda 2` (e `perda 12` para as duas) | idem | idem |
 | F8 | Digitar `atraso 300` | amarelo piscante | `TR ... FALHA` |
 | F9 | Digitar `reset` | RECOVERY → VD | `T14`, `T15` |
-| F10 | Digitar `stim 1` (com jumper GPIO16 → 18) | igual a apertar PED1 | `LAT,...` |
+| F10 | Digitar `stim 1` (com jumper GPIO16 → GPIO33) | igual a apertar PED1 | `LAT,...` |
 
 Digite `ajuda` no monitor para ver todos os comandos.
 
@@ -338,13 +340,16 @@ Digite `ajuda` no monitor para ver todos os comandos.
 
 ## 8. Experimentos de bancada (Q2 e Q3)
 
-Feche o `idf.py monitor` antes de capturar (a porta COM só aceita um programa por vez). Os comandos
+Feche o `idf.py monitor` antes de capturar (a porta COM só aceita um programa por vez).
+
+> **Atenção (Q2), lição de 24/11/2026:** (1) feche o `idf.py monitor` **antes** de rodar `capture_serial.py`: com a porta aberta por dois programas, uma captura saiu corrompida (~99,6% de fragmentos repetidos). (2) Antes de `lat`, confirme o jumper GPIO16 → GPIO33 digitando `stim 1` no monitor: deve aparecer um registro `LAT`; se aparecer `#DESCARTE ... estimulo nao detectado`, o jumper está errado.
+ Os comandos
 abaixo rodam no terminal do Windows com Python (o próprio ESP-IDF PowerShell serve).
 
 ### 8.1 Q2: latência ISR → GPIO (LREC)
 
 Protocolo: **3 sessões**, cada uma com **5 ensaios de aquecimento + 10 válidos** (30 válidos no total).
-O firmware espera o verde mínimo, aplica um pulso controlado em GPIO16 → GPIO18 com defasagem
+O firmware espera o verde mínimo, aplica um pulso controlado em GPIO16 → GPIO33 com defasagem
 aleatória e mede da entrada da ISR até o GPIO atualizado (transição crítica T4, VV → amarelo).
 Cerca de 6 min por sessão.
 
@@ -419,7 +424,7 @@ Para o relatório (OE5), use juntos: `verification/results/cvf.md` (Q1), `analys
 
 1. (30 s) Bancada e diagrama da FSM (`spec/fsm_spec.md`).
 2. (60 s) Operação normal e pedido de pedestre (F1–F3).
-3. (60 s) Falha: retirar o jumper → amarelo piscante; reset bloqueado; recuperação (F4–F6).
+3. (60 s) Falha: digitar `perda 1` → amarelo piscante; reset bloqueado; recuperação (F4–F6).
 4. (60 s) `python3 tools/ptt7.py verify` rodando e a tabela CVF; mostrar o mutante sendo refutado.
 5. (30 s) Resultados de latência e fallback (`analysis/out/resumo.md`).
 
@@ -438,9 +443,9 @@ Para o relatório (OE5), use juntos: `verification/results/cvf.md` (Q1), `analys
 | A7 | CVF | `cvf.md`: P1–P6 comprovadas nas duas camadas | ☐ |
 | A8 | Firmware compila | `idf.py build` sem erros | ☐ |
 | A9 | Smoke test | F1–F10 da seção 7.3 | ☐ |
-| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ☐ |
-| A11 | Q3 coletado | ≥ 50 injeções válidas por tipo (1–3) | ☐ |
-| A12 | Análise | `analysis/out/resumo.md` com "ATENDIDO" | ☐ |
+| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ✘ não atendido em 24/11/2026 (exploratório) |
+| A11 | Q3 coletado | ≥ 50 injeções válidas por tipo (1–3) | ✔ 24/11/2026 |
+| A12 | Análise | `analysis/out/resumo.md` com "ATENDIDO" | ✔ (Q3; Q2 não atendido) |
 | A13 | Versões registradas | `ptt7.py versions` + commit do núcleo | ☐ |
 | A14 | Repositório | `git init`, commit inicial, LICENSE presente | ☐ |
 
@@ -463,8 +468,8 @@ Registre o hash do commit do núcleo verificado no relatório (`git rev-parse --
 | `error while loading shared libraries: libz3.so` | venv mudou de lugar | `python3 tools/ptt7.py build` de novo |
 | `esbmc nao encontrado` | variável `ESBMC` ausente | `export ESBMC=/caminho/esbmc` (seção 2.2) |
 | `reach-seg3` demora | segmento de 41 passos | normal (cerca de 1 min); use `--rapido` no dia a dia |
-| Placa liga direto em amarelo piscante | jumpers GPIO22/23 ao GND ausentes | coloque os jumpers (ou compile com `-DPTT7_SUPERVISAO_HW=0`) |
-| `#DESCARTE ... estimulo nao detectado` | jumper GPIO16 → GPIO18 ausente | ligue o jumper e repita a sessão |
+| Placa liga direto em amarelo piscante | só com `PTT7_SUPERVISAO_HW=1`: jumpers GPIO22/23 ao GND ausentes | coloque os jumpers ou compile com `-DPTT7_SUPERVISAO_HW=0` (padrão); com HW=0 verifique também `perda`/`restaura` (comando `status`) |
+| `#DESCARTE ... estimulo nao detectado` | jumper GPIO16 → GPIO33 ausente ou errado (antes da troca de pinos era GPIO18) | ligue o jumper e repita a sessão |
 | `capture_serial.py` não abre a porta | `idf.py monitor` aberto | feche o monitor (`Ctrl+]`) |
 | Porta COM não aparece | driver CP210x/CH340 ausente ou cabo só de energia | instale o driver; troque o cabo |
 | No WSL o `build` fica lento em `/mnt/c` | E/S entre Windows e Linux | normal; ou copie o projeto para `~/ptt7` |

@@ -94,7 +94,16 @@ Registre as versões do seu ambiente com `python3 tools/ptt7.py versions` (gera 
 
 Testes negativos com o mutante `-DFSM_INJECT_BUG` refutam P6 nas duas camadas. Um *overflow*
 aritmético encontrado pelo ESBMC foi corrigido (achado ESBMC-01). Os resultados de bancada (Q2 latência,
-Q3 fallback) **ainda não foram coletados**: ver seção 8 do manual.
+Q3 fallback) foram coletados em 24/11/2026 no ESP32 físico, com falhas injetadas por software
+(`PTT7_SUPERVISAO_HW = 0`):
+
+- **Q3 (fallback):** 200/200 injeções (50 por tipo) convergiram a FALHA em até 1 s, sem retorno ao
+  verde; recuperação via reset 200/200. Protocolo atendido.
+- **Q2 (LREC):** respondida de forma **exploratória**; o protocolo **não foi atendido** (0 medições
+  válidas de T4, 1 sessão). Como ordem de grandeza, 23 registros reais deram LREC mediano de
+  cerca de 14 µs (ISR → GPIO). Não há latência fim a fim física nem p99.
+
+Detalhes, causas e reteste: [`docs/validacao/evidencias/resultados_bancada_2026-11-24.md`](docs/validacao/evidencias/resultados_bancada_2026-11-24.md).
 
 Validação e alinhamento: [`docs/validacao/`](docs/validacao/) (matriz de rastreabilidade T1–T16 e P1–P6,
 divergências entre o núcleo verificado e a simulação Wokwi). Materiais de entrega: [`docs/entrega/`](docs/entrega/).

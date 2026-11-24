@@ -44,24 +44,29 @@ uma demonstração funcional separada, e não evidência do núcleo verificado.
 | Função | Firmware / bancada | Wokwi (`diagram.json`) |
 |---|---|---|
 | LED veículo VM / AM / VD | 25 / 26 / 27 | 25 / 26 / 27 (igual) |
-| LED pedestre VM / VD | **32 / 33** | **18 / 19** |
-| Botão pedestre 1 / 2 | **18 / 19** | **32 / 33** |
+| LED pedestre VM / VD | 18 / 19 | 18 / 19 (igual) |
+| Botão pedestre 1 / 2 | **33 / 32** | **32 / 33** (invertidos em relação ao firmware: `b1` "PEDIDO 1" em D32, `b2` em D33) |
 | Botão reset | **21** | **23** |
-| Supervisão do sinal 1 / 2 (jumper ao **GND**) | **22 / 23** | não existe |
-| Estímulo controlado (Q2) | 16 → 18, 17 → 19 | não existe |
+| Supervisão do sinal 1 / 2 | 22 / 23 (configurados, mas **ignorados** com `PTT7_SUPERVISAO_HW=0`; jumper ao GND só com HW=1) | não existe |
+| Estímulo controlado (Q2) | 16 → 33, 17 → 32 | não existe |
+
+Conferência de 24/11/2026 contra `simulação/diagram.json`: os LEDs de veículo e de pedestre coincidem
+com o firmware; **não** coincidem os botões de pedestre (pedido 1/2 em 32/33 no Wokwi contra 33/32 no
+firmware) nem o reset (23 no Wokwi contra 21 no firmware). O `diagram.json` não foi alterado.
 
 **Atenção para a bancada (possível causa do "problema do GND"):**
-- Se a protoboard foi montada pelo desenho do Wokwi e gravada com o firmware ESP-IDF, os LEDs de
-  pedestre ficam nos pinos que o firmware lê como botões, e vice-versa.
-- No firmware, os GPIO **22 e 23 precisam de jumper ligado ao GND**. Sem ele, o núcleo entende
-  "perda de sinal do botão" e vai para FALHA (amarelo piscante) e não sai, nem com reset. No
+- Se a protoboard for montada pelo desenho do Wokwi e gravada com o firmware ESP-IDF, os botões de
+  pedestre 1 e 2 ficam trocados e o reset fica no GPIO 23, que o firmware não lê como reset.
+- Com `PTT7_SUPERVISAO_HW=0` (usado na bancada de 24/11/2026) os GPIO 22/23 são ignorados e não levam
+  jumper. Só com `PTT7_SUPERVISAO_HW=1` os GPIO 22 e 23 precisam de jumper ao GND; sem ele o núcleo
+  entende "perda de sinal do botão" e vai para FALHA (amarelo piscante) e não sai, nem com reset. No
   Wokwi, o GPIO 23 é o botão de reset; ligado ao GND o tempo todo, ele mantém o reset pressionado.
-- Todos os GNDs (cátodos dos LEDs, botões, jumpers e analisador lógico) devem estar no mesmo GND
+- Todos os GNDs (cátodos dos LEDs, botões e analisador lógico) devem estar no mesmo GND
   da ESP32. Em protoboards grandes, o trilho de GND costuma ser cortado no meio.
 - Conferência rápida: com a placa desligada, use o multímetro em continuidade entre o GND da
   ESP32 e cada GND do circuito. Todos devem apitar.
 
-Pinagem de referência para a bancada: `docs/bancada.md` (igual a `app_config.h`).
+Pinagem de referência para a bancada: `docs/bancada.md` (conforme `app_config.h`, verificado em 24/11/2026).
 
 ## 3. Decisão proposta (para a equipe confirmar)
 
@@ -71,7 +76,7 @@ Pinagem de referência para a bancada: `docs/bancada.md` (igual a `app_config.h`
 2. Adaptar só o `sketch.ino` (o invólucro): montar `fsm_inputs_t` com `req1/req2/sig1_ok/sig2_ok/reset/dt_ms`,
    chamar `fsm_step()` e escrever os LEDs a partir de `fsm_outputs()`.
 3. Ajustar `diagram.json` para a pinagem da bancada (tabela acima), incluindo dois interruptores
-   (*slide switch*) nos GPIO 22/23 para simular a supervisão de linha.
+   (*slide switch*) nos GPIO 22/23 para simular a supervisão de linha (só necessário se `PTT7_SUPERVISAO_HW=1`).
 4. Conferir o SHA-256 dos três arquivos contra `verification/results/versoes.txt`.
 
 Custo estimado: algumas horas. Ganho: a demonstração no Wokwi passa a ser coberta pelas provas,
@@ -90,4 +95,4 @@ cenários do `sim/` + bancada com o firmware ESP-IDF.
 - [ ] Se mudou: atualizar `spec/transition_table.csv` e o modelo Z3 juntos e rodar `python3 tools/ptt7.py all`.
 - [ ] Registrar commit e SHA-256 do núcleo em `verification/results/versoes.txt` e no relatório.
 - [ ] Aplicar a Opção A ou B acima.
-- [ ] Bancada montada pela pinagem de `docs/bancada.md`, com os jumpers dos GPIO 22/23 no GND.
+- [ ] Bancada montada pela pinagem de `docs/bancada.md`, (com `PTT7_SUPERVISAO_HW=0` não há jumpers em 22/23; com HW=1, jumpers ao GND).

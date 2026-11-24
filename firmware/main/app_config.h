@@ -1,5 +1,6 @@
 /*
  * app_config.h - Ligacao da bancada (ESP32 DevKit V1 / ESP32-WROOM-32) e parametros do invólucro
+ * Pinagem adaptada para a montagem fisica usada nos ensaios de 24/11/2026.
  * Ver docs/bancada.md para o esquema de ligacao completo.
  */
 #pragma once
@@ -8,26 +9,26 @@
 #define PIN_CAR_R      25
 #define PIN_CAR_Y      26
 #define PIN_CAR_G      27
-#define PIN_PED_R      32
-#define PIN_PED_G      33
+#define PIN_PED_R      18
+#define PIN_PED_G      19
 
 /* ---- Botoes (entrada com pull-up interno, ativo em nivel baixo: botao ao GND) ---- */
-#define PIN_BTN_PED1   18
-#define PIN_BTN_PED2   19
+#define PIN_BTN_PED1   33
+#define PIN_BTN_PED2   32
 #define PIN_BTN_RESET  21
 
 /* ---- Supervisao da linha dos botoes (entrada com pull-up interno) ----
- * Jumper ao GND = sinal integro (le 0). Retirar o jumper = PERDA DE SINAL (le 1).
- * Se PTT7_SUPERVISAO_HW = 0 os pinos sao ignorados e a perda de sinal so pode
- * ser injetada por software (comandos 'perda'/'falha').                      */
+ * Com PTT7_SUPERVISAO_HW = 1: jumper ao GND = sinal integro (le 0); retirar o jumper = PERDA DE SINAL.
+ * Na bancada de 24/11/2026 foi usado PTT7_SUPERVISAO_HW = 0: os pinos 22/23 sao ignorados e a
+ * perda de sinal e injetada por software (comandos 'falha' / 'perda' / 'restaura').            */
 #define PIN_SIG1       22
 #define PIN_SIG2       23
 #ifndef PTT7_SUPERVISAO_HW
-#define PTT7_SUPERVISAO_HW 1
+#define PTT7_SUPERVISAO_HW 0
 #endif
 
 /* ---- Estimulo controlado (saida open-drain) ----
- * Ligue STIM1 -> BTN_PED1 (GPIO16 -> GPIO18) e STIM2 -> BTN_PED2 (GPIO17 -> GPIO19) com jumper.
+ * Ligue STIM1 -> BTN_PED1 (GPIO16 -> GPIO33) e STIM2 -> BTN_PED2 (GPIO17 -> GPIO32) com jumper.
  * Em open-drain o pino so puxa para GND; o botao manual continua funcionando.
  * (Placas com modulo WROVER usam 16/17 para PSRAM: troque para 4 e 13.)     */
 #define PIN_STIM1      16

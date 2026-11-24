@@ -18,15 +18,15 @@ evidência de bancada.
 | 3 | 0:55–1:25 | **Operação normal** (F1): ligar a placa; vermelho total por 2 s e depois verde dos carros | "Ao ligar, a FSM sai de INIT para VERDE_VEICULO, transição T1." Mostrar a linha `TR ... T1` na serial. |
 | 4 | 1:25–2:15 | **Demanda de travessia** (F2): apertar o botão de pedestre; amarelo 3 s, verde de pedestre 6 s, vermelho piscante 3 s e volta ao verde | "Pedido com o verde mínimo cumprido: amarelo, travessia e volta. Em nenhum momento os dois verdes acendem juntos — essa é a propriedade P3, provada no modelo e no código." |
 | 5 | 2:15–2:45 | **Verde mínimo** (F3): apertar logo após o verde começar | "Pedido antecipado: o sistema registra, mas espera os 8 s de verde dos carros (P3b)." |
-| 6 | 2:45–3:25 | **Falha** (F4–F5): retirar o jumper do GPIO22; amarelo piscante; apertar RESET com o jumper fora, sem efeito | "Perda do sinal do botão: tudo vai para FALHA, amarelo piscante (P4). Com a falha presente, o reset é ignorado." |
-| 7 | 3:25–4:05 | **Recuperação** (F6): recolocar o jumper e apertar RESET; vermelho total por 3 s e depois verde | "Sem falha, o reset leva a RECOVERY e só depois ao verde. O sistema nunca volta direto ao verde de pedestre (P6)." |
+| 6 | 2:45–3:25 | **Falha** (F4–F5): digitar `perda 1` no monitor serial; amarelo piscante; apertar RESET com a perda ativa, sem efeito | "Perda do sinal do botão: tudo vai para FALHA, amarelo piscante (P4). Com a falha presente, o reset é ignorado." |
+| 7 | 3:25–4:05 | **Recuperação** (F6): digitar `restaura` e apertar RESET; vermelho total por 3 s e depois verde | "Sem falha, o reset leva a RECOVERY e só depois ao verde. O sistema nunca volta direto ao verde de pedestre (P6)." |
 | 8 | 4:05–4:40 | Tela com a tabela CVF (6/6 nas duas camadas) e um gráfico de latência/fallback | "Resultados: as seis propriedades foram comprovadas no Z3 e no ESBMC. Na bancada, [latência mediana] e [taxa de sucesso do fallback]." |
 | 9 | 4:40–5:00 | Encerramento | Nomes, orientador e link do repositório. |
 
 ## Checklist antes de gravar
 
 - [ ] Firmware gravado com o núcleo do commit registrado em `verification/results/versoes.txt`.
-- [ ] Jumpers dos GPIO 22 e 23 no GND (sem eles a placa já começa em FALHA).
+- [ ] Com `PTT7_SUPERVISAO_HW=0` (padrão) **não** há jumpers em GPIO22/23; a perda de sinal é digitada (`perda 1`, `restaura`). Só com HW=1 os jumpers ao GND são necessários (sem eles a placa começa em FALHA).
 - [ ] Monitor serial aberto e legível (fonte grande).
 - [ ] Ensaiar as cenas 3–7 uma vez antes; cada ciclo completo leva cerca de 20 s.
 - [ ] Preencher os números da cena 8 depois de rodar `analysis/analyze.py`.

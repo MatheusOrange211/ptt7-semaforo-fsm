@@ -26,6 +26,8 @@ Nos outros estados, o pedido fica guardado e é atendido no próximo ciclo.
 Por supervisão de linha: cada botão tem um fio de supervisão (GPIO 22/23) que deve estar no GND.
 Se ele se solta, o sinal é considerado perdido e a FSM vai para FALHA. (`docs/bancada.md`)
 
+> **Atualização 24/11/2026:** na bancada foi usado `PTT7_SUPERVISAO_HW=0`: os GPIO 22/23 são ignorados (sem jumpers) e a perda de sinal foi injetada por software (`perda`, `falha`). O caminho físico GPIO22/23 não foi exercitado. Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`.
+
 **6. O que é a "falha de temporização"?**
 Se a tarefa de controle demorar mais de 200 ms entre dois passos (`DT_MAX`), o núcleo entende que
 algo travou e vai para FALHA. O tempo decorrido é sempre uma entrada explícita do núcleo.
@@ -90,5 +92,6 @@ a ausência de validação física e sem atribuir tempos ao ESP32. Os dados do P
 
 - **"Os dados de bancada ainda não existem?"** Ainda não. A montagem está em ajuste (pinagem e
   GND), e o protocolo e os scripts já estão prontos para rodar.
+  > **Atualização 24/11/2026:** a bancada foi executada: Q3 completa (protocolo atendido); Q2 não atendida (0 medições válidas), com evidência exploratória. Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`.
 - **"Isso garante segurança de um semáforo real?"** Não. É um protótipo didático; certificação e
   tempo real duro estão fora do escopo (contrato, item 6.2).

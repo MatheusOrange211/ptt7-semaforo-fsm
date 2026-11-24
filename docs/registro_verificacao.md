@@ -15,6 +15,8 @@ relevante (data, commit, ferramenta, resultado).
 | A6 | Progresso: para alcançabilidade e P2c usam-se entradas sem falha e `dt = DT_MAX` | P1, P2c |
 | A7 | Hardware, compilador, ESP-IDF e escalonador **não** são verificados formalmente | escopo excluído (6.2) |
 
+> **Nota sobre A3 (24/11/2026):** na bancada física a perda de sinal de entrada foi exercitada por injeção de software (`PTT7_SUPERVISAO_HW=0`, comandos `perda`/`falha`); o caminho físico GPIO22/23 não foi exercitado.
+
 ## Limites de exploração adotados
 
 - **Protocolo:** limite inicial de 10 passos. Ele vale para P5 (BMC k=10 nas duas camadas).

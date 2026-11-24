@@ -53,7 +53,9 @@ def load_discards():
         with open(path, encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 try:
-                    keys[(os.path.basename(r["arquivo"]), r["tipo"].strip().upper(), int(r["sessao"]), int(r["seq"]))] = r["motivo"]
+                    if not r.get("arquivo") or not r.get("tipo"):
+                        continue
+                    keys[(os.path.basename(r["arquivo"].strip()), r["tipo"].strip().upper(), int(r["sessao"]), int(r["seq"]))] = (r.get("motivo") or "").strip()
                 except (KeyError, ValueError):
                     continue
     return keys
@@ -65,14 +67,21 @@ def parse(files, plataformas):
     for path in files:
         base = os.path.basename(path)
         with open(path, encoding="utf-8", errors="replace") as f:
+            em_lat = False          # True apenas entre "#INICIO lat" e "#FIM lat" (experimento controlado de Q2)
             for ln, line in enumerate(f, 1):
                 line = line.strip()
+                if line.startswith("#INICIO lat"):
+                    em_lat = True
+                elif line.startswith("#FIM lat") or line.startswith("# captura iniciada"):
+                    em_lat = False
                 p = line.split(",")
                 try:
                     if p[0] == "LAT" and len(p) >= 10:
                         r = {"arquivo": base, "linha": ln, "sessao": int(p[1]), "seq": int(p[2]), "aquecimento": int(p[3]),
                              "botao": int(p[4]), "origem": p[5], "transicao": p[6], "t_isr_us": int(p[7]),
                              "lat_decisao_us": int(p[8]), "lat_saida_us": int(p[9])}
+                        # LAT fora de um experimento "lat" = acionamento de botao nao controlado (incidental)
+                        r["controlado"] = int(em_lat)
                         k = (base, "LAT", r["sessao"], r["seq"])
                         r["descartado"] = discards.get(k, "")
                         lat.append(r)
@@ -157,7 +166,9 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     lat, faults, recs, desc = parse(files, plataformas)
 
-    lat_valid = [r for r in lat if not r["aquecimento"] and not r["descartado"]]
+    # Valida para o protocolo de Q2: dentro do experimento "lat", fora do aquecimento e nao descartada.
+    lat_valid = [r for r in lat if r["controlado"] and not r["aquecimento"] and not r["descartado"]]
+    lat_incid = [r for r in lat if not r["controlado"]]
     faults_valid = [r for r in faults if not r["descartado"]]
     write_csv(os.path.join(OUT, "latencias.csv"), lat)
     write_csv(os.path.join(OUT, "falhas.csv"), faults)
@@ -168,7 +179,8 @@ def main():
 
     # ---------------- Q2
     L += ["## Q2 - Latencia interna de software (LREC = ISR -> GPIO atualizado), em us", "",
-          f"Registros LAT: {len(lat)} | aquecimento excluido: {sum(r['aquecimento'] for r in lat)} | "
+          f"Registros LAT: {len(lat)} | fora de experimento 'lat' (incidentais, nao contam): {len(lat_incid)} | "
+          f"aquecimento excluido: {sum(r['aquecimento'] for r in lat if r['controlado'])} | "
           f"descartados (data/descartes.csv): {sum(1 for r in lat if r['descartado'])} | validos: {len(lat_valid)}", "",
           "| Origem / transicao | n | media | mediana | DP | IIQ (Q1-Q3) | min | max |", "|---|---|---|---|---|---|---|---|"]
     groups = defaultdict(list)
@@ -191,6 +203,22 @@ def main():
           f"{'ATENDIDO' if ok_lat else 'NAO atendido'} ({len(t4)} validas, {sess} sessoes).",
           "Percentis de cauda (p99) nao sao reportados: amostra insuficiente para evidencia robusta.",
           "Latencia fim a fim (fisica) so pode ser afirmada com analisador logico.", ""]
+    if not ok_lat and lat:
+        # Evidencia exploratoria: TODOS os registros LAT (aquecimento e incidentais incluidos).
+        # Mesmo trecho instrumentado (ISR -> FSM -> GPIO), mas sem controle de estimulo: NAO substitui o protocolo.
+        L += ["### Q2 - Evidencia exploratoria (NAO atende ao protocolo)", "",
+              "Todos os registros LAT do ESP32, incluindo aquecimento e acionamentos incidentais de botao",
+              "durante os ensaios de falha. Mesmo trecho cronometrado (esp_timer_get_time), porem sem estimulo",
+              "controlado, sem 3 sessoes e com n pequeno: serve apenas como ordem de grandeza.", "",
+              "| Grupo | n | media | mediana | DP | IIQ (Q1-Q3) | min | max |", "|---|---|---|---|---|---|---|---|"]
+        grp = [("todos (ISR -> GPIO)", lat),
+               ("dentro do experimento lat (aquecimento)", [r for r in lat if r["controlado"]]),
+               ("incidentais (fora do experimento lat)", lat_incid),
+               ("somente T4 (todas aquecimento)", [r for r in lat if r["transicao"] == "T4"])]
+        for nome, rows in grp:
+            if rows:
+                L.append(f"| {nome} " + fmt(describe([r["lat_saida_us"] for r in rows])))
+        L.append("")
 
     # ---------------- Q3
     L += ["## Q3 - Convergencia ao estado seguro (FALHA, amarelo piscante)", "",

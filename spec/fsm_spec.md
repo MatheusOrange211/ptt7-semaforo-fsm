@@ -9,8 +9,8 @@ no commit.
 
 | Símbolo | Tipo | Origem no firmware | Significado |
 |---|---|---|---|
-| `req1`, `req2` | evento | ISR dos botões de pedestre (GPIO 18/19) | demanda de travessia |
-| `sig1_ok`, `sig2_ok` | nível | supervisão da linha dos botões (GPIO 22/23 com jumper ao GND) | integridade do sinal do botão |
+| `req1`, `req2` | evento | ISR dos botões de pedestre (GPIO 33/32) | demanda de travessia |
+| `sig1_ok`, `sig2_ok` | nível | supervisão da linha dos botões (GPIO 22/23 com jumper ao GND, apenas com `PTT7_SUPERVISAO_HW=1`; na bancada de 24/11/2026 foi injetada por software) | integridade do sinal do botão |
 | `reset` | evento | ISR do botão de reset (GPIO 21) | rearme após falha |
 | `dt_ms` | inteiro | `esp_timer_get_time()` entre dois passos | tempo decorrido |
 | `elapsed` | interno | — | tempo no estado atual (saturado em 60 000 ms) |
