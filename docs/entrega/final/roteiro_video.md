@@ -8,8 +8,9 @@ de travessia* e *recuperação após falha*.
 (MANUAL_EXECUCAO.md, seção 7.3) que ela reaproveita, de modo que a mesma gravação serve de
 evidência de bancada.
 
-> **Plano B:** se a placa não estiver pronta, gravar o simulador de host (`python3 tools/ptt7.py sim`)
-> ou o Wokwi alinhado ao núcleo verificado, e dizer em voz alta que é simulação.
+> **Plano B:** se a placa não estiver pronta, gravar o simulador de host (`python3 tools/ptt7.py sim`),
+> que usa o núcleo verificado, e dizer em voz alta que é simulação. **Não usar o Wokwi** (`simulação/`)
+> como demonstração do núcleo verificado: ele tem uma FSM própria, não verificada (ver `simulação/README.md`).
 
 | # | Tempo | Cena (imagem) | Fala (resumo) |
 |---|---|---|---|
@@ -20,8 +21,8 @@ evidência de bancada.
 | 5 | 2:15–2:45 | **Verde mínimo** (F3): apertar logo após o verde começar | "Pedido antecipado: o sistema registra, mas espera os 8 s de verde dos carros (P3b)." |
 | 6 | 2:45–3:25 | **Falha** (F4–F5): digitar `perda 1` no monitor serial; amarelo piscante; apertar RESET com a perda ativa, sem efeito | "Perda do sinal do botão: tudo vai para FALHA, amarelo piscante (P4). Com a falha presente, o reset é ignorado." |
 | 7 | 3:25–4:05 | **Recuperação** (F6): digitar `restaura` e apertar RESET; vermelho total por 3 s e depois verde | "Sem falha, o reset leva a RECOVERY e só depois ao verde. O sistema nunca volta direto ao verde de pedestre (P6)." |
-| 8 | 4:05–4:40 | Tela com a tabela CVF (6/6 nas duas camadas) e um gráfico de latência/fallback | "Resultados: as seis propriedades foram comprovadas no Z3 e no ESBMC. Na bancada, [latência mediana] e [taxa de sucesso do fallback]." |
-| 9 | 4:40–5:00 | Encerramento | Nomes, orientador e link do repositório. |
+| 8 | 4:05–4:40 | Tela com a tabela CVF (6/6 nas duas camadas) e um gráfico de latência/fallback | "Resultados: as seis propriedades foram comprovadas no Z3 e no ESBMC. Na bancada, o *fallback* chegou ao estado seguro em 200 de 200 falhas injetadas." Acrescentar a latência mediana da Q2 depois do reteste (`analysis/analyze.py`). |
+| 9 | 4:40–5:00 | Encerramento | Matheus Naranjo Corrêa e Pedro Vinicius da Silva Ribeiro, orientador Prof. Herbert Rocha, e o link do repositório. |
 
 ## Checklist antes de gravar
 
@@ -29,5 +30,5 @@ evidência de bancada.
 - [ ] Com `PTT7_SUPERVISAO_HW=0` (padrão) **não** há jumpers em GPIO22/23; a perda de sinal é digitada (`perda 1`, `restaura`). Só com HW=1 os jumpers ao GND são necessários (sem eles a placa começa em FALHA).
 - [ ] Monitor serial aberto e legível (fonte grande).
 - [ ] Ensaiar as cenas 3–7 uma vez antes; cada ciclo completo leva cerca de 20 s.
-- [ ] Preencher os números da cena 8 depois de rodar `analysis/analyze.py`.
+- [ ] Acrescentar à cena 8 a latência da Q2 depois do reteste (`analysis/analyze.py`).
 - [ ] Duração final entre 3 e 5 min.

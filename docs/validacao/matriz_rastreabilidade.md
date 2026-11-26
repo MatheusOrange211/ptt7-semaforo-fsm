@@ -21,15 +21,16 @@ verde mínimo cumprido, vá para o amarelo". Para considerá-la validada, querem
 comportamento em vários lugares independentes: no teste unitário, no modelo Z3 (mesmos
 vetores), em um cenário do simulador e, por fim, nos LEDs da bancada.
 
-Legenda: ✅ evidência existente e conferida (host em 21/11/2026; bancada em 24/11/2026) ·
-⚠️ evidência parcial ou exploratória (protocolo não atendido) · 🚫 não executado nesta bancada
-(ver nota) · ⏳ pendente · — não se aplica.
+Legenda: ✅ evidência existente e conferida (host em 21/11/2026; logs de bancada de 24/11/2026,
+conferidos em 25/11/2026) · ⚠️ evidência parcial ou exploratória · 🚫 não aplicável com
+`PTT7_SUPERVISAO_HW 0` · ⏳ pendente · — não se aplica.
 
 **Nota sobre a bancada de 24/11/2026:** o firmware rodou com `PTT7_SUPERVISAO_HW = 0` e a pinagem
 adaptada; os GPIO 22/23 (SIG1/SIG2) são ignorados. A perda de sinal foi **injetada por software**
 (comandos `falha`/`perda`/`restaura`) e a falha de temporização por atraso injetado. O roteiro
-F1–F10 não foi executado como teste funcional formal. Por isso as células de bancada abaixo só
-recebem ✅ onde há registro nos logs de Q3.
+F1–F10 não foi executado como teste funcional formal. Mesmo assim, os logs registram cada
+transição ocorrida (linhas `TR`), inclusive as do ciclo normal. Por isso a coluna de bancada recebe ✅
+sempre que há uma linha `TR` da transição em `data/raw/`, com arquivo e linha indicados.
 
 ## 1. Transições (T1–T16) × evidências
 
@@ -43,24 +44,30 @@ Fontes das colunas:
 - **Bancada:** roteiro do teste funcional (MANUAL_EXECUCAO.md, seção 7.3, itens F1–F10) e itens
   complementares B1–B5 definidos abaixo.
 
-| T | Origem → destino | Guarda (resumo) | Unitário | Conformidade | Cenário (sim) | Bancada |
+| T | Origem → destino | Guarda (resumo) | Unitário | Conformidade | Cenário (sim) | Bancada (ESP32, logs em `data/raw/`) |
 |---|---|---|---|---|---|---|
-| T1 | INIT → VERDE_VEICULO | sem falha e 2 s | ✅ | ✅ | ✅ 01 | ⏳ F1 (não executado) |
-| T2 | INIT → FALHA | falha | ✅ | ✅ | ✅ 08 | 🚫 B1 (jumper GPIO22 não aplicável com HW=0; sem equivalente por software) |
-| T3 | VERDE_VEICULO → PEDIDO_PEDESTRE | pedido e verde < 8 s | ✅ | ✅ | ✅ 02, 09 | ⏳ F3 (não executado) |
-| T4 | VERDE_VEICULO → ATENCAO_VEICULO | pedido e verde ≥ 8 s | ✅ | ✅ | ✅ 01, 05, 10, 11 | ⚠️ F2 não executado; Q2 exploratório (2 registros T4, só aquecimento) |
-| T5 | VERDE_VEICULO → FALHA | falha | ✅ | ✅ | ✅ 03, 04, 06, 12 | ✅ Q3 tipos 1, 2 e 4 (falha injetada em VERDE_VEICULO: 44 + 49 + 50 casos); F4, F7, F8 não executados |
-| T6 | PEDIDO_PEDESTRE → ATENCAO_VEICULO | verde ≥ 8 s | ✅ | ✅ | ✅ 02 | ⏳ F3 (não executado) |
-| T7 | PEDIDO_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 09 | ✅ equivalente por software: Q3 tipo 1 (6 injeções em PEDIDO_PEDESTRE) e tipo 2 (1); B2 por jumper 🚫 |
-| T8 | ATENCAO_VEICULO → VERMELHO_VEICULO_VERDE_PEDESTRE | 3 s de amarelo | ✅ | ✅ | ✅ 01, 05, 11 | ⏳ F2 (não executado) |
-| T9 | ATENCAO_VEICULO → FALHA | falha | ✅ | ✅ | ✅ 10 | 🚫 B3 (jumper GPIO23 não aplicável com HW=0; sem equivalente por software registrado) |
-| T10 | VERMELHO_VEICULO_VERDE_PEDESTRE → ATENCAO_PEDESTRE | 6 s de verde de pedestre | ✅ | ✅ | ✅ 01, 11 | ⏳ F2 (não executado) |
-| T11 | VERMELHO_VEICULO_VERDE_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 05 | ✅ Q3 tipo 3 (50/50, perda simultânea em VP) |
-| T12 | ATENCAO_PEDESTRE → VERDE_VEICULO | 3 s de atenção | ✅ | ✅ | ✅ 01 | ⏳ F2 (não executado) |
-| T13 | ATENCAO_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 11 | 🚫 B4 (jumper GPIO22 não aplicável com HW=0; sem equivalente por software registrado) |
-| T14 | FALHA → RECOVERY | reset e sem falha | ✅ | ✅ | ✅ 03–06, 08–12 | ✅ recuperação via reset 200/200 (mediana 5,0 ms até RECOVERY; 3005,0 ms até VERDE_VEICULO); F6, F9 não executados como roteiro |
-| T15 | RECOVERY → VERDE_VEICULO | 3 s sem falha | ✅ | ✅ | ✅ 03–06, 08–12 | ✅ recuperação via reset 200/200 (mediana 5,0 ms até RECOVERY; 3005,0 ms até VERDE_VEICULO); F6, F9 não executados como roteiro |
-| T16 | RECOVERY → FALHA | falha | ✅ | ✅ | ✅ 12 | 🚫 B5 (jumper não aplicável com HW=0; "restaura" por software existe, mas RECOVERY → FALHA não foi registrado) |
+| T1 | INIT → VERDE_VEICULO | sem falha e 2 s | ✅ | ✅ | ✅ 01 | ⏳ sem registro (capturas de 24/11 começaram com a placa ligada); previsto nos `reteste_s*_boot.log` |
+| T2 | INIT → FALHA | falha | ✅ | ✅ | ✅ 08 | 🚫 sem registro; B1 exige `PTT7_SUPERVISAO_HW 1` |
+| T3 | VERDE_VEICULO → PEDIDO_PEDESTRE | pedido e verde < 8 s | ✅ | ✅ | ✅ 02, 09 | ✅ `falha1.log` (6; linha 13), `falha2.log` (1; linha 12), `s1_lat.log` (2; linha 15) — pedidos não comandados |
+| T4 | VERDE_VEICULO → ATENCAO_VEICULO | pedido e verde ≥ 8 s | ✅ | ✅ | ✅ 01, 05, 10, 11 | ✅ `falha3.log` (50; linha 7), `s1_lat.log` (2; linha 9); latência da Q2 em reteste |
+| T5 | VERDE_VEICULO → FALHA | falha | ✅ | ✅ | ✅ 03, 04, 06, 12 | ✅ `falha1.log` (44; linha 7), `falha2.log` (49; linha 7), `falha4.log` (50; linha 7) |
+| T6 | PEDIDO_PEDESTRE → ATENCAO_VEICULO | verde ≥ 8 s | ✅ | ✅ | ✅ 02 | ✅ `s1_lat.log` (2; linha 17) |
+| T7 | PEDIDO_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 09 | ✅ `falha1.log` (6; linha 14), `falha2.log` (1; linha 14) |
+| T8 | ATENCAO_VEICULO → VERMELHO_VEICULO_VERDE_PEDESTRE | 3 s de amarelo | ✅ | ✅ | ✅ 01, 05, 11 | ✅ `falha3.log` (50; linha 8), `s1_lat.log` (2; linha 12); amarelo medido: mediana 3000,4 ms (n = 52) |
+| T9 | ATENCAO_VEICULO → FALHA | falha | ✅ | ✅ | ✅ 10 | ⏳ sem registro; equivalente por software: `perda 1` durante o amarelo |
+| T10 | VERMELHO_VEICULO_VERDE_PEDESTRE → ATENCAO_PEDESTRE | 6 s de verde de pedestre | ✅ | ✅ | ✅ 01, 11 | ✅ `s1_lat.log` (2; linha 13); verde de pedestre medido: 6000,0 ms (n = 2) |
+| T11 | VERMELHO_VEICULO_VERDE_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 05 | ✅ `falha3.log` (50; linha 9) |
+| T12 | ATENCAO_PEDESTRE → VERDE_VEICULO | 3 s de atenção | ✅ | ✅ | ✅ 01 | ✅ `s1_lat.log` (2; linha 14); atenção medida: 3000–3009 ms (n = 2) |
+| T13 | ATENCAO_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 11 | ⏳ sem registro; equivalente por software: `perda 1` durante o vermelho piscante de pedestre |
+| T14 | FALHA → RECOVERY | reset e sem falha | ✅ | ✅ | ✅ 03–06, 08–12 | ✅ `falha1.log`–`falha4.log` (50 cada; primeira em `falha1.log`, linha 9) |
+| T15 | RECOVERY → VERDE_VEICULO | 3 s sem falha | ✅ | ✅ | ✅ 03–06, 08–12 | ✅ `falha1.log`–`falha4.log` (50 cada; primeira em `falha1.log`, linha 11); RECOVERY medido: mediana 3000,4 ms (n = 200) |
+| T16 | RECOVERY → FALHA | falha | ✅ | ✅ | ✅ 12 | ⏳ sem registro; equivalente por software: `perda 1` nos 3 s de RECOVERY |
+
+**Resultado de bancada:** 11 das 16 transições têm registro `TR` nos logs físicos de 24/11/2026
+(T3–T8, T10–T12, T14 e T15). As linhas citadas são a primeira ocorrência em cada arquivo, e o número
+entre parênteses é o total de ocorrências. T1, T2, T9, T13 e T16 ainda não têm registro físico; a
+evidência delas está nas três colunas de computador. A contagem pode ser refeita com
+`grep -c "^TR,.*,T4$" data/raw/falha3.log` (trocando a transição e o arquivo).
 
 **Resultado de host:** as 16 transições têm evidência em três fontes independentes (teste
 unitário, conformidade com o modelo e cenário de aceitação). Até 20/11, os cenários cobriam
@@ -93,9 +100,9 @@ Resultado da reexecução de 21/11/2026 (Z3 5.4.1; ESBMC 8.5.0, a mesma versão 
 
 | Propriedade (contrato 6.3) | Modelo — Z3 | Código — ESBMC | Teste / cenário | Bancada |
 |---|---|---|---|---|
-| P1 alcançabilidade | ✅ P1.0–P1.7 (k_ciclo = 133) | ✅ reach-seg1…8 | cenários 01–12 visitam os 8 estados | ⚠️ parcial: ensaios de Q3 (200/200) e recuperação visitam VERDE_VEICULO, PEDIDO_PEDESTRE, VP, FALHA e RECOVERY; F1–F6 não executados |
+| P1 alcançabilidade | ✅ P1.0–P1.7 (k_ciclo = 133) | ✅ reach-seg1…8 | cenários 01–12 visitam os 8 estados | ⚠️ 7 de 8 estados visitados nos logs (VV, PP, AV, VP, AP, FALHA, RECOVERY); INIT só aparece no *banner*, ainda não capturado |
 | P2 ausência de deadlock | ✅ P2a, P2b, P2c.* | ✅ step-P2, step-mem | unitário (estado corrompido → FALHA) | — |
-| P3 exclusão mútua (+ verde mínimo) | ✅ P3, P3b | ✅ step-P3, step-P3b | cenários 01 e 02 (verde de pedestre só em VP; pedido antecipado espera os 8 s) | ⏳ F2, F3 (não executados) |
+| P3 exclusão mútua (+ verde mínimo) | ✅ P3, P3b | ✅ step-P3, step-P3b | cenários 01 e 02 (verde de pedestre só em VP; pedido antecipado espera os 8 s) | ⚠️ P3b: em `falha3.log`, verde de veículos de 8104,6 ms antes de cada T4 (n = 49); P3 não é observável no log (só os LEDs mostram) |
 | P4 violação → estado seguro | ✅ P4 | ✅ step-P4 | cenários 03–06, 08–12 | ✅ Q3 (tipos 1–4): verde_apos_falha = 0 em 200/200 injeções (por software) |
 | P5 convergência do fallback | ✅ P5i (indutivo) + P5 (BMC k = 10) | ✅ kind-P5 (k = 2) + bmc-k10 | cenários 03, 12 (falha persiste → fica em FALHA) | ✅ Q3: 200/200, convergência 0,42–9,43 ms (tipos 1–3) e ~305 ms (tipo 4) |
 | P6 FALHA não volta direto a VP | ✅ P6 | ✅ step-P6 | cenários com `espera RECOVERY` | ⚠️ recuperação via reset 200/200 em Q3; F6 e B5 não executados |
@@ -108,16 +115,16 @@ ESBMC refuta step-P6, step-mem, bmc-k10 e kind-P5 (reexecutado em 21/11/2026).
 | Pergunta | Evidência | Situação |
 |---|---|---|
 | Q1 — modelo e código concordam? | `verification/results/cvf.md` | ✅ 6/6 propriedades concordantes (ESBMC 8.5.0) |
-| Q2 — latência ISR → GPIO | `data/raw/s1..s3_lat.log` → `analysis/analyze.py` | ⚠️ **respondida de forma exploratória; protocolo não atendido** (0 medições válidas, 1 sessão). Exploratório: 23 registros LAT reais, mediana 14 µs (ISR → GPIO). Sem p99 nem fim a fim |
+| Q2 — latência ISR → GPIO | `data/raw/reteste_s1..s3_lat.log` → `analysis/analyze.py` | ⚠️ **protocolo não atendido em 24/11/2026** (0 medições válidas, 1 sessão; `s1_lat.log`). Exploratório: 23 registros LAT reais, mediana 14 µs (ISR → GPIO). Reteste pelo MANUAL, seção 8.1 |
 | Q3 — taxa e tempo do fallback | `data/raw/falha1..4.log` → `analysis/analyze.py` | ✅ protocolo atendido no ESP32 físico (24/11/2026): 4 × 50 = 200/200, falhas injetadas por software (`HW = 0`). Plano B (`data/raw/sim_falhas.log`, tempo virtual) fica só como referência |
 
 ## 4. O que falta para fechar a matriz
 
-1. **Q2:** refazer conforme o protocolo (3 sessões, 30 medições válidas de T4) com os jumpers
-   GPIO16 → GPIO33 e GPIO17 → GPIO32 e o monitor serial fechado. Comandos no
-   `docs/entrega/final/relatorio_tecnico.md`, seção 9.
-2. Coluna **Bancada**: executar F1–F10 e, para B1–B5, religar `PTT7_SUPERVISAO_HW = 1` (jumpers
-   dos GPIO 22/23) ou definir equivalentes por injeção de software para T2, T9, T13 e T16.
+1. **Q2:** refazer conforme o protocolo (3 sessões, 30 medições válidas de T4) pelo roteiro do
+   `MANUAL_EXECUCAO.md`, seção 8.1. O registro do *banner* em cada sessão também fornece a T1.
+2. Coluna **Bancada** (opcional): para T9, T13 e T16, digitar `perda 1` com o monitor aberto
+   durante o amarelo, durante o vermelho piscante de pedestre e durante os 3 s de RECOVERY,
+   capturando a serial em `data/raw/`. T2 só pode ser exercitada com `PTT7_SUPERVISAO_HW 1` (B1).
 3. Se a versão atual do firmware tiver mudado o `core/`, refazer `python3 tools/ptt7.py all` e
    atualizar o commit e o hash no topo deste documento (ver `docs/validacao/alinhamento_modelo.md`).
    Na bancada de 24/11/2026 o núcleo tinha os mesmos SHA-256 de `verification/results/versoes.txt`.

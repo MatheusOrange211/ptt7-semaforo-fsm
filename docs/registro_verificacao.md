@@ -61,6 +61,7 @@ Conclusão: os procedimentos têm poder de detecção para a violação de P6.
 | 06/10/2026 | (inicial) | 5.1.0 | 8.5.0 | Modelo e código: P1–P6 comprovadas (ver `verification/results/cvf.md`) |
 | 21/11/2026 | 412b609 (núcleo) / b4fcf0e (HEAD) | 5.4.1 | 8.5.0 | Reexecução: P1–P6 comprovadas nas duas camadas; mutante refuta P6 nas duas; 336 verificações unitárias e 0 divergências de conformidade |
 | 21/11/2026 | 412b609 (núcleo) | 5.4.1 | 8.7.0 | Teste de sensibilidade à versão: `kind-P5` INCONCLUSIVO (demais iguais) — ver seção abaixo |
+| 25/11/2026 | 412b609 (núcleo) / 57a0985 (HEAD) | 5.4.1 | 8.5.0 (tag `v8.5`, `esbmc-linux.zip` SHA-256 `d8da304d…7352f1`) | Conferência em clone limpo: 336/336 unitários, 12/12 cenários, conformidade 16/16 sem divergências, Z3 23 consultas e ESBMC 16 consultas, 0 refutadas/inconclusivas (`kind-P5` provada com k = 2). Arquivos de `verification/results/` restaurados após a conferência |
 
 ## Reexecução de 21/11/2026 e sensibilidade à versão do ESBMC
 

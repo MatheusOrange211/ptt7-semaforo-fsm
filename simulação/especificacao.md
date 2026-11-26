@@ -2,9 +2,13 @@
 
 Protótipo de controle de semáforo para veículos e pedestres, desenvolvido para o projeto PTT7 de Arquitetura e Organização de Computadores.
 
+> **Atenção:** esta simulação usa uma FSM própria, **diferente do núcleo verificado** (`core/`), e não é
+> evidência das propriedades P1–P6 nem dos experimentos Q2/Q3. Leia o [`README.md`](README.md) desta
+> pasta. Este documento descreve a etapa inicial do projeto e foi mantido como registro.
+
 ## Simulação
 
-[Executar no Wokwi](COLE_AQUI_O_LINK_DO_PROJETO_WOKWI)
+Não há link público do projeto no Wokwi; para executar, siga a seção "Como executar".
 
 A versão atual executa uma bateria automática de sete cenários. Os pedidos, resets e indicadores de falha são gerados pelo programa.
 
@@ -47,10 +51,8 @@ Os testes automáticos usam entradas artificiais e não validam as interrupçõe
 
 Os resultados são evidências funcionais de simulação. Não constituem prova formal, medição de latência física do ESP32 ou certificação de segurança.
 
-## Próximas etapas
+## Situação das etapas seguintes
 
-- Consolidar a especificação e a tabela de transições.
-- Implementar a verificação com Z3 e ESBMC.
-- Integrar o firmware com ESP-IDF e notificações de tarefa FreeRTOS.
-- Ampliar a instrumentação e executar o protocolo de repetições.
-- Realizar os experimentos de bancada e finalizar o relatório técnico.
+As etapas previstas aqui (tabela de transições, verificação com Z3 e ESBMC, firmware ESP-IDF com
+notificações do FreeRTOS, instrumentação e bancada) foram realizadas no projeto principal, sobre o
+núcleo verificado em `core/`, e não nesta simulação. Ver o `README.md` na raiz do repositório.

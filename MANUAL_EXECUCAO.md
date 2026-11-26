@@ -1,7 +1,7 @@
 # Manual de execução e testes — PTT7
 
 **Controle de semáforo com travessia de pedestres baseado em FSM no ESP32, com verificação em duas camadas**
-Pedro Ribeiro e Matheus Correa · Orientador: Prof. Herbert Rocha · PPCA/UFRR · 2026.2
+Matheus Naranjo Corrêa e Pedro Vinicius da Silva Ribeiro · Orientador: Prof. Herbert Rocha · PPCA/UFRR · 2026.2
 
 Este manual explica como instalar as ferramentas, executar cada parte do projeto e conferir se o
 resultado está correto. Siga as seções em ordem. A **seção 3** é o roteiro rápido (cerca de 15 min,
@@ -43,26 +43,36 @@ sem placa). As seções 7 a 9 exigem a bancada com o ESP32.
 | `docs/bancada.md` | Esquema de ligação | — |
 | `docs/registro_verificacao.md` | Premissas, limites, contraexemplos e correções | OE3 |
 
-**Resultados já obtidos no desenvolvimento** (06/10/2026, Z3 5.1.0 e ESBMC 8.5.0):
+**Resultados já obtidos no desenvolvimento** (06/10/2026; reconfirmados em 21/11/2026 com Z3 5.4.1 e ESBMC 8.5.0):
 
 - Testes unitários: 336/336. Cenários de aceitação: 12/12 (reexecutado em 24/11/2026; o registro de 06/10/2026 tinha 7/7). Conformidade: 100 000 passos, 16/16 transições, 0 divergências.
 - CVF-Modelo e CVF-Código: P1–P6 **comprovadas** nas duas camadas (ver `verification/results/cvf.md`).
 - O ESBMC encontrou e ajudou a corrigir um *overflow* aritmético em `sat_add` (achado ESBMC-01, em `docs/registro_verificacao.md`).
 - O firmware compila no ESP-IDF v5.1.4 sem avisos. `fsm_step` e `fsm_outputs` ficam em IRAM.
-- **Bancada executada em 24/11/2026:** Q3 completa (protocolo atendido); Q2 **não atendida** (0 medições válidas, 1 sessão; apenas evidência exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`.
+- **Bancada executada em 24/11/2026:** Q3 completa (protocolo atendido); Q2 **não atendida** (0 medições válidas, 1 sessão; apenas evidência exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`. O reteste da Q2 segue a seção 8.1.
 
 ---
 
 ## 2. Instalação das ferramentas
 
-O projeto está em `C:\project\ptt7`. Há dois ambientes:
+Baixe o projeto com o git. Evite o "Download ZIP": o ESP-IDF usa o histórico do git para gravar a
+versão do firmware, que aparece no *banner* de inicialização e identifica a build nos logs.
+
+```bash
+git clone https://github.com/MatheusOrange211/ptt7-semaforo-fsm.git
+cd ptt7-semaforo-fsm
+```
+
+Neste manual, **`<raiz do clone>`** é a pasta `ptt7-semaforo-fsm` criada por esse comando, onde
+quer que ela esteja no seu computador. Há dois ambientes:
 
 | Ambiente | Para quê | Recomendação |
 |---|---|---|
 | **WSL2 (Ubuntu)** | testes de host, Z3 (API C++), ESBMC, análise | **recomendado**, porque o ESBMC é distribuído para Linux |
 | **Windows (ESP-IDF)** | compilar, gravar e monitorar o ESP32; capturar a serial | obrigatório para a bancada |
 
-No WSL, a pasta do projeto aparece como `/mnt/c/project/ptt7`.
+No WSL, uma pasta do Windows aparece sob `/mnt/c/...` (por exemplo, `C:\Users\voce\ptt7-semaforo-fsm`
+vira `/mnt/c/Users/voce/ptt7-semaforo-fsm`).
 
 ### 2.1 WSL2 + Ubuntu (uma vez)
 
@@ -77,7 +87,7 @@ Reinicie o computador se ele pedir, abra o "Ubuntu" no menu Iniciar e crie usuá
 ```bash
 sudo apt update
 sudo apt install -y build-essential python3 python3-pip python3-venv unzip git
-cd /mnt/c/project/ptt7
+cd <raiz do clone>
 python3 -m venv ~/ptt7-venv && source ~/ptt7-venv/bin/activate
 python -m pip install -r requirements.txt        # z3-solver (inclui z3++.h), pyserial, matplotlib
 ```
@@ -86,15 +96,26 @@ python -m pip install -r requirements.txt        # z3-solver (inclui z3++.h), py
 
 ### 2.2 ESBMC (no WSL)
 
+Use **exatamente o ESBMC 8.5.0**. Não use o link `releases/latest`: ele baixa a versão mais nova
+(8.8 em 25/11/2026), e a partir da 8.7.0 a consulta `kind-P5` fica inconclusiva (ver
+`docs/registro_verificacao.md`). A tag publicada no GitHub se chama `v8.5` (o endereço com `v8.5.0`
+não existe).
+
 ```bash
 cd ~
-wget https://github.com/esbmc/esbmc/releases/latest/download/esbmc-linux.zip
+wget https://github.com/esbmc/esbmc/releases/download/v8.5/esbmc-linux.zip
+sha256sum esbmc-linux.zip   # esperado: d8da304dd0dfce6c9f488379f03a72e768bce8598c22478c980e1704247352f1
 unzip -q esbmc-linux.zip -d esbmc
-chmod +x ~/esbmc/release/bin/esbmc 2>/dev/null || chmod +x $(find ~/esbmc -name esbmc -type f)
-echo "export ESBMC=$(find ~/esbmc -name esbmc -type f | head -1)" >> ~/.bashrc
+chmod +x ~/esbmc/release/bin/esbmc
+echo "export ESBMC=$HOME/esbmc/release/bin/esbmc" >> ~/.bashrc
 source ~/.bashrc
-$ESBMC --version            # esperado: ESBMC version 8.x ...
+$ESBMC --version            # esperado: ESBMC version 8.5.0 64-bit x86_64 linux
 ```
+
+A mesma tag tem pacotes para outros sistemas: `esbmc-linux-armv8.zip`, `esbmc-macos.zip` e
+`esbmc-windows.zip` (troque o nome do arquivo no link acima). O SHA-256 acima vale apenas para o
+`esbmc-linux.zip`. **Atenção:** `ptt7.py check` mostra a versão encontrada, mas não a recusa; confira
+você mesmo se aparece `8.5.0`.
 
 ### 2.3 ESP-IDF v5.1 (no Windows)
 
@@ -109,18 +130,18 @@ $ESBMC --version            # esperado: ESBMC version 8.x ...
 No WSL:
 
 ```bash
-cd /mnt/c/project/ptt7
+cd <raiz do clone>
 python3 tools/ptt7.py check
 ```
 
 Saída esperada (versões podem variar):
 
 ```
-gcc: gcc (Ubuntu 11.x) ...
-g++: g++ (Ubuntu 11.x) ...
-z3-solver (pip): 4.x / 5.x
+gcc: gcc (Ubuntu 13.x) ...
+g++: g++ (Ubuntu 13.x) ...
+z3-solver (pip): 5.4.1
 Z3 API C++: OK .../z3/lib/libz3.so
-ESBMC: ESBMC version 8.x 64-bit x86_64 linux
+ESBMC: ESBMC version 8.5.0 64-bit x86_64 linux
 ```
 
 > **Alternativa sem WSL (Windows nativo):** instale o MSYS2, rode `pacman -S mingw-w64-ucrt-x86_64-gcc`,
@@ -131,7 +152,7 @@ ESBMC: ESBMC version 8.x 64-bit x86_64 linux
 
 ## 3. Roteiro rápido: testar tudo sem placa
 
-No WSL, dentro de `/mnt/c/project/ptt7`:
+No WSL, dentro de `<raiz do clone>`:
 
 ```bash
 python3 tools/ptt7.py build      # compila tudo em build/                         (~30 s)
@@ -149,6 +170,11 @@ Ou tudo de uma vez: `python3 tools/ptt7.py all`.
   `Resumo ESBMC: 16 consultas, 0 refutadas/inconclusivas` e uma tabela CVF com
   todas as linhas `comprovado`.
 
+> **Os resultados oficiais são regravados.** `z3`, `esbmc`, `verify` e `all` gravam por cima dos
+> arquivos versionados em `verification/results/` (datas, tempos e caminhos mudam). Depois de
+> reproduzir, compare com `git diff --stat verification/results` e, se quiser voltar aos registros
+> originais dos autores, rode `git checkout -- verification/results`.
+
 ---
 
 ## 4. Testes de host em detalhe
@@ -158,7 +184,7 @@ Ou tudo de uma vez: `python3 tools/ptt7.py all`.
 | Etapa | O que verifica | Resultado esperado |
 |---|---|---|
 | 1. Unitários (`tests/test_fsm_core.c`) | as 16 transições, saídas de cada estado, verde mínimo, *latch* de demanda, falha em todos os estados e tipos, limite `dt = DT_MAX`, estado corrompido → FALHA, saturação | `Resultado: 336 verificacoes, 0 falhas` / `STATUS: OK` |
-| 2. Cenários (`sim/cenarios/*.txt`) | 7 roteiros temporais de ponta a ponta (tabela abaixo) | cada linha termina com `-> OK` |
+| 2. Cenários (`sim/cenarios/*.txt`) | 12 roteiros temporais de ponta a ponta (tabela abaixo) | cada linha termina com `-> OK` |
 | 3. Conformidade (`conformance.cpp`) | os mesmos vetores aleatórios (semente 2026) aplicados ao `fsm_core.c` e ao modelo C++ do Z3; compara estado, transição, temporizadores, *latch* e saídas a cada passo | `transicoes cobertas: 16/16 \| divergencias: 0` / `STATUS: OK` |
 | 4. Mutante × unitários | o núcleo compilado com `-DFSM_INJECT_BUG` (FALHA → VP) **precisa** falhar | (silencioso) |
 | 5. Mutante × conformidade | o mutante **precisa** divergir do modelo | `Mutante detectado pelos dois testes (esperado).` |
@@ -173,6 +199,11 @@ Cenários de aceitação (tempo virtual, passo de 10 ms):
 | `05_falha_simultanea_vp` | perda dos dois sinais **durante** VP → verde de pedestre apagado imediatamente |
 | `06_falha_temporizacao` | passo atrasado 300 ms (> DT_MAX) → FALHA |
 | `07_limite_temporizacao` | atraso exatamente 200 ms **não** é falha |
+| `08_falha_em_init` | falha durante INIT → FALHA (T2) |
+| `09_falha_em_pedido` | falha em PEDIDO_PEDESTRE → FALHA (T7) |
+| `10_falha_em_atencao_veiculo` | falha durante o amarelo veicular → FALHA (T9) |
+| `11_falha_em_atencao_pedestre` | falha durante a atenção de pedestre → FALHA (T13) |
+| `12_falha_em_recovery` | falha durante RECOVERY → FALHA (T16) |
 
 Para rodar um cenário isolado e ver a linha do tempo:
 
@@ -208,7 +239,8 @@ reaproveitar o C, e lê as temporizações direto de `core/fsm_config.h`. Consul
 | P1.0–P1.7 | cada estado alcançável a partir de INIT (k_ciclo = 133) | ALCANCADO (mostra um caminho testemunha, não o mínimo) |
 | P2c.x | de qualquer contexto de cada estado volta a VERDE_VEICULO | PROVADO |
 
-Saída: `verification/results/z3_results.json`, com contraexemplos quando houver.
+Saída: `verification/results/z3_results.json`, com contraexemplos quando houver (regravado a cada
+execução; ver o aviso da seção 3).
 
 ### 5.2 Camada 2: código C com ESBMC
 
@@ -291,16 +323,22 @@ python3 analysis/analyze.py data/raw/sim_falhas.log --plataforma sim
 ### 7.1 Montar a bancada
 
 Siga **`docs/bancada.md`**: 5 LEDs com resistores, 3 botões e o jumper de estímulo
-GPIO16 → GPIO33 (opcional: GPIO17 → GPIO32). Com `PTT7_SUPERVISAO_HW=0` (padrão, usado em 24/11/2026)
-**não há jumpers em GPIO22/23**; a perda de sinal é injetada por software. Só com
-`-DPTT7_SUPERVISAO_HW=1` os jumpers de GPIO22 e GPIO23 ao GND passam a ser necessários.
+GPIO16 → GPIO33 (opcional: GPIO17 → GPIO32). Com `PTT7_SUPERVISAO_HW 0` (padrão, usado em 24/11/2026)
+**não há jumpers em GPIO22/23**; a perda de sinal é injetada por software.
+
+> **Supervisão física (opcional).** Para usar os GPIO22/23, troque a linha
+> `#define PTT7_SUPERVISAO_HW 0` por `1` em `firmware/main/app_config.h` e compile de novo. Passar
+> `-DPTT7_SUPERVISAO_HW=1` ao `idf.py` **não** funciona: a opção vira variável do CMake e não chega
+> ao código C. Com `1`, os jumpers de GPIO22 e GPIO23 ao GND passam a ser obrigatórios, e o *banner*
+> mostra `supervisao_hw=1`. Como o arquivo foi alterado em relação ao commit, registre essa
+> alteração junto com o log.
 
 ### 7.2 Compilar, gravar e monitorar
 
 No **ESP-IDF 5.1 PowerShell** (Windows):
 
 ```powershell
-cd C:\project\ptt7\firmware
+cd <raiz do clone>\firmware
 idf.py set-target esp32          # só na primeira vez
 idf.py build
 idf.py -p COM3 flash monitor     # troque COM3 pela porta da placa
@@ -332,7 +370,7 @@ Com o monitor aberto, faça e confira:
 | F7 | Repetir F4–F6 com `perda 2` (e `perda 12` para as duas) | idem | idem |
 | F8 | Digitar `atraso 300` | amarelo piscante | `TR ... FALHA` |
 | F9 | Digitar `reset` | RECOVERY → VD | `T14`, `T15` |
-| F10 | Digitar `stim 1` (com jumper GPIO16 → GPIO33) | igual a apertar PED1 | `LAT,...` |
+| F10 | Digitar `stim 1` (com jumper GPIO16 → GPIO33) | igual a apertar PED1 | `LAT,...` (é T4 se o verde já passou de 8 s) |
 
 Digite `ajuda` no monitor para ver todos os comandos.
 
@@ -340,28 +378,63 @@ Digite `ajuda` no monitor para ver todos os comandos.
 
 ## 8. Experimentos de bancada (Q2 e Q3)
 
-Feche o `idf.py monitor` antes de capturar (a porta COM só aceita um programa por vez).
+Os comandos abaixo rodam no terminal do Windows com Python (o próprio ESP-IDF PowerShell serve),
+dentro de `<raiz do clone>`. Troque `COM3` pela porta da sua placa.
 
-> **Atenção (Q2), lição de 24/11/2026:** (1) feche o `idf.py monitor` **antes** de rodar `capture_serial.py`: com a porta aberta por dois programas, uma captura saiu corrompida (~99,6% de fragmentos repetidos). (2) Antes de `lat`, confirme o jumper GPIO16 → GPIO33 digitando `stim 1` no monitor: deve aparecer um registro `LAT`; se aparecer `#DESCARTE ... estimulo nao detectado`, o jumper está errado.
- Os comandos
-abaixo rodam no terminal do Windows com Python (o próprio ESP-IDF PowerShell serve).
+> **Três regras que evitam os problemas de 24/11/2026.**
+> 1. **Uma porta, um programa.** Feche o `idf.py monitor` (`Ctrl+]`) antes de rodar
+>    `capture_serial.py`. Com dois programas na mesma porta, uma captura saiu corrompida (~99,6% de
+>    linhas repetidas).
+> 2. **Sempre um arquivo novo.** O `capture_serial.py` **acrescenta** ao final do arquivo indicado em
+>    `--saida`; ele não apaga o que já existe. Os arquivos de 24/11/2026 (`s1_lat.log`,
+>    `falha1.log` a `falha4.log`) são dados brutos e não devem receber novas capturas.
+> 3. **Não encoste na montagem durante a coleta.** Um toque em um fio do botão gera um pedido de
+>    travessia não comandado e interrompe a sessão de latência.
 
-### 8.1 Q2: latência ISR → GPIO (LREC)
+### 8.1 Q2: latência ISR → GPIO (LREC) — roteiro do reteste
 
 Protocolo: **3 sessões**, cada uma com **5 ensaios de aquecimento + 10 válidos** (30 válidos no total).
-O firmware espera o verde mínimo, aplica um pulso controlado em GPIO16 → GPIO33 com defasagem
-aleatória e mede da entrada da ISR até o GPIO atualizado (transição crítica T4, VV → amarelo).
-Cerca de 6 min por sessão.
+O firmware espera o verde mínimo, aplica um pulso controlado em GPIO16 → GPIO33 com atraso
+aleatório e mede da entrada da ISR até o GPIO atualizado (transição crítica T4, verde → amarelo).
+Cerca de 6 min por sessão; cerca de 25 min no total.
+
+**Passo 1 — Gravar o firmware a partir do clone** (seção 7.2) e deixar o monitor aberto.
+
+**Passo 2 — Conferir o jumper.** Com o jumper **GPIO16 → GPIO33** bem encaixado, espere o verde de
+veículos passar de 8 s e digite `stim 1` no monitor. Deve aparecer uma linha `LAT,...,T4,...` e o
+semáforo deve ir para o amarelo. Se aparecer `#DESCARTE ... estimulo nao detectado`, ou se nada
+acontecer, o jumper está solto ou no pino errado: corrija antes de continuar. Depois, feche o monitor
+com `Ctrl+]`.
+
+**Passo 3 — Para cada sessão (1, 2 e 3), registrar a inicialização e depois medir.** Exemplo da
+sessão 1:
 
 ```powershell
-cd C:\project\ptt7
-python tools\capture_serial.py --porta COM3 --saida data\raw\s1_lat.log --cmd "sessao 1" --cmd "lat 10 5"
-python tools\capture_serial.py --porta COM3 --saida data\raw\s2_lat.log --cmd "sessao 2" --cmd "lat 10 5"
-python tools\capture_serial.py --porta COM3 --saida data\raw\s3_lat.log --cmd "sessao 3" --cmd "lat 10 5"
+# 3a) registra o banner de inicializacao (identifica a build do firmware)
+python tools\capture_serial.py --porta COM3 --saida data\raw\reteste_s1_boot.log
+#     com o comando acima rodando, aperte o botao EN (ou RST) da placa;
+#     espere aparecer a linha "TR,...,INIT,VERDE_VEICULO,T1" e pressione Ctrl+C.
+
+# 3b) mede a latencia (termina sozinho ao ver "#FIM lat")
+python tools\capture_serial.py --porta COM3 --saida data\raw\reteste_s1_lat.log --cmd "sessao 1" --cmd "lat 10 5"
 ```
 
-Faça as sessões em momentos diferentes (por exemplo, desconectando e reconectando a placa entre elas).
-Mantenha placa, firmware, cabo e computador iguais.
+Repita para as sessões 2 e 3, trocando `s1` por `s2`/`s3` nos nomes dos arquivos e `sessao 1` por
+`sessao 2`/`sessao 3`. O aperto do botão EN no passo 3a reinicia a placa, o que separa uma sessão
+da outra. Mantenha placa, firmware, cabo e computador iguais.
+
+**Passo 4 — Conferir cada sessão logo após terminar.** No fim do arquivo deve aparecer `#FIM lat`,
+sem nenhuma linha `#AVISO`. Rode `python analysis\analyze.py` e veja, na tabela "Por sessao", quantas
+medições válidas a sessão teve (o esperado é 10).
+
+**Se uma sessão for interrompida** (`#AVISO ... abortando`) ou tiver `#DESCARTE`: não apague nada.
+Repita a mesma sessão em um arquivo novo (por exemplo, `reteste_s2b_lat.log`, com `--cmd "sessao 2"`).
+As medições válidas dos dois arquivos contam para a sessão. A meta é chegar a pelo menos 10 válidas
+em cada uma das 3 sessões.
+
+**Passo 5 — Resultado.** `python analysis\analyze.py` deve mostrar
+`Protocolo (>= 30 medicoes validas em >= 3 sessoes para T4): ATENDIDO`. Os arquivos
+`data\raw\reteste_*.log` são os dados brutos do reteste: envie-os ou faça *commit* deles sem editar.
 
 ### 8.2 Q3: injeção de falhas e convergência ao estado seguro
 
@@ -374,6 +447,9 @@ medida separadamente em cada ensaio (linha `REC`).
 | 2 | perda de sinal do botão de pedestre 2 | `falha 2 50` | 7 min |
 | 3 | perda simultânea durante VERMELHO_VEICULO_VERDE_PEDESTRE | `falha 3 50` | 15 min |
 | 4 | falha de temporização (tarefa travada por 300 ms) | `falha 4 50` | 7 min |
+
+Comandos usados em 24/11/2026 (os arquivos `falha1.log` a `falha4.log` **já existem** e guardam
+aqueles ensaios). Para uma nova rodada, use nomes novos, por exemplo `falha1_rodada2.log`:
 
 ```powershell
 python tools\capture_serial.py --porta COM3 --saida data\raw\falha1.log --cmd "sessao 1" --cmd "falha 1 50"
@@ -403,8 +479,12 @@ de recuperação: esses são resultados. Os logs brutos ficam sempre em `data/ra
 ## 9. Análise dos dados e relatório
 
 ```bash
-python3 analysis/analyze.py          # lê todos os logs de data/raw/
+python3 analysis/analyze.py          # lê todos os logs de data/raw/ (inclusive os reteste_*.log)
 ```
+
+Para a Q2, o script só conta uma medição como válida se ela estiver dentro de um bloco
+`#INICIO lat … #FIM lat`, fora do aquecimento e sem registro em `data/descartes.csv`. Os registros de
+24/11/2026 continuam em `data/raw/` e entram apenas na tabela exploratória.
 
 Gera em `analysis/out/`:
 
@@ -443,20 +523,22 @@ Para o relatório (OE5), use juntos: `verification/results/cvf.md` (Q1), `analys
 | A7 | CVF | `cvf.md`: P1–P6 comprovadas nas duas camadas | ☐ |
 | A8 | Firmware compila | `idf.py build` sem erros | ☐ |
 | A9 | Smoke test | F1–F10 da seção 7.3 | ☐ |
-| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ✘ não atendido em 24/11/2026 (exploratório) |
+| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ✘ não atendido em 24/11/2026 (exploratório); reteste pela seção 8.1 |
 | A11 | Q3 coletado | ≥ 50 injeções válidas por tipo (1–3) | ✔ 24/11/2026 |
 | A12 | Análise | `analysis/out/resumo.md` com "ATENDIDO" | ✔ (Q3; Q2 não atendido) |
 | A13 | Versões registradas | `ptt7.py versions` + commit do núcleo | ☐ |
-| A14 | Repositório | `git init`, commit inicial, LICENSE presente | ☐ |
+| A14 | Repositório | clone limpo (`git clone`), `git rev-parse --short HEAD` registrado, LICENSE presente | ☐ |
 
-Versionamento (uma vez):
+Identificação da versão avaliada (o repositório já é versionado; não use `git init`):
 
 ```bash
-cd /mnt/c/project/ptt7
-git init && git add . && git commit -m "PTT7: núcleo FSM, verificação em duas camadas, firmware e manual"
+git clone https://github.com/MatheusOrange211/ptt7-semaforo-fsm.git
+cd ptt7-semaforo-fsm
+git rev-parse --short HEAD            # hash do commit que você está avaliando
+git log -1 --format=%h -- core/       # último commit que alterou o núcleo verificado
 ```
 
-Registre o hash do commit do núcleo verificado no relatório (`git rev-parse --short HEAD`).
+O hash do núcleo verificado e os SHA-256 dos seus arquivos estão em `verification/results/versoes.txt`.
 
 ---
 
@@ -468,8 +550,10 @@ Registre o hash do commit do núcleo verificado no relatório (`git rev-parse --
 | `error while loading shared libraries: libz3.so` | venv mudou de lugar | `python3 tools/ptt7.py build` de novo |
 | `esbmc nao encontrado` | variável `ESBMC` ausente | `export ESBMC=/caminho/esbmc` (seção 2.2) |
 | `reach-seg3` demora | segmento de 41 passos | normal (cerca de 1 min); use `--rapido` no dia a dia |
-| Placa liga direto em amarelo piscante | só com `PTT7_SUPERVISAO_HW=1`: jumpers GPIO22/23 ao GND ausentes | coloque os jumpers ou compile com `-DPTT7_SUPERVISAO_HW=0` (padrão); com HW=0 verifique também `perda`/`restaura` (comando `status`) |
-| `#DESCARTE ... estimulo nao detectado` | jumper GPIO16 → GPIO33 ausente ou errado (antes da troca de pinos era GPIO18) | ligue o jumper e repita a sessão |
+| Placa liga direto em amarelo piscante | só com `PTT7_SUPERVISAO_HW 1`: jumpers GPIO22/23 ao GND ausentes | coloque os jumpers ou volte a linha de `firmware/main/app_config.h` para `0` (padrão) e grave de novo; com `0`, verifique também `perda`/`restaura` (comando `status`) |
+| `#DESCARTE ... estimulo nao detectado` | jumper GPIO16 → GPIO33 ausente ou errado (antes da troca de pinos era GPIO18) | ligue o jumper, confira com `stim 1` e repita a sessão em arquivo novo (seção 8.1) |
+| `#AVISO ensaio N: sistema nao voltou a VERDE_VEICULO ... abortando` | pedido de travessia não comandado (toque em fio ou botão) durante a sessão | não encoste na montagem; repita a sessão em arquivo novo (seção 8.1) |
+| a captura mostra só `# >> lat 10 5` e nada mais por mais de 30 s | a placa reiniciou ao abrir a porta e perdeu o comando, ou outro programa está com a porta | `Ctrl+C`, feche outros programas e rode o mesmo comando com **outro** nome de arquivo |
 | `capture_serial.py` não abre a porta | `idf.py monitor` aberto | feche o monitor (`Ctrl+]`) |
 | Porta COM não aparece | driver CP210x/CH340 ausente ou cabo só de energia | instale o driver; troque o cabo |
 | No WSL o `build` fica lento em `/mnt/c` | E/S entre Windows e Linux | normal; ou copie o projeto para `~/ptt7` |

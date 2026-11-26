@@ -4,7 +4,14 @@
 
 Produto técnico-tecnológico da trilha **PTT7 (Controle baseado em FSM)**, disciplina Arquitetura e
 Organização de Computadores, Mestrado Profissional em Computação Aplicada (PPCA/UFRR), 2026.2.
-Discentes: Pedro Vinicius da Silva Ribeiro e Matheus Naranjo Corrêa. Orientador: Prof. Herbert Rocha.
+Discentes: Matheus Naranjo Corrêa e Pedro Vinicius da Silva Ribeiro. Orientador: Prof. Herbert Rocha.
+
+| Item do projeto aprovado | Neste repositório |
+|---|---|
+| Trilha | PTT7 — Controle baseado em FSM |
+| Produto principal | Sistema de controle baseado em máquinas de estados finitos: `core/`, `firmware/`, `spec/`, `verification/` |
+| Produto secundário | Relatório técnico conclusivo com a descrição do processo de verificação em duas camadas, em formato de artigo: [`relatorio_tecnico.md`](docs/entrega/final/relatorio_tecnico.md) (versão PDF: [`relatorio_tecnico.pdf`](docs/entrega/final/relatorio_tecnico.pdf)) |
+| Dados brutos e análise | `data/raw/`, `data/descartes.csv`, `analysis/` |
 
 > **Para executar e testar, siga o [MANUAL_EXECUCAO.md](MANUAL_EXECUCAO.md).**
 
@@ -56,21 +63,29 @@ stateDiagram-v2
 ## Reprodução rápida (host, sem placa)
 
 ```bash
+git clone https://github.com/MatheusOrange211/ptt7-semaforo-fsm.git
+cd ptt7-semaforo-fsm
 python -m pip install -r requirements.txt
 python3 tools/ptt7.py all          # build + testes + Z3 + ESBMC + CVF
 ```
+
+O ESBMC precisa ser a versão **8.5.0** (instalação na seção 2.2 do manual). Os comandos `all`,
+`verify`, `z3` e `esbmc` regravam os resultados versionados em `verification/results/`; para voltar
+aos registros originais, use `git checkout -- verification/results`.
 
 ## Ferramentas e versões usadas no desenvolvimento
 
 | Ferramenta | Versão |
 |---|---|
 | ESP-IDF | v5.1.4 (alvo esp32, xtensa-esp32-elf 12.2.0) |
-| Z3 (API C++, via pacote `z3-solver`) | 5.1.0 |
+| Z3 (API C++, via pacote `z3-solver`) | 5.4.1 |
 | ESBMC | 8.5.0 (backend Z3 4.13.3) |
-| GCC / G++ (host) | 12+ |
+| GCC / G++ (host) | 12+ (registrado: 13.3.0) |
 | Python | 3.10+ |
 
-Registre as versões do seu ambiente com `python3 tools/ptt7.py versions` (gera `verification/results/versoes.txt`).
+Para ver as versões do seu ambiente, use `python3 tools/ptt7.py check`. O comando `versions` grava por cima
+de `verification/results/versoes.txt`, que guarda o registro oficial dos autores (inclusive os SHA-256 do núcleo).
+A ligação da bancada está em [`docs/bancada.md`](docs/bancada.md).
 
 ## Parâmetros, premissas e limites de exploração
 
@@ -99,16 +114,18 @@ Q3 fallback) foram coletados em 24/11/2026 no ESP32 físico, com falhas injetada
 
 - **Q3 (fallback):** 200/200 injeções (50 por tipo) convergiram a FALHA em até 1 s, sem retorno ao
   verde; recuperação via reset 200/200. Protocolo atendido.
-- **Q2 (LREC):** respondida de forma **exploratória**; o protocolo **não foi atendido** (0 medições
-  válidas de T4, 1 sessão). Como ordem de grandeza, 23 registros reais deram LREC mediano de
-  cerca de 14 µs (ISR → GPIO). Não há latência fim a fim física nem p99.
+- **Q2 (LREC):** em 24/11/2026 o protocolo **não foi atendido** (0 medições válidas de T4, 1 sessão),
+  por problemas de bancada (jumper de estímulo e porta serial disputada). Como ordem de grandeza,
+  23 registros reais deram LREC mediano de cerca de 14 µs (ISR → GPIO). O reteste segue o roteiro
+  da seção 8.1 do manual. Não há latência fim a fim física nem p99.
 
 Detalhes, causas e reteste: [`docs/validacao/evidencias/resultados_bancada_2026-11-24.md`](docs/validacao/evidencias/resultados_bancada_2026-11-24.md).
 
 Validação e alinhamento: [`docs/validacao/`](docs/validacao/) (matriz de rastreabilidade T1–T16 e P1–P6,
 divergências entre o núcleo verificado e a simulação Wokwi). Materiais de entrega: [`docs/entrega/`](docs/entrega/).
 
-> Use o **ESBMC 8.5.0**. Com o 8.7.0 a consulta `kind-P5` fica inconclusiva (ver `docs/registro_verificacao.md`).
+> Use o **ESBMC 8.5.0** (tag `v8.5` no GitHub do ESBMC, com SHA-256 no manual, seção 2.2). Com o 8.7.0 a
+> consulta `kind-P5` fica inconclusiva (ver `docs/registro_verificacao.md`).
 
 ## Estrutura
 
@@ -122,7 +139,8 @@ firmware/        projeto ESP-IDF
 tools/           ptt7.py (orquestrador), capture_serial.py
 analysis/        analyze.py (Q2/Q3), cvf.py (Q1)
 data/            raw/ (logs brutos), descartes.csv
-docs/            bancada.md, registro_verificacao.md
+docs/            bancada.md, registro_verificacao.md, validacao/, entrega/final/ (relatório), img/
+simulação/       demonstração no Wokwi com núcleo próprio, NÃO verificado (ver simulação/README.md)
 ```
 
 ## Licença

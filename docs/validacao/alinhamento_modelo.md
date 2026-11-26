@@ -1,6 +1,7 @@
 # Alinhamento do modelo da máquina — núcleo verificado × simulação Wokwi × bancada
 
 Situação em 21/11/2026, com o repositório no commit `b4fcf0e` (GitHub e cópia local iguais).
+**Atualização de 25/11/2026:** decisão tomada pela **Opção B** (seção 3); o núcleo em `core/` não mudou desde `412b609`.
 
 ## Por que isso importa
 
@@ -68,7 +69,12 @@ firmware) nem o reset (23 no Wokwi contra 21 no firmware). O `diagram.json` não
 
 Pinagem de referência para a bancada: `docs/bancada.md` (conforme `app_config.h`, verificado em 24/11/2026).
 
-## 3. Decisão proposta (para a equipe confirmar)
+## 3. Decisão
+
+**Decisão da equipe (25/11/2026): Opção B.** O aviso foi publicado em `simulação/README.md` e no
+relatório técnico (seção 8.2, item 7). A Opção A fica como trabalho futuro.
+
+As duas opções avaliadas foram:
 
 **Opção A — recomendada:** o Wokwi passa a usar o núcleo verificado.
 1. Copiar `core/fsm_core.c`, `core/fsm_core.h` e `core/fsm_config.h` para o projeto Wokwi, no
@@ -91,8 +97,11 @@ cenários do `sim/` + bancada com o firmware ESP-IDF.
 
 ## 4. Checklist de congelamento do modelo (antes do dia 26)
 
-- [ ] Obter a versão atual do firmware e conferir se `core/` mudou (`git diff 412b609 -- core/`).
-- [ ] Se mudou: atualizar `spec/transition_table.csv` e o modelo Z3 juntos e rodar `python3 tools/ptt7.py all`.
-- [ ] Registrar commit e SHA-256 do núcleo em `verification/results/versoes.txt` e no relatório.
-- [ ] Aplicar a Opção A ou B acima.
-- [ ] Bancada montada pela pinagem de `docs/bancada.md`, (com `PTT7_SUPERVISAO_HW=0` não há jumpers em 22/23; com HW=1, jumpers ao GND).
+- [x] Conferir se `core/` mudou desde o núcleo verificado: `git log -1 --format=%h -- core/` continua `412b609`
+  e os SHA-256 de `core/` coincidem com `verification/results/versoes.txt` (conferido em 25/11/2026).
+- [x] Como `core/` não mudou, não foi preciso refazer a especificação nem o modelo; o ESBMC 8.5.0 foi reexecutado
+  em 25/11/2026 (16 consultas, 0 refutadas/inconclusivas).
+- [x] Commit e SHA-256 do núcleo registrados em `verification/results/versoes.txt` e no relatório.
+- [x] Opção B aplicada (`simulação/README.md`).
+- [ ] Conferir, antes do reteste, a bancada pela pinagem de `docs/bancada.md` (com `PTT7_SUPERVISAO_HW 0` não há jumpers em
+  22/23; com `1`, jumpers ao GND) e o jumper de estímulo GPIO16 → GPIO33.

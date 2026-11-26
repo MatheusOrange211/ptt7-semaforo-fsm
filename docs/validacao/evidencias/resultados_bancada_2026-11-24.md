@@ -44,28 +44,30 @@ gcc -std=c99 -O2 -Wall -Wextra -Werror -Icore tests/test_t4_latencia_logica.c co
 
 1. O estímulo controlado não chegou ao botão. O firmware registrou 4 descartes do tipo "estímulo não detectado"
    (`s1_lat.log`, seq 0–3). A causa provável é que, após a troca de pinos, o jumper precisava ir de **GPIO16 → GPIO33**
-   (a documentação anterior indicava 16 → 18). Essa causa não foi confirmada pela equipe.
+   (a documentação anterior indicava 16 → 18). No ensaio 4 o estímulo foi detectado e medido (14 µs, linha
+   `LAT,1,4,...` do mesmo arquivo), o que indica que o jumper foi colocado durante a sessão.
 2. As duas execuções de `lat 10 5` abortaram ainda no aquecimento ("sistema não voltou a VERDE_VEICULO com verde
-   mínimo"): a primeira no ensaio 5 e a segunda no ensaio 1.
+   mínimo"): a primeira no ensaio 5 e a segunda no ensaio 1. Na primeira, a causa foi um pedido de travessia não
+   comandado aos 37,6 s (`TR,...,VERDE_VEICULO,PEDIDO_PEDESTRE,T3`), que levou a FSM a PEDIDO_PEDESTRE antes do verde
+   mínimo e impediu o ensaio seguinte.
 3. A segunda captura (11:59) de `s1_lat.log` está corrompida. Cerca de 99,6% do arquivo (1,4 MB) são fragmentos de linha
    repetidos. A causa provável é a porta serial aberta por dois programas ao mesmo tempo. O arquivo foi mantido bruto.
 4. Não houve nova rodada de bancada antes do prazo de entrega.
 
 Observações adicionais:
 - Houve 17 acionamentos de botão não comandados durante os ensaios de falha (16 em `falha1.log`, 1 em `falha2.log`).
-  A origem (toque manual ou ruído) não foi confirmada. Esses acionamentos não alteraram Q3: `verde_apos_falha = 0` em todas as injeções.
+  Eles aparecem em rajadas (até 6 em 1 s), nos dois botões, concentrados na primeira captura de falhas, logo após a
+  sessão de latência; o padrão é compatível com manuseio da montagem, mas a origem (toque ou ruído) não foi confirmada.
+  Esses acionamentos não alteraram Q3: `verde_apos_falha = 0` em todas as injeções.
 - A partir desta versão, `analyze.py` só conta um registro LAT para o protocolo de Q2 quando ele está dentro de um bloco
   `#INICIO lat … #FIM lat`. Essa regra foi definida **depois** de observar os dados e está documentada aqui. Ela não altera Q3.
 
-### Reteste proposto (trabalho futuro)
+### Reteste da Q2
 
-```bash
-# jumpers GPIO16->GPIO33 e GPIO17->GPIO32; feche o idf.py monitor; confira o jumper com o comando "stim 1"
-python tools/capture_serial.py --porta <PORTA> --saida data/raw/reteste_s1_lat.log --cmd "sessao 1" --cmd "lat 10 5"
-python tools/capture_serial.py --porta <PORTA> --saida data/raw/reteste_s2_lat.log --cmd "sessao 2" --cmd "lat 10 5"
-python tools/capture_serial.py --porta <PORTA> --saida data/raw/reteste_s3_lat.log --cmd "sessao 3" --cmd "lat 10 5"
-python analysis/analyze.py   # capture_serial.py acrescenta ao arquivo (modo "a"): use nomes novos
-```
+O roteiro completo e único do reteste está no `MANUAL_EXECUCAO.md`, seção 8.1: conferir o jumper com `stim 1`,
+fechar o monitor, registrar o *banner* de inicialização e gravar cada sessão em arquivo novo
+(`data/raw/reteste_s1_lat.log`, `reteste_s2_lat.log`, `reteste_s3_lat.log`). Este arquivo registra apenas a
+bancada de 24/11/2026; os resultados do reteste serão registrados em documento próprio.
 
 Gráfico de convergência (Q3): `convergencia_bancada_2026-11-24.png`.
 Saída original enviada pela equipe (sem alterações): `bancada_2026-11-24/analysis_out_original/`.

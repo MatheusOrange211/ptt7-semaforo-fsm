@@ -29,7 +29,7 @@ Pinagem conforme `firmware/main/app_config.h` (usada nos ensaios de 24/11/2026).
 | Botão reset (da FSM) | 21 | idem — **não** é o botão EN/RST da placa |
 | Supervisão do sinal do botão 1 | 22 | **só com `PTT7_SUPERVISAO_HW=1`**: jumper ao GND = sinal íntegro; retirar = perda de sinal. Com HW=0 (padrão) o pino é ignorado e **não** leva jumper |
 | Supervisão do sinal do botão 2 | 23 | idem (somente com HW=1) |
-| Estímulo controlado 1 | 16 | jumper **GPIO16 → GPIO33** (necessário para `lat`) |
+| Estímulo controlado 1 | 16 | jumper **GPIO16 → GPIO33** (necessário para `lat`; confira com `stim 1`, MANUAL seção 8.1) |
 | Estímulo controlado 2 | 17 | jumper **GPIO17 → GPIO32** (opcional, `lat n 5 2`) |
 
 ```
@@ -50,8 +50,10 @@ Pinagem conforme `firmware/main/app_config.h` (usada nos ensaios de 24/11/2026).
 > **Supervisão do sinal:** com `PTT7_SUPERVISAO_HW=0` (padrão em `app_config.h`, usado em 24/11/2026)
 > os GPIO22/23 são ignorados e **não precisam de jumper**; a perda de sinal é injetada por software
 > pelos comandos `perda 1`, `perda 2`, `perda 12` e `restaura` (e `falha <tipo> <n>` para ensaios
-> repetidos; `atraso <ms>` injeta falha de temporização). Modo opcional: compilando com
-> `-DPTT7_SUPERVISAO_HW=1`, os jumpers de GPIO22 e GPIO23 ao GND passam a ser necessários; sem eles
+> repetidos; `atraso <ms>` injeta falha de temporização). Modo opcional: trocando a linha
+> `#define PTT7_SUPERVISAO_HW 0` por `1` em `firmware/main/app_config.h` e gravando de novo (passar
+> `-DPTT7_SUPERVISAO_HW=1` ao `idf.py` não chega ao código C), os jumpers de GPIO22 e GPIO23 ao GND
+> passam a ser necessários; sem eles
 > o firmware interpreta perda de sinal e vai direto para FALHA (amarelo piscante), e retirar o jumper
 > passa a ser a forma física de provocar a perda. O caminho físico GPIO22/23 não foi exercitado em 24/11/2026.
 

@@ -10,3 +10,5 @@ verification/results/esbmc_logs/*_mutante.txt
 
 # Material pessoal de entrega e estudo (nao versionar)
 entregas e material de estudo/
+docs/entrega/design_review/
+Claude outputs/
