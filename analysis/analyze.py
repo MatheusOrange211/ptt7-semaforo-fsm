@@ -199,8 +199,21 @@ def main():
         L.append(f"| {s} " + fmt(describe([r["lat_saida_us"] for r in t4 if r["sessao"] == s])))
     sess = len({r["sessao"] for r in t4})
     ok_lat = len(t4) >= MIN_LAT_VALIDAS and sess >= MIN_SESSOES
+    # Por janela de captura (1 arquivo = 1 janela). Regra adicionada em 26/11/2026, DEPOIS de ver os dados
+    # do reteste (todas as capturas com o mesmo rotulo de sessao). E so descritiva: NAO muda o veredito abaixo.
+    # "uptime" = t_isr do 1o registro do arquivo; se cresce de um arquivo para o outro, nao houve reset entre eles.
+    L += ["", "Por janela de captura (arquivo) - descritivo, nao substitui o rotulo de sessao:", "",
+          "| Arquivo | uptime no inicio (s) | n | media | mediana | DP | IIQ (Q1-Q3) | min | max |",
+          "|---|---|---|---|---|---|---|---|---|"]
+    janelas = sorted({r["arquivo"] for r in t4}, key=lambda f: min(x["t_isr_us"] for x in t4 if x["arquivo"] == f))
+    for f in janelas:
+        rows = [r for r in t4 if r["arquivo"] == f]
+        L.append(f"| {f} | {min(r['t_isr_us'] for r in rows) / 1e6:.1f} " + fmt(describe([r["lat_saida_us"] for r in rows])))
     L += ["", f"Protocolo (>= {MIN_LAT_VALIDAS} medicoes validas em >= {MIN_SESSOES} sessoes para T4): "
           f"{'ATENDIDO' if ok_lat else 'NAO atendido'} ({len(t4)} validas, {sess} sessoes).",
+          *([f"Situacao: PARCIALMENTE atendido - volume atingido ({len(t4)} validas em {len(janelas)} janelas de captura), "
+             f"mas as janelas nao foram separadas como sessoes ({sess} rotulo de sessao)."]
+            if not ok_lat and len(t4) >= MIN_LAT_VALIDAS and len(janelas) >= MIN_SESSOES else []),
           "Percentis de cauda (p99) nao sao reportados: amostra insuficiente para evidencia robusta.",
           "Latencia fim a fim (fisica) so pode ser afirmada com analisador logico.", ""]
     if not ok_lat and lat:
@@ -208,13 +221,13 @@ def main():
         # Mesmo trecho instrumentado (ISR -> FSM -> GPIO), mas sem controle de estimulo: NAO substitui o protocolo.
         L += ["### Q2 - Evidencia exploratoria (NAO atende ao protocolo)", "",
               "Todos os registros LAT do ESP32, incluindo aquecimento e acionamentos incidentais de botao",
-              "durante os ensaios de falha. Mesmo trecho cronometrado (esp_timer_get_time), porem sem estimulo",
-              "controlado, sem 3 sessoes e com n pequeno: serve apenas como ordem de grandeza.", "",
+              "durante os ensaios de falha. Mesmo trecho cronometrado (esp_timer_get_time); mistura condicoes",
+              "diferentes (com e sem estimulo controlado): serve apenas como ordem de grandeza.", "",
               "| Grupo | n | media | mediana | DP | IIQ (Q1-Q3) | min | max |", "|---|---|---|---|---|---|---|---|"]
         grp = [("todos (ISR -> GPIO)", lat),
                ("dentro do experimento lat (aquecimento)", [r for r in lat if r["controlado"]]),
                ("incidentais (fora do experimento lat)", lat_incid),
-               ("somente T4 (todas aquecimento)", [r for r in lat if r["transicao"] == "T4"])]
+               ("somente T4 (inclui aquecimento)", [r for r in lat if r["transicao"] == "T4"])]
         for nome, rows in grp:
             if rows:
                 L.append(f"| {nome} " + fmt(describe([r["lat_saida_us"] for r in rows])))

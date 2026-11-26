@@ -49,7 +49,7 @@ sem placa). As seções 7 a 9 exigem a bancada com o ESP32.
 - CVF-Modelo e CVF-Código: P1–P6 **comprovadas** nas duas camadas (ver `verification/results/cvf.md`).
 - O ESBMC encontrou e ajudou a corrigir um *overflow* aritmético em `sat_add` (achado ESBMC-01, em `docs/registro_verificacao.md`).
 - O firmware compila no ESP-IDF v5.1.4 sem avisos. `fsm_step` e `fsm_outputs` ficam em IRAM.
-- **Bancada executada em 24/11/2026:** Q3 completa (protocolo atendido); Q2 **não atendida** (0 medições válidas, 1 sessão; apenas evidência exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`. O reteste da Q2 segue a seção 8.1.
+- **Bancada executada em 24/11/2026:** Q3 completa (protocolo atendido); Q2 **não atendida** (0 medições válidas, 1 sessão; apenas evidência exploratória). Ver `docs/validacao/evidencias/resultados_bancada_2026-11-24.md`. **Reteste da Q2 em 26/11/2026:** 30 medições válidas de T4 (20 µs), protocolo parcialmente atendido: as capturas não usaram `sessao N` nem reinício da placa e contam como 1 sessão. Ver `docs/validacao/evidencias/resultados_reteste_q2_2026-11-26.md`.
 
 ---
 
@@ -523,9 +523,9 @@ Para o relatório (OE5), use juntos: `verification/results/cvf.md` (Q1), `analys
 | A7 | CVF | `cvf.md`: P1–P6 comprovadas nas duas camadas | ☐ |
 | A8 | Firmware compila | `idf.py build` sem erros | ☐ |
 | A9 | Smoke test | F1–F10 da seção 7.3 | ☐ |
-| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ✘ não atendido em 24/11/2026 (exploratório); reteste pela seção 8.1 |
+| A10 | Q2 coletado | ≥ 30 LAT válidas de T4 em 3 sessões | ◐ 26/11/2026: 30 válidas, mas 1 sessão (parcial); 24/11 não atendido |
 | A11 | Q3 coletado | ≥ 50 injeções válidas por tipo (1–3) | ✔ 24/11/2026 |
-| A12 | Análise | `analysis/out/resumo.md` com "ATENDIDO" | ✔ (Q3; Q2 não atendido) |
+| A12 | Análise | `analysis/out/resumo.md` com "ATENDIDO" | ✔ (Q3; Q2 "NÃO atendido" no veredito formal, "PARCIALMENTE atendido" na linha de situação) |
 | A13 | Versões registradas | `ptt7.py versions` + commit do núcleo | ☐ |
 | A14 | Repositório | clone limpo (`git clone`), `git rev-parse --short HEAD` registrado, LICENSE presente | ☐ |
 

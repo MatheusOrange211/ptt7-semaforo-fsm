@@ -49,7 +49,7 @@ Fontes das colunas:
 | T1 | INIT → VERDE_VEICULO | sem falha e 2 s | ✅ | ✅ | ✅ 01 | ⏳ sem registro (capturas de 24/11 começaram com a placa ligada); previsto nos `reteste_s*_boot.log` |
 | T2 | INIT → FALHA | falha | ✅ | ✅ | ✅ 08 | 🚫 sem registro; B1 exige `PTT7_SUPERVISAO_HW 1` |
 | T3 | VERDE_VEICULO → PEDIDO_PEDESTRE | pedido e verde < 8 s | ✅ | ✅ | ✅ 02, 09 | ✅ `falha1.log` (6; linha 13), `falha2.log` (1; linha 12), `s1_lat.log` (2; linha 15) — pedidos não comandados |
-| T4 | VERDE_VEICULO → ATENCAO_VEICULO | pedido e verde ≥ 8 s | ✅ | ✅ | ✅ 01, 05, 10, 11 | ✅ `falha3.log` (50; linha 7), `s1_lat.log` (2; linha 9); latência da Q2 em reteste |
+| T4 | VERDE_VEICULO → ATENCAO_VEICULO | pedido e verde ≥ 8 s | ✅ | ✅ | ✅ 01, 05, 10, 11 | ✅ `falha3.log` (50; linha 7), `s1_lat.log` (2; linha 9), `reteste_s1..s6_lat.log` (36; Q2: 30 válidas, 20 µs) |
 | T5 | VERDE_VEICULO → FALHA | falha | ✅ | ✅ | ✅ 03, 04, 06, 12 | ✅ `falha1.log` (44; linha 7), `falha2.log` (49; linha 7), `falha4.log` (50; linha 7) |
 | T6 | PEDIDO_PEDESTRE → ATENCAO_VEICULO | verde ≥ 8 s | ✅ | ✅ | ✅ 02 | ✅ `s1_lat.log` (2; linha 17) |
 | T7 | PEDIDO_PEDESTRE → FALHA | falha | ✅ | ✅ | ✅ 09 | ✅ `falha1.log` (6; linha 14), `falha2.log` (1; linha 14) |
@@ -115,13 +115,14 @@ ESBMC refuta step-P6, step-mem, bmc-k10 e kind-P5 (reexecutado em 21/11/2026).
 | Pergunta | Evidência | Situação |
 |---|---|---|
 | Q1 — modelo e código concordam? | `verification/results/cvf.md` | ✅ 6/6 propriedades concordantes (ESBMC 8.5.0) |
-| Q2 — latência ISR → GPIO | `data/raw/reteste_s1..s3_lat.log` → `analysis/analyze.py` | ⚠️ **protocolo não atendido em 24/11/2026** (0 medições válidas, 1 sessão; `s1_lat.log`). Exploratório: 23 registros LAT reais, mediana 14 µs (ISR → GPIO). Reteste pelo MANUAL, seção 8.1 |
+| Q2 — latência ISR → GPIO | `data/raw/reteste_s1..s6_lat.log` → `analysis/analyze.py` | ⚠️ **parcialmente atendido (26/11/2026):** 30 medições válidas de T4, todas com 20 µs (ISR → GPIO), mas em seis capturas de um mesmo *boot* com 1 rótulo de sessão (o protocolo pede 3 sessões). Em 24/11 não atendido (0 válidas; exploratório: mediana 14 µs). Ver `resultados_reteste_q2_2026-11-26.md` |
 | Q3 — taxa e tempo do fallback | `data/raw/falha1..4.log` → `analysis/analyze.py` | ✅ protocolo atendido no ESP32 físico (24/11/2026): 4 × 50 = 200/200, falhas injetadas por software (`HW = 0`). Plano B (`data/raw/sim_falhas.log`, tempo virtual) fica só como referência |
 
 ## 4. O que falta para fechar a matriz
 
-1. **Q2:** refazer conforme o protocolo (3 sessões, 30 medições válidas de T4) pelo roteiro do
-   `MANUAL_EXECUCAO.md`, seção 8.1. O registro do *banner* em cada sessão também fornece a T1.
+1. **Q2 (opcional, para atendimento completo):** o reteste de 26/11 atingiu 30 válidas, mas em 1
+   sessão. Repetir em 3 sessões com `sessao N` e reinício da placa (`MANUAL_EXECUCAO.md`, seção 8.1).
+   O registro do *banner* em cada sessão também fornece a T1, que continua sem registro na placa.
 2. Coluna **Bancada** (opcional): para T9, T13 e T16, digitar `perda 1` com o monitor aberto
    durante o amarelo, durante o vermelho piscante de pedestre e durante os 3 s de RECOVERY,
    capturando a serial em `data/raw/`. T2 só pode ser exercitada com `PTT7_SUPERVISAO_HW 1` (B1).

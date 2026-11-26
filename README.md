@@ -109,17 +109,18 @@ A ligação da bancada está em [`docs/bancada.md`](docs/bancada.md).
 
 Testes negativos com o mutante `-DFSM_INJECT_BUG` refutam P6 nas duas camadas. Um *overflow*
 aritmético encontrado pelo ESBMC foi corrigido (achado ESBMC-01). Os resultados de bancada (Q2 latência,
-Q3 fallback) foram coletados em 24/11/2026 no ESP32 físico, com falhas injetadas por software
+Q3 fallback) foram coletados em 24/11/2026 (Q3) e 26/11/2026 (reteste da Q2) no ESP32 físico, com falhas injetadas por software
 (`PTT7_SUPERVISAO_HW = 0`):
 
 - **Q3 (fallback):** 200/200 injeções (50 por tipo) convergiram a FALHA em até 1 s, sem retorno ao
   verde; recuperação via reset 200/200. Protocolo atendido.
-- **Q2 (LREC):** em 24/11/2026 o protocolo **não foi atendido** (0 medições válidas de T4, 1 sessão),
-  por problemas de bancada (jumper de estímulo e porta serial disputada). Como ordem de grandeza,
-  23 registros reais deram LREC mediano de cerca de 14 µs (ISR → GPIO). O reteste segue o roteiro
-  da seção 8.1 do manual. Não há latência fim a fim física nem p99.
+- **Q2 (LREC):** no reteste de 26/11/2026, 30 medições válidas de T4 deram **20 µs** em todas
+  (ISR → GPIO). Protocolo **parcialmente atendido**: as seis capturas foram feitas num mesmo *boot*,
+  sem o comando `sessao N`, e contam como 1 sessão (o protocolo pede 3). Em 24/11/2026 o protocolo
+  não tinha sido atendido (0 medições válidas). Não há latência fim a fim física nem p99.
 
-Detalhes, causas e reteste: [`docs/validacao/evidencias/resultados_bancada_2026-11-24.md`](docs/validacao/evidencias/resultados_bancada_2026-11-24.md).
+Detalhes: [`docs/validacao/evidencias/resultados_bancada_2026-11-24.md`](docs/validacao/evidencias/resultados_bancada_2026-11-24.md)
+(Q3 e 1ª tentativa da Q2) e [`docs/validacao/evidencias/resultados_reteste_q2_2026-11-26.md`](docs/validacao/evidencias/resultados_reteste_q2_2026-11-26.md) (reteste da Q2).
 
 Validação e alinhamento: [`docs/validacao/`](docs/validacao/) (matriz de rastreabilidade T1–T16 e P1–P6,
 divergências entre o núcleo verificado e a simulação Wokwi). Materiais de entrega: [`docs/entrega/`](docs/entrega/).

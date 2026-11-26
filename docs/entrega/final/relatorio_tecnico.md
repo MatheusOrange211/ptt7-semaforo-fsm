@@ -8,11 +8,10 @@ Orientador: Prof. Herbert Rocha¹
 Disciplina Arquitetura e Organização de Computadores · 2026.2 · Relatório técnico conclusivo da
 trilha PTT7 (produto secundário).
 
-> **Estado desta versão (25/11/2026).** Os resultados de verificação (Q1) e de injeção de falhas
-> (Q3) são finais. A medição de latência (Q2) obtida em 24/11/2026 **não atendeu ao protocolo**.
-> O reteste, com o procedimento corrigido da Seção 6.4, está em execução. Quando terminar, as
-> Seções 7.4, 9 e o Apêndice A serão atualizados com os novos números, e os logs brutos ficarão em
-> `data/raw/`.
+> **Estado desta versão (26/11/2026).** Os resultados de verificação (Q1) e de injeção de falhas
+> (Q3) são finais. A latência (Q2) foi remedida em 26/11/2026 (Seção 7.4): o número de medições
+> exigido foi atingido (30 válidas), mas as capturas não foram separadas em sessões independentes,
+> por isso o protocolo da Q2 é declarado **parcialmente atendido**.
 
 ---
 
@@ -28,9 +27,10 @@ propriedades foram comprovadas nas duas camadas, e um mutante com defeito propos
 por ambas. A camada de código encontrou um *overflow* aritmético que o modelo, por usar inteiros
 ilimitados, não poderia revelar. Em bancada física, 200 falhas injetadas por software (50 por tipo)
 levaram o sistema ao estado seguro em até 1 s, sem nenhum retorno ao verde, e a recuperação por
-*reset* funcionou nos 200 casos. A medição de latência entre a interrupção do botão e a
-atualização dos LEDs não atingiu o número mínimo de medições do protocolo na primeira sessão; os
-23 registros disponíveis indicam, apenas como ordem de grandeza, mediana de 14 µs.
+*reset* funcionou nos 200 casos. No reteste da latência entre a interrupção do botão e a
+atualização dos LEDs, as 30 medições válidas da transição crítica deram 20 µs, cerca de 500 vezes
+menos que o período de controle de 10 ms. O protocolo dessa medição foi atendido só parcialmente,
+porque as seis capturas ocorreram sem reiniciar a placa e com um único rótulo de sessão.
 
 **Palavras-chave:** máquina de estados finitos; verificação de modelos; ESBMC; Z3; ESP32;
 injeção de falhas.
@@ -45,8 +45,9 @@ SMT solver and the C code itself checked with the ESBMC bounded model checker. A
 were proved in both layers, and a deliberately faulty mutant was detected by both. The code layer
 found an arithmetic overflow that the unbounded-integer model could not reveal. On the physical
 bench, 200 software-injected faults led the system to the safe state within 1 s with no return to
-green. The interrupt-to-output latency protocol was not met in the first session; the 23 available
-samples suggest a median of 14 µs as an order of magnitude only.
+green. In the latency retest, all 30 valid samples of the critical transition measured 20 µs from
+interrupt entry to output update; the protocol was only partially met, since the six captures
+shared a single boot and a single session label.
 
 **Keywords:** finite state machine; model checking; ESBMC; Z3; ESP32; fault injection.
 
@@ -250,6 +251,16 @@ captura, para que apenas um programa use a porta; (iii) gravar cada sessão em u
 acrescenta ao final de um arquivo existente; (iv) registrar o *banner* de inicialização, que
 identifica a versão do firmware; (v) não tocar na montagem durante a coleta.
 
+**Execução em 26/11/2026.** O reteste foi feito em seis capturas com o comando `lat 5 1` (1 ensaio
+de aquecimento e 5 válidos por captura), iniciadas entre 10:19 e 10:50. Os itens (ii), (iii) e (v)
+foram cumpridos: cada captura está em arquivo próprio, nenhuma tem registros corrompidos e não houve
+acionamento não comandado. Três pontos do roteiro não foram seguidos: o comando `sessao N` não foi
+enviado, e por isso todos os registros saíram como sessão 1; a placa não foi reiniciada entre as
+capturas (o relógio interno cresce sem interrupção de 741 s a 2.568 s); e o *banner* de
+inicialização (item iv) não foi registrado. A equipe gravou os arquivos como `s1_lat.log` a
+`s6_lat.log`; eles foram renomeados para `reteste_s1_lat.log` a `reteste_s6_lat.log` sem alteração
+de conteúdo, com SHA-256 registrado em `docs/validacao/evidencias/resultados_reteste_q2_2026-11-26.md`.
+
 ## 7. Resultados
 
 ### 7.1 Q1 — concordância entre modelo e código
@@ -321,10 +332,54 @@ voltar ao verde de veículos (resolução de 5 ms do laço de espera; RECOVERY d
 **Resposta à Q3:** em 200/200 injeções o sistema atingiu o estado seguro em até 1 s, com mediana de
 4,4 a 5,4 ms nos tipos 1–3.
 
-### 7.4 Q2 — latência ISR → GPIO (protocolo não atendido em 24/11/2026)
+### 7.4 Q2 — latência ISR → GPIO (protocolo parcialmente atendido)
 
-**Na sessão de 24/11/2026 o protocolo não foi atendido: 0 medições válidas de T4 em 1 sessão,
-contra 30 em 3 sessões.** As causas, reconstruídas a partir do log bruto `data/raw/s1_lat.log`:
+**Reteste de 26/11/2026: 30 medições válidas de T4, sem descartes, avisos ou interrupções.** As seis
+capturas (`data/raw/reteste_s1_lat.log` a `reteste_s6_lat.log`) terminaram com `#FIM lat`. Os vídeos da execução estão indicados no Apêndice B.
+
+**Tabela 5 — LREC da T4 no reteste, por captura (µs).** *Uptime* é o tempo de placa ligada no
+primeiro registro válido da captura.
+
+| Captura | *uptime* (s) | n | média | mediana | DP | mín | máx |
+|---------------------|--------|----|------|------|-----|----|----|
+| `reteste_s1_lat.log` | 741,3 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| `reteste_s2_lat.log` | 926,7 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| `reteste_s3_lat.log` | 1199,3 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| `reteste_s4_lat.log` | 1973,1 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| `reteste_s5_lat.log` | 2380,6 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| `reteste_s6_lat.log` | 2567,6 | 5 | 20,0 | 20,0 | 0,0 | 20 | 20 |
+| **total** | — | **30** | **20,0** | **20,0** | **0,0** | **20** | **20** |
+
+A latência até a decisão da FSM, antes de escrever os GPIOs, foi de 18 µs nas 30 medições. Os 6
+ensaios de aquecimento, excluídos da análise, mediram 20 µs (5) e 19 µs (1).
+
+**Resposta à Q2:** no trecho instrumentado (entrada da ISR → GPIO atualizado), a LREC da transição
+crítica T4 foi de 20 µs, cerca de 500 vezes menor que o período de controle de 10 ms. O protocolo é
+declarado **parcialmente atendido**: o número de medições (30) foi alcançado, mas não as 3 sessões
+independentes. A latência física, do botão ao LED, não foi medida (Seção 8.2).
+
+**Desvios em relação ao protocolo (Seção 6.4).**
+
+1. **Um único rótulo de sessão.** Sem o comando `sessao N`, o `analyze.py` conta 1 sessão e mantém
+   o veredito formal "NÃO atendido (30 válidas, 1 sessão)".
+2. **Sem reinício entre as capturas.** O *uptime* cresce de uma captura para a outra (Tabela 5).
+   As seis capturas são, portanto, janelas de um mesmo *boot* ao longo de cerca de 30 min, e não
+   sessões independentes.
+3. **Aquecimento menor:** 1 ensaio por captura (6 no total), contra 5 por sessão (15 no total).
+4. ***Banner* de inicialização não registrado** (ver Observação b).
+
+**Observações.** (a) *DP = 0 não significa ausência de variação em geral.* Todos os instantes de
+entrada da ISR terminam na mesma fração de milissegundo (…882 µs): o atraso aleatório antes do pulso
+é sorteado em milissegundos inteiros, e o pulso sai sempre na mesma fase do *tick* de 1 ms do
+FreeRTOS. O resultado mostra um caminho determinístico **nessa condição**, mas não explora outras
+fases nem o pior caso. (b) *Diferença em relação a 24/11/2026.* Em 24/11 os registros de latência
+mediram 13–18 µs (mediana 14 µs, Tabela 6); no reteste, 19–20 µs. O código-fonte (`core/`,
+`firmware/main/`) e o `sdkconfig` são idênticos nas duas cópias do projeto, e a causa não foi
+identificada. Sem o *banner*, não é possível confirmar que a mesma *build* estava gravada. A
+diferença, de cerca de 6 µs, não altera a conclusão em ordem de grandeza.
+
+**Sessão de 24/11/2026 (protocolo não atendido): 0 medições válidas de T4 em 1 sessão, contra 30
+em 3 sessões.** As causas, reconstruídas a partir do log bruto `data/raw/s1_lat.log`:
 
 1. **O pulso de estímulo não chegou ao botão** nos ensaios 0–3 (4 registros "estímulo não
    detectado"). No ensaio 4 o estímulo foi detectado e medido (14 µs), o que indica que o jumper
@@ -339,10 +394,10 @@ botões, concentrados na primeira captura de falhas, logo após a sessão de lat
 compatível com manuseio da montagem, mas a origem não foi confirmada. Eles não alteraram a Q3
 (nenhum retorno ao verde).
 
-**Evidência exploratória (não substitui o protocolo).** Os 23 registros de latência existentes
-foram medidos no mesmo trecho cronometrado, mas sem estímulo controlado:
+**Evidência exploratória de 24/11/2026 (não substitui o protocolo).** Os 23 registros de latência
+dessa sessão foram medidos no mesmo trecho cronometrado, mas sem estímulo controlado:
 
-**Tabela 5 — LREC exploratória (µs).**
+**Tabela 6 — LREC exploratória de 24/11/2026 (µs).**
 
 | Grupo | n | média | mediana | DP | IIQ | mín | máx |
 |---------------------------------|---|-----|-----|-----|-----|---|---|
@@ -362,20 +417,22 @@ Pelo Plano B do contrato, **nenhum tempo medido no computador é atribuído ao E
 
 **Nota de método.** Depois de observar os dados, o `analysis/analyze.py` passou a contar uma medição
 para a Q2 somente se ela estiver dentro de um bloco `#INICIO lat … #FIM lat`. Essa regra está
-registrada aqui e vale também para o reteste; ela não altera a Q3.
+registrada aqui e vale também para o reteste; ela não altera a Q3. Para o reteste, também depois de
+ver os dados, foi acrescentada uma tabela descritiva por captura (base da Tabela 5); ela não altera
+o veredito formal.
 
 ### 7.5 Evidência funcional na bancada
 
 Os logs dos ensaios de falha também registram as transições normais da FSM, o que permite conferir
 as temporizações no ESP32 físico:
 
-**Tabela 6 — Durações medidas na bancada a partir dos registros de transição (ms).**
+**Tabela 7 — Durações medidas na bancada a partir dos registros de transição (ms).**
 
 | Trecho (transições) | Previsto | n | mediana | mín | máx | Origem |
 |------------------------------|------|----|------|------|------|--------------------|
-| amarelo de veículos (T4 → T8) | 3000 | 52 | 3000,4 | 2999,7 | 3007,6 | `falha3.log`, `s1_lat.log` |
-| verde de pedestre (T8 → T10) | 6000 | 2 | 6000,0 | 6000,0 | 6000,0 | `s1_lat.log` |
-| atenção de pedestre (T10 → T12) | 3000 | 2 | 3004,5 | 3000,0 | 3009,0 | `s1_lat.log` |
+| amarelo de veículos (T4 → T8) | 3000 | 88 | 3000,4 | 2999,7 | 3007,6 | `falha3.log`, `s1_lat.log`, `reteste_s*` |
+| verde de pedestre (T8 → T10) | 6000 | 38 | 6000,0 | 6000,0 | 6000,0 | `s1_lat.log`, `reteste_s*` |
+| atenção de pedestre (T10 → T12) | 3000 | 38 | 3000,0 | 3000,0 | 3009,0 | `s1_lat.log`, `reteste_s*` |
 | recuperação (T14 → T15) | 3000 | 200 | 3000,4 | 3000,4 | 3004,4 | `falha1`–`falha4.log` |
 | verde de veículos antes do pedido (T15 → T4) | ≥ 8000 | 49 | 8104,6 | 8104,6 | 8104,6 | `falha3.log` |
 
@@ -392,13 +449,14 @@ foi executado como roteiro formal. O detalhamento está em `docs/validacao/matri
 As provas de P3, P4 e P6 dizem o que **deve** acontecer em qualquer execução que respeite as
 premissas; a Q3 mostra o que **aconteceu** na placa. Os dois lados concordam: 200/200 injeções
 chegaram a FALHA em até 1 s, sem retorno ao verde, e as durações de amarelo, verde mínimo e
-recuperação medidas na placa coincidem com a especificação (Tabela 6). Essa concordância vale para
+recuperação medidas na placa coincidem com a especificação (Tabela 7). Essa concordância vale para
 falhas injetadas por software e não demonstra a cadeia física de supervisão.
 
 As provas não tratam de tempo físico. A Q2 serve justamente para medir o custo real do caminho
-ISR → tarefa → FSM → GPIO. Os dados exploratórios sugerem um custo da ordem de 14 µs, cerca de 700
-vezes menor que o período de controle de 10 ms, mas essa é apenas uma ordem de grandeza até que o
-protocolo seja cumprido.
+ISR → tarefa → FSM → GPIO. No reteste esse custo foi de 20 µs, cerca de 500 vezes menor que o período de
+controle de 10 ms: o tempo de resposta ao pedido de travessia é dominado pelas regras da FSM (verde
+mínimo de 8 s), e não pelo tratamento da interrupção. Como as medições vieram de um único *boot* e
+de uma única fase do *tick*, o número vale para essa condição.
 
 ### 8.2 Limitações e ameaças à validade
 
@@ -418,13 +476,16 @@ protocolo seja cumprido.
    apenas uma demonstração didática e **não** é usada como evidência de P1–P6, Q2 ou Q3
    (`simulação/README.md`).
 8. **Protótipo didático:** sem certificação nem tempo real duro.
-9. **Q2 sem protocolo atendido em 24/11/2026** (Seção 7.4); reteste em andamento.
+9. **Q2 parcialmente atendida** (Seção 7.4): 30 medições válidas, mas em seis capturas de um
+   mesmo *boot*, com um único rótulo de sessão e com o estímulo sempre na mesma fase do *tick*. A
+   diferença de cerca de 6 µs em relação a 24/11/2026 não foi explicada.
 10. **Captura corrompida** na sessão de latência de 24/11/2026; o log bruto foi mantido.
 11. **Versão do firmware declarada, não registrada no log de 24/11/2026:** as capturas começaram com
     a placa já ligada e não têm o *banner* de inicialização. A identidade do núcleo é sustentada
-    pelos SHA-256 dos arquivos. No reteste, o *banner* é capturado (Seção 6.4).
-12. **Regra de análise definida após ver os dados** (Seção 7.4), documentada e mantida para o
-    reteste.
+    pelos SHA-256 dos arquivos. O reteste de 26/11/2026 também não registrou o *banner* (Seção 6.4).
+12. **Regras de análise definidas após ver os dados** (Seção 7.4): o filtro `#INICIO lat … #FIM lat`
+    (24/11) e a tabela por captura (26/11). Ambas estão documentadas e nenhuma altera o veredito
+    formal nem a Q3.
 13. **Reexecução e registros versionados:** os comandos `tools/ptt7.py z3`, `esbmc` e `verify`
     regravam os resultados em `verification/results/`. Quem reproduzir deve comparar com o
     histórico do git ou restaurá-los com `git checkout -- verification/results` (MANUAL, seção 5).
@@ -433,16 +494,16 @@ protocolo seja cumprido.
 
 - **Q1:** respondida. As seis propriedades foram comprovadas nas duas camadas (CVF 6/6), com poder
   de detecção demonstrado por mutante. A camada de código acrescentou um achado real (ESBMC-01).
-- **Q2:** ainda não respondida conforme o protocolo. Os dados exploratórios indicam LREC de cerca
-  de 14 µs (mediana, n = 23), sem medição física de ponta a ponta. O reteste com procedimento
-  corrigido está em execução.
+- **Q2:** respondida, com protocolo parcialmente atendido. A LREC da T4 foi de 20 µs nas 30
+  medições válidas (ISR → GPIO, sem medição física de ponta a ponta). Faltou separar as medições
+  em 3 sessões independentes.
 - **Q3:** respondida, com protocolo atendido. Em 200/200 injeções o sistema atingiu o estado
   seguro em até 1 s, sem retorno ao verde, e se recuperou por *reset* em 200/200 casos.
 
 O escopo mínimo da trilha PTT7 foi atendido: FSM explícita e documentada, com alcançabilidade e
 ausência de *deadlock* verificadas por ferramenta de verificação de modelos, firmware executado em
-bancada e evidências versionadas. Como trabalhos futuros: medir a latência física com analisador
-lógico, exercitar a supervisão por *hardware* (`PTT7_SUPERVISAO_HW = 1`) e, conforme o item 10.2 do
+bancada e evidências versionadas. Como trabalhos futuros: repetir a Q2 em 3 sessões com reinício e *banner*, variando a fase do
+estímulo em relação ao *tick*; medir a latência física com analisador lógico; exercitar a supervisão por *hardware* (`PTT7_SUPERVISAO_HW = 1`) e, conforme o item 10.2 do
 contrato, consolidar o processo de verificação em artigo para evento de sistemas embarcados.
 
 ## Apêndice A — Evidência dos objetivos específicos (contrato, item 6.1)
@@ -450,9 +511,9 @@ contrato, consolidar o processo de verificação em artigo para evento de sistem
 | Objetivo | Evidência | Situação |
 |----------------|------------------------------|--------------------|
 | OE1 especificar a FSM | `spec/fsm_spec.md`, `spec/transition_table.csv`, Figura 1 | concluído |
-| OE2 desenvolver o firmware | `core/`, `firmware/`, `tests/` (336/0); execução no ESP32 em 24/11/2026 | concluído; roteiro funcional F1–F10 não executado como roteiro formal |
+| OE2 desenvolver o firmware | `core/`, `firmware/`, `tests/` (336/0); execução no ESP32 em 24 e 26/11/2026 | concluído; roteiro funcional F1–F10 não executado como roteiro formal |
 | OE3 verificação em duas camadas | `verification/`, `docs/registro_verificacao.md`, `verification/results/cvf.md` | concluído (21/11/2026; ESBMC reexecutado em 25/11/2026) |
-| OE4 medir latência e *fallback* | `data/raw/`, `analysis/analyze.py` e o registro da bancada em `docs/validacao/evidencias/` | parcial: Q3 completa (200/200); Q2 em reteste |
+| OE4 medir latência e *fallback* | `data/raw/`, `analysis/analyze.py` e o registro da bancada em `docs/validacao/evidencias/` | parcial: Q3 completa (200/200); Q2 com 30 medições válidas e protocolo parcialmente atendido |
 | OE5 analisar concordância e limitações | Seção 8 | concluído |
 
 ## Apêndice B — Reprodutibilidade
@@ -461,6 +522,8 @@ contrato, consolidar o processo de verificação em artigo para evento de sistem
 - Passo a passo: `README.md` e `MANUAL_EXECUCAO.md`.
 - Versões: `verification/results/versoes.txt` (Z3 5.4.1, ESBMC 8.5.0, gcc 13.3, ESP-IDF 5.1.4).
 - Dados brutos: `data/raw/`; descartes: `data/descartes.csv`.
+- Vídeos de execução na bancada (bateria de testes e sessão de latência, 26/11/2026):
+  <https://drive.google.com/drive/folders/1w-mvAM3hBnI3b9LSmzt6A5wP4t3ufybH?usp=sharing>.
 
 ## Referências
 
